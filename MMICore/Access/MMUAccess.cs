@@ -14,6 +14,7 @@ using MMICSharp.Access.Abstraction;
 using MMICSharp.Common;
 using MMICSharp.Clients;
 using MMICSharp.Adapter;
+using MMICSharp.MMICSharp_Core.MMICore.Common.Tools;
 
 namespace MMICSharp.Access
 {
@@ -137,7 +138,8 @@ namespace MMICSharp.Access
 
         #endregion
 
-
+        private static TimeProfiler timeProfiler = TimeProfiler.GetProfiler("MMUAccessLog", "SceneTransfer");
+        
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -572,6 +574,8 @@ namespace MMICSharp.Access
         /// <param name="transmitFullScene">Specified whether the full scene should be transferred</param>
         public void PushScene(bool transmitFullScene = false)
         {
+            var stopwatch = timeProfiler.StartWatch();
+
             //Get the events 
             MSceneUpdate sceneUpdates = this.SceneAccess.GetSceneChanges();
 
@@ -591,10 +595,12 @@ namespace MMICSharp.Access
 
                 //Set synchronized flag to false
                 adapter.SceneSynchronized = false;
-                adapter.PushScene(sceneUpdates, this.SessionId);
+                timeProfiler.WatchCodeSnippet("MMUAccess_PushScene_" + AvatarID,
+                    () => adapter.PushScene(sceneUpdates, this.SessionId));
                 adapter.SceneSynchronized = true;
             });
 
+            timeProfiler.StopWatch("MMUAccess_Complete_PushScene_" + AvatarID, stopwatch);
         }
 
 
@@ -605,6 +611,7 @@ namespace MMICSharp.Access
         /// <param name="transmitFullScene">Specified whether the full scene should be transferred</param>
         public void PushSceneUpdate(MSceneUpdate sceneUpdates)
         {
+            var stopwatch = timeProfiler.StartWatch();
 
             int serversToSynchronize = this.Adapters.Count;
             int adapterCount = this.Adapters.Count;
@@ -617,10 +624,12 @@ namespace MMICSharp.Access
 
                 //Set synchronized flag to false
                 adapter.SceneSynchronized = false;
-                adapter.PushScene(sceneUpdates, this.SessionId);
+                timeProfiler.WatchCodeSnippet("MMUAccess_PushSceneUpdate_" + AvatarID,
+                    () => adapter.PushScene(sceneUpdates, this.SessionId));
                 adapter.SceneSynchronized = true;
             });
-            
+
+            timeProfiler.StopWatch("MMUAccess_Complete_PushSceneUpdate_" + AvatarID, stopwatch);
         }
 
 
@@ -669,7 +678,8 @@ namespace MMICSharp.Access
 
             if(this.Adapters.Count > 0)
             {
-                sceneObjects = this.Adapters[0].GetScene(this.SessionId);
+                timeProfiler.WatchCodeSnippet("MMUAccess_FetchScene_" + AvatarID,
+                    () => sceneObjects = this.Adapters[0].GetScene(this.SessionId));
             }
 
             return sceneObjects;
@@ -685,7 +695,8 @@ namespace MMICSharp.Access
 
             if (this.Adapters.Count > 0)
             {
-                sceneUpdate = this.Adapters[0].GetSceneChanges(this.SessionId);
+                timeProfiler.WatchCodeSnippet("MMUAccess_FetchSceneChanges_" + AvatarID,
+                   () => sceneUpdate = this.Adapters[0].GetSceneChanges(this.SessionId));
             }
 
             return sceneUpdate;

@@ -3,6 +3,7 @@
 // Original author(s): Felix Gaisbauer
 
 using MMICSharp.Clients;
+using MMICSharp.MMICSharp_Core.MMICore.Common.Tools;
 using MMIStandard;
 using System;
 using System.Collections.Generic;
@@ -81,6 +82,7 @@ namespace MMICSharp.Access.Abstraction
 
         #endregion
 
+        private TimeProfiler timeProfiler = TimeProfiler.GetProfiler("RemoteAdapterAccessLog", "SceneTransfer");
 
         /// <summary>
         /// Class representing a remote adapter client
@@ -217,7 +219,10 @@ namespace MMICSharp.Access.Abstraction
         /// <returns></returns>
         public MBoolResponse PushScene(MSceneUpdate sceneUpdates, string sessionId)
         {
-            return this.thriftClient.Access.PushScene(sceneUpdates, sessionId); 
+            var stopWatch = timeProfiler.StartWatch();
+            var result = this.thriftClient.Access.PushScene(sceneUpdates, sessionId);
+            timeProfiler.StopWatch("RemoteAdapterAccess_PushScene", stopWatch);
+            return result;
         }
 
 
@@ -227,7 +232,10 @@ namespace MMICSharp.Access.Abstraction
         /// <returns></returns>
         public List<MSceneObject> GetScene(string sessionId)
         {
-            return this.thriftClient.Access.GetScene(sessionId);
+            var stopWatch = timeProfiler.StartWatch();
+            var result = this.thriftClient.Access.GetScene(sessionId);
+            timeProfiler.StopWatch("RemoteAdapterAccess_GetScene", stopWatch);
+            return result;
         }
 
 
@@ -238,7 +246,10 @@ namespace MMICSharp.Access.Abstraction
         /// <returns></returns>
         public MSceneUpdate GetSceneChanges(string sessionId)
         {
-            return this.thriftClient.Access.GetSceneChanges(sessionId);
+            var stopWatch = timeProfiler.StartWatch();
+            var result = this.thriftClient.Access.GetSceneChanges(sessionId);
+            timeProfiler.StopWatch("RemoteAdapterAccess_GetSceneChanges", stopWatch);
+            return result;
         }
 
 

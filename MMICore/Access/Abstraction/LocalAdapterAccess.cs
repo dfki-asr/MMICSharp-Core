@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using MMICSharp.MMICSharp_Core.MMICore.Common.Tools;
 using MMIStandard;
 
 
@@ -48,6 +49,7 @@ namespace MMICSharp.Access.Abstraction
 
         #endregion
 
+        private TimeProfiler timeProfiler = TimeProfiler.GetProfiler("LocalAdapterAccessLog", "SceneTransfer");
 
         private class LocalAdapterClient : IAdapterClient
         {
@@ -137,12 +139,18 @@ namespace MMICSharp.Access.Abstraction
 
         public List<MSceneObject> GetScene(string sessionId)
         {
-            return this.instance.GetScene(sessionId);
+            var stopWatch = timeProfiler.StartWatch();
+            var result = this.instance.GetScene(sessionId);
+            timeProfiler.StopWatch("LocalAdapterAccess_GetScene", stopWatch);
+            return result;
         }
 
         public MSceneUpdate GetSceneChanges(string sessionId)
         {
-            return this.instance.GetSceneChanges(sessionId);
+            var stopWatch = timeProfiler.StartWatch();
+            var result = this.instance.GetSceneChanges(sessionId);
+            timeProfiler.StopWatch("LocalAdapterAccess_GetSceneChanges", stopWatch);
+            return result;
         }
 
         public Dictionary<string, string> GetStatus()
@@ -168,7 +176,10 @@ namespace MMICSharp.Access.Abstraction
 
         public MBoolResponse PushScene(MSceneUpdate sceneUpdates, string sessionId)
         {
-            return this.instance.PushScene(sceneUpdates, sessionId);
+            var stopWatch = timeProfiler.StartWatch();
+            var result = this.instance.PushScene(sceneUpdates, sessionId);
+            timeProfiler.StopWatch("LocalAdapterAccess_PushScene", stopWatch);
+            return result;
         }
 
         public MBoolResponse CloseSession(string sessionID)

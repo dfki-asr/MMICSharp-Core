@@ -9,6 +9,7 @@ using System.Linq;
 using CSharpAdapter;
 using MMICSharp.Common;
 using System.Diagnostics;
+using MMICSharp.MMICSharp_Core.MMICore.Common.Tools;
 
 namespace MMICSharp.Adapter
 {
@@ -93,6 +94,7 @@ namespace MMICSharp.Adapter
             return SessionData.MMUDescriptions;
         }
 
+        private static TimeProfiler timeProfiler = TimeProfiler.GetProfiler("ThriftAdapterImplementationLog", "SceneTransfer");
 
         /// <summary>
         /// Returns the scene contained within the adapter
@@ -101,6 +103,8 @@ namespace MMICSharp.Adapter
         /// <returns></returns>
         public virtual List<MSceneObject> GetScene(string sessionID)
         {
+            var stopwatch = timeProfiler.StartWatch();
+
             SessionContent sessionContent = null;
 
             MBoolResponse sessionResult = SessionData.GetSessionContent(sessionID, out sessionContent);
@@ -112,15 +116,16 @@ namespace MMICSharp.Adapter
 
                 Logger.Log(Log_level.L_INFO, "Transfer all scene objects");
 
-                return sessionContent.SceneBuffer.GetSceneObjects();
+                var result = sessionContent.SceneBuffer.GetSceneObjects();
+                timeProfiler.StopWatch("ThriftAdapterImplementation_GetScene", stopwatch);
+                return result;
             }
-
             else
             {
                 Debug.Fail(sessionResult.LogData.ToString());
+                timeProfiler.StopWatch("ThriftAdapterImplementation_GetScene_Failed", stopwatch);
+                return new List<MSceneObject>();
             }
-
-            return new List<MSceneObject>();
         }
 
 
@@ -131,6 +136,8 @@ namespace MMICSharp.Adapter
         /// <returns></returns>
         public virtual MSceneUpdate GetSceneChanges(string sessionID)
         {
+            var stopwatch = timeProfiler.StartWatch();
+
             SessionContent sessionContent = null;
 
             MBoolResponse sessionResult = SessionData.GetSessionContent(sessionID, out sessionContent);
@@ -140,15 +147,16 @@ namespace MMICSharp.Adapter
                 //Set the last access time
                 sessionContent.UpdateLastAccessTime();
 
-                return sessionContent.SceneBuffer.GetSceneChanges();
+                var result = sessionContent.SceneBuffer.GetSceneChanges();
+                timeProfiler.StopWatch("ThriftAdapterImplementation_GetSceneChanges", stopwatch);
+                return result;
             }
-
             else
             {
                 Logger.Log(Log_level.L_ERROR, sessionResult.LogData.ToString());
+                timeProfiler.StopWatch("ThriftAdapterImplementation_GetSceneChanges_Failed", stopwatch);
+                return new MSceneUpdate();
             }
-
-            return new MSceneUpdate();
         }
 
 
@@ -248,6 +256,8 @@ namespace MMICSharp.Adapter
         /// <param name="sessionID"></param>
         public virtual MBoolResponse PushScene(MSceneUpdate sceneUpdates, string sessionID)
         {
+            var stopwatch = timeProfiler.StartWatch();
+
             SessionContent sessionContent = null;
 
             //Get the session content for the id
@@ -257,6 +267,7 @@ namespace MMICSharp.Adapter
             if (!sessionResult.Successful)
             {
                 Debug.Fail(sessionResult.LogData.ToString());
+                timeProfiler.StopWatch("ThriftAdapterImplementation_PushScene_Failed", stopwatch);
                 return sessionResult;
             }
 
@@ -265,8 +276,9 @@ namespace MMICSharp.Adapter
             sessionContent.UpdateLastAccessTime();
 
             //Synchronize the respective scene
-            return sessionContent.SceneBuffer.Apply(sceneUpdates);
-
+            var result = sessionContent.SceneBuffer.Apply(sceneUpdates);
+            timeProfiler.StopWatch("ThriftAdapterImplementation_PushScene", stopwatch);
+            return result;
         }
 
 
