@@ -27,7 +27,7 @@ public partial class MMIAdapter {
     Dictionary<string, string> ExecuteFunction(string name, Dictionary<string, string> parameters, string mmuID, string sessionID, string avatarID);
     Dictionary<string, string> GetStatus();
     MAdapterDescription GetAdapterDescription();
-    MBoolResponse CreateSession(string sessionID, string sceneID);
+    MBoolResponse CreateSession(string sessionID);
     MBoolResponse CloseSession(string sessionID);
     MBoolResponse PushScene(MSceneUpdate sceneUpdates, string sessionID);
     List<MMUDescription> GetLoadableMMUs();
@@ -36,8 +36,8 @@ public partial class MMIAdapter {
     List<MSceneObject> GetScene(string sessionID);
     MSceneUpdate GetSceneChanges(string sessionID);
     Dictionary<string, string> LoadMMUs(List<string> mmus, string sessionID);
-    byte[] CreateCheckpoint(string mmuID, string sessionID);
-    MBoolResponse RestoreCheckpoint(string mmuID, string sessionID, byte[] checkpointData);
+    byte[] CreateCheckpoint(string mmuID, string sessionID, string avatarID);
+    MBoolResponse RestoreCheckpoint(string mmuID, string sessionID, byte[] checkpointData, string avatarID);
   }
 
   public interface Iface : ISync {
@@ -82,7 +82,7 @@ public partial class MMIAdapter {
     MAdapterDescription End_GetAdapterDescription(IAsyncResult asyncResult);
     #endif
     #if SILVERLIGHT
-    IAsyncResult Begin_CreateSession(AsyncCallback callback, object state, string sessionID, string sceneID);
+    IAsyncResult Begin_CreateSession(AsyncCallback callback, object state, string sessionID);
     MBoolResponse End_CreateSession(IAsyncResult asyncResult);
     #endif
     #if SILVERLIGHT
@@ -118,11 +118,11 @@ public partial class MMIAdapter {
     Dictionary<string, string> End_LoadMMUs(IAsyncResult asyncResult);
     #endif
     #if SILVERLIGHT
-    IAsyncResult Begin_CreateCheckpoint(AsyncCallback callback, object state, string mmuID, string sessionID);
+    IAsyncResult Begin_CreateCheckpoint(AsyncCallback callback, object state, string mmuID, string sessionID, string avatarID);
     byte[] End_CreateCheckpoint(IAsyncResult asyncResult);
     #endif
     #if SILVERLIGHT
-    IAsyncResult Begin_RestoreCheckpoint(AsyncCallback callback, object state, string mmuID, string sessionID, byte[] checkpointData);
+    IAsyncResult Begin_RestoreCheckpoint(AsyncCallback callback, object state, string mmuID, string sessionID, byte[] checkpointData, string avatarID);
     MBoolResponse End_RestoreCheckpoint(IAsyncResult asyncResult);
     #endif
   }
@@ -914,9 +914,9 @@ public partial class MMIAdapter {
     
     #if SILVERLIGHT
     
-    public IAsyncResult Begin_CreateSession(AsyncCallback callback, object state, string sessionID, string sceneID)
+    public IAsyncResult Begin_CreateSession(AsyncCallback callback, object state, string sessionID)
     {
-      return send_CreateSession(callback, state, sessionID, sceneID);
+      return send_CreateSession(callback, state, sessionID);
     }
 
     public MBoolResponse End_CreateSession(IAsyncResult asyncResult)
@@ -927,25 +927,24 @@ public partial class MMIAdapter {
 
     #endif
 
-    public MBoolResponse CreateSession(string sessionID, string sceneID)
+    public MBoolResponse CreateSession(string sessionID)
     {
       #if SILVERLIGHT
-      var asyncResult = Begin_CreateSession(null, null, sessionID, sceneID);
+      var asyncResult = Begin_CreateSession(null, null, sessionID);
       return End_CreateSession(asyncResult);
 
       #else
-      send_CreateSession(sessionID, sceneID);
+      send_CreateSession(sessionID);
       return recv_CreateSession();
 
       #endif
     }
     #if SILVERLIGHT
-    public IAsyncResult send_CreateSession(AsyncCallback callback, object state, string sessionID, string sceneID)
+    public IAsyncResult send_CreateSession(AsyncCallback callback, object state, string sessionID)
     {
       oprot_.WriteMessageBegin(new TMessage("CreateSession", TMessageType.Call, seqid_));
       CreateSession_args args = new CreateSession_args();
       args.SessionID = sessionID;
-      args.SceneID = sceneID;
       args.Write(oprot_);
       oprot_.WriteMessageEnd();
       return oprot_.Transport.BeginFlush(callback, state);
@@ -953,12 +952,11 @@ public partial class MMIAdapter {
 
     #else
 
-    public void send_CreateSession(string sessionID, string sceneID)
+    public void send_CreateSession(string sessionID)
     {
       oprot_.WriteMessageBegin(new TMessage("CreateSession", TMessageType.Call, seqid_));
       CreateSession_args args = new CreateSession_args();
       args.SessionID = sessionID;
-      args.SceneID = sceneID;
       args.Write(oprot_);
       oprot_.WriteMessageEnd();
       oprot_.Transport.Flush();
@@ -1541,9 +1539,9 @@ public partial class MMIAdapter {
     
     #if SILVERLIGHT
     
-    public IAsyncResult Begin_CreateCheckpoint(AsyncCallback callback, object state, string mmuID, string sessionID)
+    public IAsyncResult Begin_CreateCheckpoint(AsyncCallback callback, object state, string mmuID, string sessionID, string avatarID)
     {
-      return send_CreateCheckpoint(callback, state, mmuID, sessionID);
+      return send_CreateCheckpoint(callback, state, mmuID, sessionID, avatarID);
     }
 
     public byte[] End_CreateCheckpoint(IAsyncResult asyncResult)
@@ -1554,25 +1552,26 @@ public partial class MMIAdapter {
 
     #endif
 
-    public byte[] CreateCheckpoint(string mmuID, string sessionID)
+    public byte[] CreateCheckpoint(string mmuID, string sessionID, string avatarID)
     {
       #if SILVERLIGHT
-      var asyncResult = Begin_CreateCheckpoint(null, null, mmuID, sessionID);
+      var asyncResult = Begin_CreateCheckpoint(null, null, mmuID, sessionID, avatarID);
       return End_CreateCheckpoint(asyncResult);
 
       #else
-      send_CreateCheckpoint(mmuID, sessionID);
+      send_CreateCheckpoint(mmuID, sessionID, avatarID);
       return recv_CreateCheckpoint();
 
       #endif
     }
     #if SILVERLIGHT
-    public IAsyncResult send_CreateCheckpoint(AsyncCallback callback, object state, string mmuID, string sessionID)
+    public IAsyncResult send_CreateCheckpoint(AsyncCallback callback, object state, string mmuID, string sessionID, string avatarID)
     {
       oprot_.WriteMessageBegin(new TMessage("CreateCheckpoint", TMessageType.Call, seqid_));
       CreateCheckpoint_args args = new CreateCheckpoint_args();
       args.MmuID = mmuID;
       args.SessionID = sessionID;
+      args.AvatarID = avatarID;
       args.Write(oprot_);
       oprot_.WriteMessageEnd();
       return oprot_.Transport.BeginFlush(callback, state);
@@ -1580,12 +1579,13 @@ public partial class MMIAdapter {
 
     #else
 
-    public void send_CreateCheckpoint(string mmuID, string sessionID)
+    public void send_CreateCheckpoint(string mmuID, string sessionID, string avatarID)
     {
       oprot_.WriteMessageBegin(new TMessage("CreateCheckpoint", TMessageType.Call, seqid_));
       CreateCheckpoint_args args = new CreateCheckpoint_args();
       args.MmuID = mmuID;
       args.SessionID = sessionID;
+      args.AvatarID = avatarID;
       args.Write(oprot_);
       oprot_.WriteMessageEnd();
       oprot_.Transport.Flush();
@@ -1612,9 +1612,9 @@ public partial class MMIAdapter {
     
     #if SILVERLIGHT
     
-    public IAsyncResult Begin_RestoreCheckpoint(AsyncCallback callback, object state, string mmuID, string sessionID, byte[] checkpointData)
+    public IAsyncResult Begin_RestoreCheckpoint(AsyncCallback callback, object state, string mmuID, string sessionID, byte[] checkpointData, string avatarID)
     {
-      return send_RestoreCheckpoint(callback, state, mmuID, sessionID, checkpointData);
+      return send_RestoreCheckpoint(callback, state, mmuID, sessionID, checkpointData, avatarID);
     }
 
     public MBoolResponse End_RestoreCheckpoint(IAsyncResult asyncResult)
@@ -1625,26 +1625,27 @@ public partial class MMIAdapter {
 
     #endif
 
-    public MBoolResponse RestoreCheckpoint(string mmuID, string sessionID, byte[] checkpointData)
+    public MBoolResponse RestoreCheckpoint(string mmuID, string sessionID, byte[] checkpointData, string avatarID)
     {
       #if SILVERLIGHT
-      var asyncResult = Begin_RestoreCheckpoint(null, null, mmuID, sessionID, checkpointData);
+      var asyncResult = Begin_RestoreCheckpoint(null, null, mmuID, sessionID, checkpointData, avatarID);
       return End_RestoreCheckpoint(asyncResult);
 
       #else
-      send_RestoreCheckpoint(mmuID, sessionID, checkpointData);
+      send_RestoreCheckpoint(mmuID, sessionID, checkpointData, avatarID);
       return recv_RestoreCheckpoint();
 
       #endif
     }
     #if SILVERLIGHT
-    public IAsyncResult send_RestoreCheckpoint(AsyncCallback callback, object state, string mmuID, string sessionID, byte[] checkpointData)
+    public IAsyncResult send_RestoreCheckpoint(AsyncCallback callback, object state, string mmuID, string sessionID, byte[] checkpointData, string avatarID)
     {
       oprot_.WriteMessageBegin(new TMessage("RestoreCheckpoint", TMessageType.Call, seqid_));
       RestoreCheckpoint_args args = new RestoreCheckpoint_args();
       args.MmuID = mmuID;
       args.SessionID = sessionID;
       args.CheckpointData = checkpointData;
+      args.AvatarID = avatarID;
       args.Write(oprot_);
       oprot_.WriteMessageEnd();
       return oprot_.Transport.BeginFlush(callback, state);
@@ -1652,13 +1653,14 @@ public partial class MMIAdapter {
 
     #else
 
-    public void send_RestoreCheckpoint(string mmuID, string sessionID, byte[] checkpointData)
+    public void send_RestoreCheckpoint(string mmuID, string sessionID, byte[] checkpointData, string avatarID)
     {
       oprot_.WriteMessageBegin(new TMessage("RestoreCheckpoint", TMessageType.Call, seqid_));
       RestoreCheckpoint_args args = new RestoreCheckpoint_args();
       args.MmuID = mmuID;
       args.SessionID = sessionID;
       args.CheckpointData = checkpointData;
+      args.AvatarID = avatarID;
       args.Write(oprot_);
       oprot_.WriteMessageEnd();
       oprot_.Transport.Flush();
@@ -2028,7 +2030,7 @@ public partial class MMIAdapter {
       CreateSession_result result = new CreateSession_result();
       try
       {
-        result.Success = iface_.CreateSession(args.SessionID, args.SceneID);
+        result.Success = iface_.CreateSession(args.SessionID);
         oprot.WriteMessageBegin(new TMessage("CreateSession", TMessageType.Reply, seqid)); 
         result.Write(oprot);
       }
@@ -2280,7 +2282,7 @@ public partial class MMIAdapter {
       CreateCheckpoint_result result = new CreateCheckpoint_result();
       try
       {
-        result.Success = iface_.CreateCheckpoint(args.MmuID, args.SessionID);
+        result.Success = iface_.CreateCheckpoint(args.MmuID, args.SessionID, args.AvatarID);
         oprot.WriteMessageBegin(new TMessage("CreateCheckpoint", TMessageType.Reply, seqid)); 
         result.Write(oprot);
       }
@@ -2308,7 +2310,7 @@ public partial class MMIAdapter {
       RestoreCheckpoint_result result = new RestoreCheckpoint_result();
       try
       {
-        result.Success = iface_.RestoreCheckpoint(args.MmuID, args.SessionID, args.CheckpointData);
+        result.Success = iface_.RestoreCheckpoint(args.MmuID, args.SessionID, args.CheckpointData, args.AvatarID);
         oprot.WriteMessageBegin(new TMessage("RestoreCheckpoint", TMessageType.Reply, seqid)); 
         result.Write(oprot);
       }
@@ -5302,7 +5304,6 @@ public partial class MMIAdapter {
   public partial class CreateSession_args : TBase
   {
     private string _sessionID;
-    private string _sceneID;
 
     public string SessionID
     {
@@ -5317,19 +5318,6 @@ public partial class MMIAdapter {
       }
     }
 
-    public string SceneID
-    {
-      get
-      {
-        return _sceneID;
-      }
-      set
-      {
-        __isset.sceneID = true;
-        this._sceneID = value;
-      }
-    }
-
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -5337,7 +5325,6 @@ public partial class MMIAdapter {
     #endif
     public struct Isset {
       public bool sessionID;
-      public bool sceneID;
     }
 
     public CreateSession_args() {
@@ -5361,13 +5348,6 @@ public partial class MMIAdapter {
             case 1:
               if (field.Type == TType.String) {
                 SessionID = iprot.ReadString();
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 2:
-              if (field.Type == TType.String) {
-                SceneID = iprot.ReadString();
               } else { 
                 TProtocolUtil.Skip(iprot, field.Type);
               }
@@ -5401,14 +5381,6 @@ public partial class MMIAdapter {
           oprot.WriteString(SessionID);
           oprot.WriteFieldEnd();
         }
-        if (SceneID != null && __isset.sceneID) {
-          field.Name = "sceneID";
-          field.Type = TType.String;
-          field.ID = 2;
-          oprot.WriteFieldBegin(field);
-          oprot.WriteString(SceneID);
-          oprot.WriteFieldEnd();
-        }
         oprot.WriteFieldStop();
         oprot.WriteStructEnd();
       }
@@ -5426,12 +5398,6 @@ public partial class MMIAdapter {
         __first = false;
         __sb.Append("SessionID: ");
         __sb.Append(SessionID);
-      }
-      if (SceneID != null && __isset.sceneID) {
-        if(!__first) { __sb.Append(", "); }
-        __first = false;
-        __sb.Append("SceneID: ");
-        __sb.Append(SceneID);
       }
       __sb.Append(")");
       return __sb.ToString();
@@ -7469,6 +7435,7 @@ public partial class MMIAdapter {
   {
     private string _mmuID;
     private string _sessionID;
+    private string _avatarID;
 
     public string MmuID
     {
@@ -7496,6 +7463,19 @@ public partial class MMIAdapter {
       }
     }
 
+    public string AvatarID
+    {
+      get
+      {
+        return _avatarID;
+      }
+      set
+      {
+        __isset.avatarID = true;
+        this._avatarID = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -7504,6 +7484,7 @@ public partial class MMIAdapter {
     public struct Isset {
       public bool mmuID;
       public bool sessionID;
+      public bool avatarID;
     }
 
     public CreateCheckpoint_args() {
@@ -7534,6 +7515,13 @@ public partial class MMIAdapter {
             case 2:
               if (field.Type == TType.String) {
                 SessionID = iprot.ReadString();
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            case 3:
+              if (field.Type == TType.String) {
+                AvatarID = iprot.ReadString();
               } else { 
                 TProtocolUtil.Skip(iprot, field.Type);
               }
@@ -7575,6 +7563,14 @@ public partial class MMIAdapter {
           oprot.WriteString(SessionID);
           oprot.WriteFieldEnd();
         }
+        if (AvatarID != null && __isset.avatarID) {
+          field.Name = "avatarID";
+          field.Type = TType.String;
+          field.ID = 3;
+          oprot.WriteFieldBegin(field);
+          oprot.WriteString(AvatarID);
+          oprot.WriteFieldEnd();
+        }
         oprot.WriteFieldStop();
         oprot.WriteStructEnd();
       }
@@ -7598,6 +7594,12 @@ public partial class MMIAdapter {
         __first = false;
         __sb.Append("SessionID: ");
         __sb.Append(SessionID);
+      }
+      if (AvatarID != null && __isset.avatarID) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("AvatarID: ");
+        __sb.Append(AvatarID);
       }
       __sb.Append(")");
       return __sb.ToString();
@@ -7725,6 +7727,7 @@ public partial class MMIAdapter {
     private string _mmuID;
     private string _sessionID;
     private byte[] _checkpointData;
+    private string _avatarID;
 
     public string MmuID
     {
@@ -7765,6 +7768,19 @@ public partial class MMIAdapter {
       }
     }
 
+    public string AvatarID
+    {
+      get
+      {
+        return _avatarID;
+      }
+      set
+      {
+        __isset.avatarID = true;
+        this._avatarID = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -7774,6 +7790,7 @@ public partial class MMIAdapter {
       public bool mmuID;
       public bool sessionID;
       public bool checkpointData;
+      public bool avatarID;
     }
 
     public RestoreCheckpoint_args() {
@@ -7811,6 +7828,13 @@ public partial class MMIAdapter {
             case 3:
               if (field.Type == TType.String) {
                 CheckpointData = iprot.ReadBinary();
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            case 4:
+              if (field.Type == TType.String) {
+                AvatarID = iprot.ReadString();
               } else { 
                 TProtocolUtil.Skip(iprot, field.Type);
               }
@@ -7860,6 +7884,14 @@ public partial class MMIAdapter {
           oprot.WriteBinary(CheckpointData);
           oprot.WriteFieldEnd();
         }
+        if (AvatarID != null && __isset.avatarID) {
+          field.Name = "avatarID";
+          field.Type = TType.String;
+          field.ID = 4;
+          oprot.WriteFieldBegin(field);
+          oprot.WriteString(AvatarID);
+          oprot.WriteFieldEnd();
+        }
         oprot.WriteFieldStop();
         oprot.WriteStructEnd();
       }
@@ -7889,6 +7921,12 @@ public partial class MMIAdapter {
         __first = false;
         __sb.Append("CheckpointData: ");
         __sb.Append(CheckpointData);
+      }
+      if (AvatarID != null && __isset.avatarID) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("AvatarID: ");
+        __sb.Append(AvatarID);
       }
       __sb.Append(")");
       return __sb.ToString();
