@@ -100,17 +100,8 @@ namespace MMICoSimulation
 
             Console.WriteLine("Try to connect to mmu access...");
 
-            string sceneID;
-            if(!properties.TryGetValue("SceneID", out sceneID))
-            {
-                return new MBoolResponse(false)
-                {
-                    LogData = new List<string>() { "This is a nested MMU. Please provide the scene id via the property SceneID" }
-                };
-            }
-
             //Connect to mmu access and load mmus
-            if (this.mmuAccess.Connect(this.AdapterEndpoint, avatarDescription.AvatarID, sceneID))
+            if (this.mmuAccess.Connect(this.AdapterEndpoint, avatarDescription.AvatarID))
             {
                 //Get all loadable MMUs within the current session
                 List<MMUDescription> loadableMMUs = this.mmuAccess.GetLoadableMMUs();

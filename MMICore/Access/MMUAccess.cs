@@ -164,7 +164,7 @@ namespace MMICSharp.Access
         /// </summary>
         /// <param name="adapterEndpoint">The desired adapter endpoint.</param>
         /// <param name="allowRemoteConnections">Specifies whether a remote connection should be established.</param>
-        public bool Connect(AdapterEndpoint adapterEndpoint, string AvatarID, string sceneID, bool allowRemoteConnections = true)
+        public bool Connect(AdapterEndpoint adapterEndpoint, string AvatarID, bool allowRemoteConnections = true)
         {
             //Create a list for the adapter descriptions
             List<MAdapterDescription> adapterDescriptions = new List<MAdapterDescription>();
