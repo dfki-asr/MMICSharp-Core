@@ -96,7 +96,7 @@ namespace MMICSharp.Access.Abstraction
 
         public byte[] CreateCheckpoint(string mmuID, string checkpointID)
         {
-            return instance.CreateCheckpoint(mmuID, mmuAccess.SessionId);
+            return instance.CreateCheckpoint(mmuID, mmuAccess.SessionId, "");
         }
 
         public List<MotionModelUnitAccess> CreateMMUConnections(string sessionId, List<MMUDescription> mmuDescriptions)
@@ -161,7 +161,7 @@ namespace MMICSharp.Access.Abstraction
 
         public MBoolResponse RestoreCheckpoint(string mmuID, string checkpointID,byte[] checkpointData)
         {
-            return this.instance.RestoreCheckpoint(mmuID, this.mmuAccess.SessionId, checkpointData);
+            return this.instance.RestoreCheckpoint(mmuID, this.mmuAccess.SessionId, checkpointData, "");
         }
 
 

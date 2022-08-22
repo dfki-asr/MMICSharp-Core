@@ -276,6 +276,7 @@ namespace MMICSharp.Adapter
         /// <param name="sessionID"></param>
         public virtual MBoolResponse CreateSession(string sessionID)
         {
+            // Todo: implement proper scene buffering
             //Skip if the sessionID is invalid
             if (sessionID == null || sessionID.Count() == 0)
                 return new MBoolResponse(false)
@@ -480,7 +481,7 @@ namespace MMICSharp.Adapter
             return avatarContent.MMUs[mmuID].GetBoundaryConstraints(instruction);
         }
 
-        public virtual MBoolResponse Dispose(string mmuID, string sessionID)
+        public virtual MBoolResponse Dispose(string mmuID, string sessionID, string avatarID)
         {
             SessionContent sessionContent = null;
             AvatarContent avatarContent = null;
@@ -493,7 +494,7 @@ namespace MMICSharp.Adapter
             sessionContent.UpdateLastAccessTime();
 
             //Call the dispose method of the respective MMU
-            return avatarContent.MMUs[mmuID].Dispose(new Dictionary<string, string>());
+            return avatarContent.MMUs[mmuID].Dispose(avatarID, new Dictionary<string, string>());
         }
 
         public virtual List<MMUDescription> GetMMus(string sessionID)
@@ -519,7 +520,7 @@ namespace MMICSharp.Adapter
         /// <param name="mmuIDs"></param>
         /// <param name="sessionID"></param>
         /// <param name="checkpointID"></param>
-        public virtual byte[] CreateCheckpoint(string mmuID, string sessionID)
+        public virtual byte[] CreateCheckpoint(string mmuID, string sessionID, string avatarID)
         {
             SessionContent sessionContent = null;
             AvatarContent avatarContent = null;
@@ -530,16 +531,16 @@ namespace MMICSharp.Adapter
                 return null;
 
             sessionContent.UpdateLastAccessTime();
-
+            
             //Add method to interface
-            byte[] checkpointData = avatarContent.MMUs[mmuID].CreateCheckpoint();
+            byte[] checkpointData = avatarContent.MMUs[mmuID].CreateCheckpoint(avatarID);
 
             Logger.Log(Log_level.L_INFO, $"Checkpoint of {mmuID} sucessfully created ({checkpointData.Length} bytes)");
 
             return checkpointData;
         }
 
-        public virtual MBoolResponse RestoreCheckpoint(string mmuID, string sessionID, byte[] checkpointData)
+        public virtual MBoolResponse RestoreCheckpoint(string mmuID, string sessionID, byte[] checkpointData, string avatarID)
         {
             SessionContent sessionContent = null;
             AvatarContent avatarContent = null;
@@ -550,14 +551,17 @@ namespace MMICSharp.Adapter
                 return sessionResult;
 
             sessionContent.UpdateLastAccessTime();
+            if(avatarID == "")
+            {
+                avatarID = avatarContent.AvatarId;
+            }
 
             Logger.Log(Log_level.L_INFO, $"Restore checkpoint of {mmuID}");
 
-
-            return avatarContent.MMUs[mmuID].RestoreCheckpoint(checkpointData);
+            return avatarContent.MMUs[mmuID].RestoreCheckpoint(checkpointData, avatarID);
         }
 
-        public Dictionary<string, string> ExecuteFunction(string name, Dictionary<string, string> parameters, string mmuID, string sessionID)
+        public Dictionary<string, string> ExecuteFunction(string name, Dictionary<string, string> parameters, string mmuID, string sessionID, string avatarID)
         {
             SessionContent sessionContent = null;
             AvatarContent avatarContent = null;
@@ -572,7 +576,7 @@ namespace MMICSharp.Adapter
 
             Logger.Log(Log_level.L_DEBUG, $"Ecexute function {name} of {mmuID}");
 
-            return avatarContent.MMUs[mmuID].ExecuteFunction(name, parameters);
+            return avatarContent.MMUs[mmuID].ExecuteFunction(name, avatarID, parameters);
 
         }
 

@@ -130,12 +130,12 @@ namespace MMICSharp.Common
 
 
 
-        public virtual byte[] CreateCheckpoint()
+        public virtual byte[] CreateCheckpoint(string avatarID)
         {
             return new byte[0];
         }
 
-        public virtual MBoolResponse RestoreCheckpoint(byte[] data)
+        public virtual MBoolResponse RestoreCheckpoint(byte[] data, string avatarID)
         {
             return new MBoolResponse(true);
         }
@@ -155,7 +155,7 @@ namespace MMICSharp.Common
         /// Disposes the MMU
         /// </summary>
         /// <returns></returns>
-        public virtual MBoolResponse Dispose(Dictionary<string,string> parameters)
+        public virtual MBoolResponse Dispose(string avatarID, Dictionary<string,string> parameters)
         {
             return new MBoolResponse(true);
         }
@@ -167,7 +167,7 @@ namespace MMICSharp.Common
         /// <param name="name"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public virtual Dictionary<string, string> ExecuteFunction(string name, Dictionary<string, string> parameters)
+        public virtual Dictionary<string, string> ExecuteFunction(string name, string avatarID, Dictionary<string, string> parameters)
         {
             throw new NotImplementedException();
         }

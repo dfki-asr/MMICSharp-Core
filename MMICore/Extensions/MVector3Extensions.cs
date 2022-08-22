@@ -124,6 +124,17 @@ namespace MMIStandard
             return new MVector3(vector.X / scalar, vector.Y / scalar, vector.Z / scalar);
         }
 
+        /// <summary>
+        /// Scales this vector by another vector by means of point-wise multiplication
+        /// </summary>
+        /// <param name="vector">this vector</param>
+        /// <param name="other">scaled by the other vector</param>
+        /// <returns></returns>
+        public static MVector3 Scale(this MVector3 vector, MVector3 other)
+        {
+            return new MVector3(vector.X * other.X, vector.Y * other.Y, vector.Z * other.Z);
+        }
+
 
         /// <summary>
         /// Lerps the vector

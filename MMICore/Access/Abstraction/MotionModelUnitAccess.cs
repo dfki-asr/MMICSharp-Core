@@ -197,9 +197,9 @@ namespace MMICSharp.Access.Abstraction
         /// <summary>
         /// Disposes the MMU
         /// </summary>
-        public MBoolResponse Dispose(Dictionary<string,string> parameters)
+        public MBoolResponse Dispose(string avatarID, Dictionary<string,string> parameters)
         {
-            return this.adapterClient.Access.Dispose(this.ID, this.sessionId);
+            return this.adapterClient.Access.Dispose(this.ID, this.sessionId, avatarID);
         }
 
 
@@ -207,18 +207,18 @@ namespace MMICSharp.Access.Abstraction
         /// Nothing to do in here
         /// </summary>
         /// <returns></returns>
-        public byte[] CreateCheckpoint()
+        public byte[] CreateCheckpoint(string avatarID)
         {
-            return this.adapterClient.Access.CreateCheckpoint(this.ID, this.sessionId);
+            return this.adapterClient.Access.CreateCheckpoint(this.ID, this.sessionId, avatarID);
         }
 
         /// <summary>
         /// Nothing to do in here
         /// </summary>
         /// <param name="data"></param>
-        public MBoolResponse RestoreCheckpoint(byte[] data)
+        public MBoolResponse RestoreCheckpoint(byte[] data, string avatarID)
         {
-            return this.adapterClient.Access.RestoreCheckpoint(this.ID, this.sessionId, data);
+            return this.adapterClient.Access.RestoreCheckpoint(this.ID, this.sessionId, data, avatarID);
         }
 
         public MBoolResponse CheckPrerequisites(MInstruction instruction)
@@ -226,9 +226,9 @@ namespace MMICSharp.Access.Abstraction
             return this.adapterClient.Access.CheckPrerequisites(instruction, this.ID, this.sessionId);
         }
 
-        public Dictionary<string, string> ExecuteFunction(string name, Dictionary<string, string> parameters)
+        public Dictionary<string, string> ExecuteFunction(string name, string avatarID, Dictionary<string, string> parameters)
         {
-            return this.adapterClient.Access.ExecuteFunction(name,parameters, this.ID, this.sessionId);
+            return this.adapterClient.Access.ExecuteFunction(name,parameters, this.ID, this.sessionId, avatarID);
         }
 
         /// <summary>

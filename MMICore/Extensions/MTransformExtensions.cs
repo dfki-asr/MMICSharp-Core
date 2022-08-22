@@ -64,7 +64,8 @@ namespace MMIStandard
         {
             MQuaternion q = transform.Rotation.Multiply(other.Rotation);
             MVector3 pos = other.Rotation.Multiply(transform.Position).Add(other.Position);
-            MTransform t = new MTransform(transform.ID, pos, q);
+            MVector3 newScale = transform.Scale.Scale(other.Scale);
+            MTransform t = new MTransform(transform.ID, pos, q, newScale);
             return t;
         }
 

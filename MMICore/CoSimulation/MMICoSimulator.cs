@@ -1994,7 +1994,7 @@ namespace MMICoSimulation
         /// <param name="name"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public virtual Dictionary<string, string> ExecuteFunction(string name, Dictionary<string, string> parameters)
+        public virtual Dictionary<string, string> ExecuteFunction(string name, string avatarID, Dictionary<string, string> parameters)
         {
             //Nothing to do in here
             return new Dictionary<string, string>();
@@ -2043,7 +2043,7 @@ namespace MMICoSimulation
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public virtual MBoolResponse Dispose(Dictionary<string, string> parameters)
+        public virtual MBoolResponse Dispose(string avatarID, Dictionary<string, string> parameters)
         {
             //Abort the co-simulator
             this.Abort();
@@ -2055,7 +2055,7 @@ namespace MMICoSimulation
         /// Creates a checkpoint of the co-simulation
         /// </summary>
         /// <returns></returns>
-        public virtual byte[] CreateCheckpoint()
+        public virtual byte[] CreateCheckpoint(string avatarID)
         {
             SerializableCoSimulationState checkpoint = new SerializableCoSimulationState()
             {
@@ -2071,7 +2071,7 @@ namespace MMICoSimulation
             //Add all the mmu data
             foreach (IMotionModelUnitAccess mmu in this.mmuInstances)
             {
-                checkpoint.MMUData.Add(mmu.ID, mmu.CreateCheckpoint());
+                checkpoint.MMUData.Add(mmu.ID, mmu.CreateCheckpoint(avatarID));
             }
 
             //Add all motion tasks which are already contained in the containers
@@ -2117,7 +2117,7 @@ namespace MMICoSimulation
         /// Restores the checkpoint of the co-simulation
         /// </summary>
         /// <param name="data"></param>
-        public virtual MBoolResponse RestoreCheckpoint(byte[] data)
+        public virtual MBoolResponse RestoreCheckpoint(byte[] data, string avatarID)
         {
             //Get the loaded state from byte array
             SerializableCoSimulationState loadedState = Serialization.DeserializeBinary<SerializableCoSimulationState>(data);
@@ -2199,7 +2199,7 @@ namespace MMICoSimulation
             foreach (var kvp in loadedState.MMUData)
             {
                 IMotionModelUnitAccess match = this.mmuInstances.Find(s => s.ID == kvp.Key);
-                match.RestoreCheckpoint(kvp.Value);
+                match.RestoreCheckpoint(kvp.Value, avatarID);
             }
 
             return new MBoolResponse(true);

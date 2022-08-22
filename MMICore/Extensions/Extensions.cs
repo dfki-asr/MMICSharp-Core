@@ -33,7 +33,7 @@ namespace MMIStandard
         /// <returns></returns>
         public static MTransform Clone(this MTransform original)
         {
-            return new MTransform(original.ID, original.Position.Clone(), original.Rotation.Clone())
+            return new MTransform(original.ID, original.Position.Clone(), original.Rotation.Clone(), original.Scale.Clone())
             {
                 Parent = original.Parent
             };
@@ -41,7 +41,7 @@ namespace MMIStandard
 
         public static MSceneObject Clone(this MSceneObject original)
         {
-            MSceneObject clone = new MMIStandard.MSceneObject()
+            MSceneObject clone = new MSceneObject()
             {
                 ID = original.ID,
                 Name = original.Name,
@@ -84,7 +84,7 @@ namespace MMIStandard
         /// <returns></returns>
         public static MMesh Clone(this MMesh original)
         {
-            MMesh clone = new MMIStandard.MMesh()
+            MMesh clone = new MMesh()
             {
                 ID = original.ID,
                 Properties = original.Properties,

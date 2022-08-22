@@ -151,7 +151,7 @@ namespace MMICSharp.Common.Tools
                 GeometryConstraint = new MGeometryConstraint()
                 {
                     ParentObjectID = parentID,
-                    ParentToConstraint = new MTransform(Guid.NewGuid().ToString(), position, rotation)
+                    ParentToConstraint = new MTransform(Guid.NewGuid().ToString(), position, rotation, new MVector3(1,1,1))
                 },
             },id);
         }

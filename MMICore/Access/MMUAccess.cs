@@ -164,7 +164,7 @@ namespace MMICSharp.Access
         /// </summary>
         /// <param name="adapterEndpoint">The desired adapter endpoint.</param>
         /// <param name="allowRemoteConnections">Specifies whether a remote connection should be established.</param>
-        public bool Connect(AdapterEndpoint adapterEndpoint, string AvatarID, bool allowRemoteConnections = true)
+        public bool Connect(AdapterEndpoint adapterEndpoint, string AvatarID, string sceneID, bool allowRemoteConnections = true)
         {
             //Create a list for the adapter descriptions
             List<MAdapterDescription> adapterDescriptions = new List<MAdapterDescription>();
@@ -631,14 +631,14 @@ namespace MMICSharp.Access
         /// </summary>
         /// <param name="mmuList"></param>
         /// <param name="checkpointID"></param>
-        public Dictionary<string,byte[]> CreateCheckpoint(List<string> mmuIDs)
+        public Dictionary<string,byte[]> CreateCheckpoint(List<string> mmuIDs, string avatarID)
         {
             Dictionary<string, byte[]> checkpointData = new Dictionary<string, byte[]>();
 
             foreach(MotionModelUnitAccess mmu in this.MotionModelUnits)
             {
                 if(mmuIDs.Contains(mmu.ID))
-                    checkpointData.Add(mmu.ID, mmu.CreateCheckpoint());
+                    checkpointData.Add(mmu.ID, mmu.CreateCheckpoint(avatarID));
             }
 
             return checkpointData;
@@ -650,12 +650,12 @@ namespace MMICSharp.Access
         /// </summary>
         /// <param name="mmuList"></param>
         /// <param name="checkpointID"></param>
-        public void RestoreCheckpoint(Dictionary<string,byte[]> checkpointData)
+        public void RestoreCheckpoint(Dictionary<string,byte[]> checkpointData, string avatarID)
         {
             foreach (Abstraction.MotionModelUnitAccess mmu in this.MotionModelUnits)
             {
                 if (checkpointData.ContainsKey(mmu.ID))
-                    mmu.RestoreCheckpoint(checkpointData[mmu.ID]);
+                    mmu.RestoreCheckpoint(checkpointData[mmu.ID], avatarID);
             }
         }
 
@@ -710,11 +710,14 @@ namespace MMICSharp.Access
                 adapter.CloseConnection();            
             }
 
+            string avatarID = "";
+            // TODO implement propper avatarID handling
+
             //Dispose every module
             foreach (MotionModelUnitAccess mmu in this.MotionModelUnits)
             {
                 //Dispose the respective mmu
-                mmu.Dispose(new Dictionary<string, string>());
+                mmu.Dispose(avatarID, new Dictionary<string, string>());
 
                 //Close the connection
                 mmu.CloseConnection();

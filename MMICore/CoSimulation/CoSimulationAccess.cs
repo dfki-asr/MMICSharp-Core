@@ -222,8 +222,9 @@ namespace MMICoSimulation
         /// Returns the events of the current frame
         /// </summary>
         /// <returns></returns>
-        public MCoSimulationEvents GetCurrentEvents()
+        public MCoSimulationEvents GetCurrentEvents(string avatarID)
         {
+            // Todo handle avatarID
             return this.currentEvents;
         }
 
@@ -232,8 +233,9 @@ namespace MMICoSimulation
         /// </summary>
         /// <param name="eventType"></param>
         /// <returns></returns>
-        public List<MCoSimulationEvents> GetHistory(string eventType)
+        public List<MCoSimulationEvents> GetHistory(string eventType, string avatarID)
         {
+            // TODO implement AvatarID Handling
             return this.data.Values.Where(s => s.Events.Exists(x => x.Type == eventType)).ToList();
         }
 
@@ -245,8 +247,9 @@ namespace MMICoSimulation
         /// <param name="toFrame"></param>
         /// <param name="eventType"></param>
         /// <returns></returns>
-        public List<MCoSimulationEvents> GetHistoryFromFrames(int fromFrame, int toFrame, string eventType)
+        public List<MCoSimulationEvents> GetHistoryFromFrames(int fromFrame, int toFrame, string eventType, string avatarID)
         {
+            // Todo implenent AvatarID handling
             return this.data.Values.Where(s => s.FrameNumber >= fromFrame && s.FrameNumber < toFrame &&  s.Events.Exists(x => x.Type == eventType)).ToList();
         }
 
@@ -258,8 +261,9 @@ namespace MMICoSimulation
         /// <param name="endTime"></param>
         /// <param name="eventType"></param>
         /// <returns></returns>
-        public List<MCoSimulationEvents> GetHistoryFromTime(double startTime, double endTime, string eventType)
+        public List<MCoSimulationEvents> GetHistoryFromTime(double startTime, double endTime, string eventType, string avatarID)
         {
+            // TODO: Implement AvatarID handling
             return this.data.Values.Where(s => s.SimulationTime >= startTime && s.SimulationTime < endTime && s.Events.Exists(x => x.Type == eventType)).ToList();
         }
 
@@ -269,9 +273,11 @@ namespace MMICoSimulation
         /// The given clientAddress is used to provide an event based communication.
         /// </summary>
         /// <param name="clientAddress"></param>
-        /// <param name="eventType"></param>
+        /// <param name="eventType"></param>        
+        /// /// <param name="avatarID"></param>
+
         /// <returns></returns>
-        public MBoolResponse RegisterAtEvent(MIPAddress clientAddress, string eventType)
+        public MBoolResponse RegisterAtEvent(MIPAddress clientAddress, string eventType, string avatarID)
         {
             this.registrationMutex.WaitOne();
 
@@ -292,7 +298,7 @@ namespace MMICoSimulation
         /// <param name="clientAddress"></param>
         /// <param name="eventType"></param>
         /// <returns></returns>
-        public MBoolResponse UnregisterAtEvent(MIPAddress clientAddress, string eventType)
+        public MBoolResponse UnregisterAtEvent(MIPAddress clientAddress, string eventType, string avatarID)
         {
             if (this.callbackClients.ContainsKey(eventType))
             {
@@ -320,8 +326,9 @@ namespace MMICoSimulation
         /// Aborts all instructions
         /// </summary>
         /// <returns></returns>
-        public MBoolResponse Abort()
+        public MBoolResponse Abort(string avatarID)
         {
+            // Todo Adjust!
             return this.coSimulator.Abort();
         }
 

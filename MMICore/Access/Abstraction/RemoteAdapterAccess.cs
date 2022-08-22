@@ -322,7 +322,7 @@ namespace MMICSharp.Access.Abstraction
         /// <param name="checkpointID"></param>
         public byte[] CreateCheckpoint(string mmuID, string checkpointID)
         {
-            return this.thriftClient.Access.CreateCheckpoint(mmuID, this.mmuAccess.SessionId);
+            return this.thriftClient.Access.CreateCheckpoint(mmuID, this.mmuAccess.SessionId, "");
         }
 
 
@@ -333,7 +333,7 @@ namespace MMICSharp.Access.Abstraction
         /// <param name="checkpointID"></param>
         public MBoolResponse RestoreCheckpoint(string mmuId, string checkpointID, byte[] checkpointData)
         {
-            return this.thriftClient.Access.RestoreCheckpoint(mmuId, this.mmuAccess.SessionId, checkpointData);
+            return this.thriftClient.Access.RestoreCheckpoint(mmuId, this.mmuAccess.SessionId, checkpointData, "");
         }
 
         public MBoolResponse CloseConnection()

@@ -158,7 +158,7 @@ namespace MMICSharp.Common
                     {
                         if (jP.ID == parent)
                         {
-                            return new MTransform("tmp", jP.Position, jP.Rotation).InverseTransformPoint(j.Position);
+                            return new MTransform("tmp", jP.Position, jP.Rotation, new MVector3(1,1,1)).InverseTransformPoint(j.Position);
                         }
                     }
 
@@ -185,7 +185,7 @@ namespace MMICSharp.Common
             MVector3 wristPos = getJointPosition(globalTarget, joint_map.getItem(this.parentJoint.GetMJoint().Type));//this.parentJoint.GetGlobalPosition();
             MVector3 thisPos = getJointPosition(globalTarget, joint_map.getItem(this.GetMJoint().Type));
             thisPos.Y = wristPos.Y; // adjust height
-            MVector3 newPos = new MTransform("tmp", wristPos, this.parentJoint.GetGlobalRotation()).InverseTransformPoint(thisPos);
+            MVector3 newPos = new MTransform("tmp", wristPos, this.parentJoint.GetGlobalRotation(), new MVector3(1,1,1)).InverseTransformPoint(thisPos);
             newPos.Z -= z_shift;
             return newPos;
         }
@@ -294,7 +294,7 @@ namespace MMICSharp.Common
             if(this.GetMJoint().ID.Contains("Wrist"))
             {
                 MVector3 wristPos = this.GetGlobalPosition();//getJointPosition(globalTarget, joint_map.getItem(this.GetMJoint().Type]);
-                MTransform Twrist = new MTransform("tmp", this.GetGlobalPosition(), this.GetGlobalRotation());
+                MTransform Twrist = new MTransform("tmp", this.GetGlobalPosition(), this.GetGlobalRotation(), new MVector3(1,1,1));
                 Joint middle = this.children[0];
 
                 Joint index = this.children[1];
