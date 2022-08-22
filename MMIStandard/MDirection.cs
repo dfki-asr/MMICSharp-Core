@@ -5,15 +5,12 @@
  *  @generated
  */
 
-namespace MMIStandard
+public enum MDirection
 {
-  public enum MDirection
-  {
-    Right = 0,
-    Left = 1,
-    Up = 2,
-    Down = 3,
-    Forward = 4,
-    Backward = 5,
-  }
+  Right = 0,
+  Left = 1,
+  Up = 2,
+  Down = 3,
+  Forward = 4,
+  Backward = 5,
 }

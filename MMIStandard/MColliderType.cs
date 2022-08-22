@@ -5,16 +5,13 @@
  *  @generated
  */
 
-namespace MMIStandard
+public enum MColliderType
 {
-  public enum MColliderType
-  {
-    Box = 0,
-    Sphere = 1,
-    Capsule = 2,
-    Cone = 3,
-    Cylinder = 4,
-    Mesh = 5,
-    Custom = 6,
-  }
+  Box = 0,
+  Sphere = 1,
+  Capsule = 2,
+  Cone = 3,
+  Cylinder = 4,
+  Mesh = 5,
+  Custom = 6,
 }

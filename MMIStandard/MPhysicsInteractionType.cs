@@ -5,16 +5,13 @@
  *  @generated
  */
 
-namespace MMIStandard
+public enum MPhysicsInteractionType
 {
-  public enum MPhysicsInteractionType
-  {
-    AddForce = 0,
-    AddTorque = 1,
-    ChangeVelocity = 2,
-    ChangeAngularVelocity = 3,
-    ChangeMass = 4,
-    ChangeCenterOfMass = 5,
-    ChangeInertia = 6,
-  }
+  AddForce = 0,
+  AddTorque = 1,
+  ChangeVelocity = 2,
+  ChangeAngularVelocity = 3,
+  ChangeMass = 4,
+  ChangeCenterOfMass = 5,
+  ChangeInertia = 6,
 }

@@ -5,14 +5,11 @@
  *  @generated
  */
 
-namespace MMIStandard
+public enum MEndeffectorType
 {
-  public enum MEndeffectorType
-  {
-    LeftHand = 0,
-    LeftFoot = 1,
-    RightHand = 2,
-    RightFoot = 3,
-    Root = 4,
-  }
+  LeftHand = 0,
+  LeftFoot = 1,
+  RightHand = 2,
+  RightFoot = 3,
+  Root = 4,
 }

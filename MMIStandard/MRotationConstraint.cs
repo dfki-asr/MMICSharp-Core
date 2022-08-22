@@ -15,97 +15,94 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace MMIStandard
+
+#if !SILVERLIGHT
+[Serializable]
+#endif
+public partial class MRotationConstraint : TBase
 {
 
-  #if !SILVERLIGHT
-  [Serializable]
-  #endif
-  public partial class MRotationConstraint : TBase
+  public MInterval3 Limits { get; set; }
+
+  public MRotationConstraint() {
+  }
+
+  public MRotationConstraint(MInterval3 Limits) : this() {
+    this.Limits = Limits;
+  }
+
+  public void Read (TProtocol iprot)
   {
-
-    public MInterval3 Limits { get; set; }
-
-    public MRotationConstraint() {
-    }
-
-    public MRotationConstraint(MInterval3 Limits) : this() {
-      this.Limits = Limits;
-    }
-
-    public void Read (TProtocol iprot)
+    iprot.IncrementRecursionDepth();
+    try
     {
-      iprot.IncrementRecursionDepth();
-      try
+      bool isset_Limits = false;
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
       {
-        bool isset_Limits = false;
-        TField field;
-        iprot.ReadStructBegin();
-        while (true)
-        {
-          field = iprot.ReadFieldBegin();
-          if (field.Type == TType.Stop) { 
-            break;
-          }
-          switch (field.ID)
-          {
-            case 2:
-              if (field.Type == TType.Struct) {
-                Limits = new MInterval3();
-                Limits.Read(iprot);
-                isset_Limits = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            default: 
-              TProtocolUtil.Skip(iprot, field.Type);
-              break;
-          }
-          iprot.ReadFieldEnd();
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
         }
-        iprot.ReadStructEnd();
-        if (!isset_Limits)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Limits not set");
+        switch (field.ID)
+        {
+          case 2:
+            if (field.Type == TType.Struct) {
+              Limits = new MInterval3();
+              Limits.Read(iprot);
+              isset_Limits = true;
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
+        }
+        iprot.ReadFieldEnd();
       }
-      finally
-      {
-        iprot.DecrementRecursionDepth();
-      }
+      iprot.ReadStructEnd();
+      if (!isset_Limits)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Limits not set");
     }
-
-    public void Write(TProtocol oprot) {
-      oprot.IncrementRecursionDepth();
-      try
-      {
-        TStruct struc = new TStruct("MRotationConstraint");
-        oprot.WriteStructBegin(struc);
-        TField field = new TField();
-        if (Limits == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Limits not set");
-        field.Name = "Limits";
-        field.Type = TType.Struct;
-        field.ID = 2;
-        oprot.WriteFieldBegin(field);
-        Limits.Write(oprot);
-        oprot.WriteFieldEnd();
-        oprot.WriteFieldStop();
-        oprot.WriteStructEnd();
-      }
-      finally
-      {
-        oprot.DecrementRecursionDepth();
-      }
+    finally
+    {
+      iprot.DecrementRecursionDepth();
     }
+  }
 
-    public override string ToString() {
-      StringBuilder __sb = new StringBuilder("MRotationConstraint(");
-      __sb.Append(", Limits: ");
-      __sb.Append(Limits== null ? "<null>" : Limits.ToString());
-      __sb.Append(")");
-      return __sb.ToString();
+  public void Write(TProtocol oprot) {
+    oprot.IncrementRecursionDepth();
+    try
+    {
+      TStruct struc = new TStruct("MRotationConstraint");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (Limits == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Limits not set");
+      field.Name = "Limits";
+      field.Type = TType.Struct;
+      field.ID = 2;
+      oprot.WriteFieldBegin(field);
+      Limits.Write(oprot);
+      oprot.WriteFieldEnd();
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
     }
+    finally
+    {
+      oprot.DecrementRecursionDepth();
+    }
+  }
 
+  public override string ToString() {
+    StringBuilder __sb = new StringBuilder("MRotationConstraint(");
+    __sb.Append(", Limits: ");
+    __sb.Append(Limits== null ? "<null>" : Limits.ToString());
+    __sb.Append(")");
+    return __sb.ToString();
   }
 
 }
+

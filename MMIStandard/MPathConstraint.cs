@@ -15,156 +15,153 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace MMIStandard
-{
 
+#if !SILVERLIGHT
+[Serializable]
+#endif
+public partial class MPathConstraint : TBase
+{
+  private double _WeightingFactor;
+
+  public List<MGeometryConstraint> PolygonPoints { get; set; }
+
+  public double WeightingFactor
+  {
+    get
+    {
+      return _WeightingFactor;
+    }
+    set
+    {
+      __isset.WeightingFactor = true;
+      this._WeightingFactor = value;
+    }
+  }
+
+
+  public Isset __isset;
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public partial class MPathConstraint : TBase
+  public struct Isset {
+    public bool WeightingFactor;
+  }
+
+  public MPathConstraint() {
+  }
+
+  public MPathConstraint(List<MGeometryConstraint> PolygonPoints) : this() {
+    this.PolygonPoints = PolygonPoints;
+  }
+
+  public void Read (TProtocol iprot)
   {
-    private double _WeightingFactor;
-
-    public List<MGeometryConstraint> PolygonPoints { get; set; }
-
-    public double WeightingFactor
+    iprot.IncrementRecursionDepth();
+    try
     {
-      get
+      bool isset_PolygonPoints = false;
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
       {
-        return _WeightingFactor;
-      }
-      set
-      {
-        __isset.WeightingFactor = true;
-        this._WeightingFactor = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public struct Isset {
-      public bool WeightingFactor;
-    }
-
-    public MPathConstraint() {
-    }
-
-    public MPathConstraint(List<MGeometryConstraint> PolygonPoints) : this() {
-      this.PolygonPoints = PolygonPoints;
-    }
-
-    public void Read (TProtocol iprot)
-    {
-      iprot.IncrementRecursionDepth();
-      try
-      {
-        bool isset_PolygonPoints = false;
-        TField field;
-        iprot.ReadStructBegin();
-        while (true)
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
+        }
+        switch (field.ID)
         {
-          field = iprot.ReadFieldBegin();
-          if (field.Type == TType.Stop) { 
-            break;
-          }
-          switch (field.ID)
-          {
-            case 1:
-              if (field.Type == TType.List) {
+          case 1:
+            if (field.Type == TType.List) {
+              {
+                PolygonPoints = new List<MGeometryConstraint>();
+                TList _list0 = iprot.ReadListBegin();
+                for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
                 {
-                  PolygonPoints = new List<MGeometryConstraint>();
-                  TList _list0 = iprot.ReadListBegin();
-                  for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
-                  {
-                    MGeometryConstraint _elem2;
-                    _elem2 = new MGeometryConstraint();
-                    _elem2.Read(iprot);
-                    PolygonPoints.Add(_elem2);
-                  }
-                  iprot.ReadListEnd();
+                  MGeometryConstraint _elem2;
+                  _elem2 = new MGeometryConstraint();
+                  _elem2.Read(iprot);
+                  PolygonPoints.Add(_elem2);
                 }
-                isset_PolygonPoints = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
+                iprot.ReadListEnd();
               }
-              break;
-            case 2:
-              if (field.Type == TType.Double) {
-                WeightingFactor = iprot.ReadDouble();
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            default: 
+              isset_PolygonPoints = true;
+            } else { 
               TProtocolUtil.Skip(iprot, field.Type);
-              break;
-          }
-          iprot.ReadFieldEnd();
+            }
+            break;
+          case 2:
+            if (field.Type == TType.Double) {
+              WeightingFactor = iprot.ReadDouble();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
         }
-        iprot.ReadStructEnd();
-        if (!isset_PolygonPoints)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field PolygonPoints not set");
+        iprot.ReadFieldEnd();
       }
-      finally
-      {
-        iprot.DecrementRecursionDepth();
-      }
+      iprot.ReadStructEnd();
+      if (!isset_PolygonPoints)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field PolygonPoints not set");
     }
+    finally
+    {
+      iprot.DecrementRecursionDepth();
+    }
+  }
 
-    public void Write(TProtocol oprot) {
-      oprot.IncrementRecursionDepth();
-      try
+  public void Write(TProtocol oprot) {
+    oprot.IncrementRecursionDepth();
+    try
+    {
+      TStruct struc = new TStruct("MPathConstraint");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (PolygonPoints == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field PolygonPoints not set");
+      field.Name = "PolygonPoints";
+      field.Type = TType.List;
+      field.ID = 1;
+      oprot.WriteFieldBegin(field);
       {
-        TStruct struc = new TStruct("MPathConstraint");
-        oprot.WriteStructBegin(struc);
-        TField field = new TField();
-        if (PolygonPoints == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field PolygonPoints not set");
-        field.Name = "PolygonPoints";
-        field.Type = TType.List;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
+        oprot.WriteListBegin(new TList(TType.Struct, PolygonPoints.Count));
+        foreach (MGeometryConstraint _iter3 in PolygonPoints)
         {
-          oprot.WriteListBegin(new TList(TType.Struct, PolygonPoints.Count));
-          foreach (MGeometryConstraint _iter3 in PolygonPoints)
-          {
-            _iter3.Write(oprot);
-          }
-          oprot.WriteListEnd();
+          _iter3.Write(oprot);
         }
-        oprot.WriteFieldEnd();
-        if (__isset.WeightingFactor) {
-          field.Name = "WeightingFactor";
-          field.Type = TType.Double;
-          field.ID = 2;
-          oprot.WriteFieldBegin(field);
-          oprot.WriteDouble(WeightingFactor);
-          oprot.WriteFieldEnd();
-        }
-        oprot.WriteFieldStop();
-        oprot.WriteStructEnd();
+        oprot.WriteListEnd();
       }
-      finally
-      {
-        oprot.DecrementRecursionDepth();
-      }
-    }
-
-    public override string ToString() {
-      StringBuilder __sb = new StringBuilder("MPathConstraint(");
-      __sb.Append(", PolygonPoints: ");
-      __sb.Append(PolygonPoints);
+      oprot.WriteFieldEnd();
       if (__isset.WeightingFactor) {
-        __sb.Append(", WeightingFactor: ");
-        __sb.Append(WeightingFactor);
+        field.Name = "WeightingFactor";
+        field.Type = TType.Double;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteDouble(WeightingFactor);
+        oprot.WriteFieldEnd();
       }
-      __sb.Append(")");
-      return __sb.ToString();
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
     }
+    finally
+    {
+      oprot.DecrementRecursionDepth();
+    }
+  }
 
+  public override string ToString() {
+    StringBuilder __sb = new StringBuilder("MPathConstraint(");
+    __sb.Append(", PolygonPoints: ");
+    __sb.Append(PolygonPoints);
+    if (__isset.WeightingFactor) {
+      __sb.Append(", WeightingFactor: ");
+      __sb.Append(WeightingFactor);
+    }
+    __sb.Append(")");
+    return __sb.ToString();
   }
 
 }
+

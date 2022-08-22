@@ -15,286 +15,283 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace MMIStandard
-{
 
+#if !SILVERLIGHT
+[Serializable]
+#endif
+public partial class MSimulationState : TBase
+{
+  private List<MConstraint> _Constraints;
+  private List<MSceneManipulation> _SceneManipulations;
+  private List<MSimulationEvent> _Events;
+
+  public MAvatarPostureValues Initial { get; set; }
+
+  public MAvatarPostureValues Current { get; set; }
+
+  public List<MConstraint> Constraints
+  {
+    get
+    {
+      return _Constraints;
+    }
+    set
+    {
+      __isset.Constraints = true;
+      this._Constraints = value;
+    }
+  }
+
+  public List<MSceneManipulation> SceneManipulations
+  {
+    get
+    {
+      return _SceneManipulations;
+    }
+    set
+    {
+      __isset.SceneManipulations = true;
+      this._SceneManipulations = value;
+    }
+  }
+
+  public List<MSimulationEvent> Events
+  {
+    get
+    {
+      return _Events;
+    }
+    set
+    {
+      __isset.Events = true;
+      this._Events = value;
+    }
+  }
+
+
+  public Isset __isset;
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public partial class MSimulationState : TBase
+  public struct Isset {
+    public bool Constraints;
+    public bool SceneManipulations;
+    public bool Events;
+  }
+
+  public MSimulationState() {
+  }
+
+  public MSimulationState(MAvatarPostureValues Initial, MAvatarPostureValues Current) : this() {
+    this.Initial = Initial;
+    this.Current = Current;
+  }
+
+  public void Read (TProtocol iprot)
   {
-    private List<MMIStandard.MConstraint> _Constraints;
-    private List<MMIStandard.MSceneManipulation> _SceneManipulations;
-    private List<MSimulationEvent> _Events;
-
-    public MMIStandard.MAvatarPostureValues Initial { get; set; }
-
-    public MMIStandard.MAvatarPostureValues Current { get; set; }
-
-    public List<MMIStandard.MConstraint> Constraints
+    iprot.IncrementRecursionDepth();
+    try
     {
-      get
+      bool isset_Initial = false;
+      bool isset_Current = false;
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
       {
-        return _Constraints;
-      }
-      set
-      {
-        __isset.Constraints = true;
-        this._Constraints = value;
-      }
-    }
-
-    public List<MMIStandard.MSceneManipulation> SceneManipulations
-    {
-      get
-      {
-        return _SceneManipulations;
-      }
-      set
-      {
-        __isset.SceneManipulations = true;
-        this._SceneManipulations = value;
-      }
-    }
-
-    public List<MSimulationEvent> Events
-    {
-      get
-      {
-        return _Events;
-      }
-      set
-      {
-        __isset.Events = true;
-        this._Events = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public struct Isset {
-      public bool Constraints;
-      public bool SceneManipulations;
-      public bool Events;
-    }
-
-    public MSimulationState() {
-    }
-
-    public MSimulationState(MMIStandard.MAvatarPostureValues Initial, MMIStandard.MAvatarPostureValues Current) : this() {
-      this.Initial = Initial;
-      this.Current = Current;
-    }
-
-    public void Read (TProtocol iprot)
-    {
-      iprot.IncrementRecursionDepth();
-      try
-      {
-        bool isset_Initial = false;
-        bool isset_Current = false;
-        TField field;
-        iprot.ReadStructBegin();
-        while (true)
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
+        }
+        switch (field.ID)
         {
-          field = iprot.ReadFieldBegin();
-          if (field.Type == TType.Stop) { 
-            break;
-          }
-          switch (field.ID)
-          {
-            case 1:
-              if (field.Type == TType.Struct) {
-                Initial = new MMIStandard.MAvatarPostureValues();
-                Initial.Read(iprot);
-                isset_Initial = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 2:
-              if (field.Type == TType.Struct) {
-                Current = new MMIStandard.MAvatarPostureValues();
-                Current.Read(iprot);
-                isset_Current = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 3:
-              if (field.Type == TType.List) {
-                {
-                  Constraints = new List<MMIStandard.MConstraint>();
-                  TList _list0 = iprot.ReadListBegin();
-                  for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
-                  {
-                    MMIStandard.MConstraint _elem2;
-                    _elem2 = new MMIStandard.MConstraint();
-                    _elem2.Read(iprot);
-                    Constraints.Add(_elem2);
-                  }
-                  iprot.ReadListEnd();
-                }
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 4:
-              if (field.Type == TType.List) {
-                {
-                  SceneManipulations = new List<MMIStandard.MSceneManipulation>();
-                  TList _list3 = iprot.ReadListBegin();
-                  for( int _i4 = 0; _i4 < _list3.Count; ++_i4)
-                  {
-                    MMIStandard.MSceneManipulation _elem5;
-                    _elem5 = new MMIStandard.MSceneManipulation();
-                    _elem5.Read(iprot);
-                    SceneManipulations.Add(_elem5);
-                  }
-                  iprot.ReadListEnd();
-                }
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 5:
-              if (field.Type == TType.List) {
-                {
-                  Events = new List<MSimulationEvent>();
-                  TList _list6 = iprot.ReadListBegin();
-                  for( int _i7 = 0; _i7 < _list6.Count; ++_i7)
-                  {
-                    MSimulationEvent _elem8;
-                    _elem8 = new MSimulationEvent();
-                    _elem8.Read(iprot);
-                    Events.Add(_elem8);
-                  }
-                  iprot.ReadListEnd();
-                }
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            default: 
+          case 1:
+            if (field.Type == TType.Struct) {
+              Initial = new MAvatarPostureValues();
+              Initial.Read(iprot);
+              isset_Initial = true;
+            } else { 
               TProtocolUtil.Skip(iprot, field.Type);
-              break;
-          }
-          iprot.ReadFieldEnd();
+            }
+            break;
+          case 2:
+            if (field.Type == TType.Struct) {
+              Current = new MAvatarPostureValues();
+              Current.Read(iprot);
+              isset_Current = true;
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 3:
+            if (field.Type == TType.List) {
+              {
+                Constraints = new List<MConstraint>();
+                TList _list0 = iprot.ReadListBegin();
+                for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
+                {
+                  MConstraint _elem2;
+                  _elem2 = new MConstraint();
+                  _elem2.Read(iprot);
+                  Constraints.Add(_elem2);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
+            if (field.Type == TType.List) {
+              {
+                SceneManipulations = new List<MSceneManipulation>();
+                TList _list3 = iprot.ReadListBegin();
+                for( int _i4 = 0; _i4 < _list3.Count; ++_i4)
+                {
+                  MSceneManipulation _elem5;
+                  _elem5 = new MSceneManipulation();
+                  _elem5.Read(iprot);
+                  SceneManipulations.Add(_elem5);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 5:
+            if (field.Type == TType.List) {
+              {
+                Events = new List<MSimulationEvent>();
+                TList _list6 = iprot.ReadListBegin();
+                for( int _i7 = 0; _i7 < _list6.Count; ++_i7)
+                {
+                  MSimulationEvent _elem8;
+                  _elem8 = new MSimulationEvent();
+                  _elem8.Read(iprot);
+                  Events.Add(_elem8);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
         }
-        iprot.ReadStructEnd();
-        if (!isset_Initial)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Initial not set");
-        if (!isset_Current)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Current not set");
+        iprot.ReadFieldEnd();
       }
-      finally
-      {
-        iprot.DecrementRecursionDepth();
-      }
+      iprot.ReadStructEnd();
+      if (!isset_Initial)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Initial not set");
+      if (!isset_Current)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Current not set");
     }
-
-    public void Write(TProtocol oprot) {
-      oprot.IncrementRecursionDepth();
-      try
-      {
-        TStruct struc = new TStruct("MSimulationState");
-        oprot.WriteStructBegin(struc);
-        TField field = new TField();
-        if (Initial == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Initial not set");
-        field.Name = "Initial";
-        field.Type = TType.Struct;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        Initial.Write(oprot);
-        oprot.WriteFieldEnd();
-        if (Current == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Current not set");
-        field.Name = "Current";
-        field.Type = TType.Struct;
-        field.ID = 2;
-        oprot.WriteFieldBegin(field);
-        Current.Write(oprot);
-        oprot.WriteFieldEnd();
-        if (Constraints != null && __isset.Constraints) {
-          field.Name = "Constraints";
-          field.Type = TType.List;
-          field.ID = 3;
-          oprot.WriteFieldBegin(field);
-          {
-            oprot.WriteListBegin(new TList(TType.Struct, Constraints.Count));
-            foreach (MMIStandard.MConstraint _iter9 in Constraints)
-            {
-              _iter9.Write(oprot);
-            }
-            oprot.WriteListEnd();
-          }
-          oprot.WriteFieldEnd();
-        }
-        if (SceneManipulations != null && __isset.SceneManipulations) {
-          field.Name = "SceneManipulations";
-          field.Type = TType.List;
-          field.ID = 4;
-          oprot.WriteFieldBegin(field);
-          {
-            oprot.WriteListBegin(new TList(TType.Struct, SceneManipulations.Count));
-            foreach (MMIStandard.MSceneManipulation _iter10 in SceneManipulations)
-            {
-              _iter10.Write(oprot);
-            }
-            oprot.WriteListEnd();
-          }
-          oprot.WriteFieldEnd();
-        }
-        if (Events != null && __isset.Events) {
-          field.Name = "Events";
-          field.Type = TType.List;
-          field.ID = 5;
-          oprot.WriteFieldBegin(field);
-          {
-            oprot.WriteListBegin(new TList(TType.Struct, Events.Count));
-            foreach (MSimulationEvent _iter11 in Events)
-            {
-              _iter11.Write(oprot);
-            }
-            oprot.WriteListEnd();
-          }
-          oprot.WriteFieldEnd();
-        }
-        oprot.WriteFieldStop();
-        oprot.WriteStructEnd();
-      }
-      finally
-      {
-        oprot.DecrementRecursionDepth();
-      }
+    finally
+    {
+      iprot.DecrementRecursionDepth();
     }
+  }
 
-    public override string ToString() {
-      StringBuilder __sb = new StringBuilder("MSimulationState(");
-      __sb.Append(", Initial: ");
-      __sb.Append(Initial== null ? "<null>" : Initial.ToString());
-      __sb.Append(", Current: ");
-      __sb.Append(Current== null ? "<null>" : Current.ToString());
+  public void Write(TProtocol oprot) {
+    oprot.IncrementRecursionDepth();
+    try
+    {
+      TStruct struc = new TStruct("MSimulationState");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (Initial == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Initial not set");
+      field.Name = "Initial";
+      field.Type = TType.Struct;
+      field.ID = 1;
+      oprot.WriteFieldBegin(field);
+      Initial.Write(oprot);
+      oprot.WriteFieldEnd();
+      if (Current == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Current not set");
+      field.Name = "Current";
+      field.Type = TType.Struct;
+      field.ID = 2;
+      oprot.WriteFieldBegin(field);
+      Current.Write(oprot);
+      oprot.WriteFieldEnd();
       if (Constraints != null && __isset.Constraints) {
-        __sb.Append(", Constraints: ");
-        __sb.Append(Constraints);
+        field.Name = "Constraints";
+        field.Type = TType.List;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.Struct, Constraints.Count));
+          foreach (MConstraint _iter9 in Constraints)
+          {
+            _iter9.Write(oprot);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
       }
       if (SceneManipulations != null && __isset.SceneManipulations) {
-        __sb.Append(", SceneManipulations: ");
-        __sb.Append(SceneManipulations);
+        field.Name = "SceneManipulations";
+        field.Type = TType.List;
+        field.ID = 4;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.Struct, SceneManipulations.Count));
+          foreach (MSceneManipulation _iter10 in SceneManipulations)
+          {
+            _iter10.Write(oprot);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
       }
       if (Events != null && __isset.Events) {
-        __sb.Append(", Events: ");
-        __sb.Append(Events);
+        field.Name = "Events";
+        field.Type = TType.List;
+        field.ID = 5;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.Struct, Events.Count));
+          foreach (MSimulationEvent _iter11 in Events)
+          {
+            _iter11.Write(oprot);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
       }
-      __sb.Append(")");
-      return __sb.ToString();
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
     }
+    finally
+    {
+      oprot.DecrementRecursionDepth();
+    }
+  }
 
+  public override string ToString() {
+    StringBuilder __sb = new StringBuilder("MSimulationState(");
+    __sb.Append(", Initial: ");
+    __sb.Append(Initial== null ? "<null>" : Initial.ToString());
+    __sb.Append(", Current: ");
+    __sb.Append(Current== null ? "<null>" : Current.ToString());
+    if (Constraints != null && __isset.Constraints) {
+      __sb.Append(", Constraints: ");
+      __sb.Append(Constraints);
+    }
+    if (SceneManipulations != null && __isset.SceneManipulations) {
+      __sb.Append(", SceneManipulations: ");
+      __sb.Append(SceneManipulations);
+    }
+    if (Events != null && __isset.Events) {
+      __sb.Append(", Events: ");
+      __sb.Append(Events);
+    }
+    __sb.Append(")");
+    return __sb.ToString();
   }
 
 }
+

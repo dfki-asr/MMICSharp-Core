@@ -5,16 +5,13 @@
  *  @generated
  */
 
-namespace MMIStandard
+public enum MChannel
 {
-  public enum MChannel
-  {
-    XOffset = 0,
-    YOffset = 1,
-    ZOffset = 2,
-    XRotation = 3,
-    YRotation = 4,
-    ZRotation = 5,
-    WRotation = 6,
-  }
+  XOffset = 0,
+  YOffset = 1,
+  ZOffset = 2,
+  XRotation = 3,
+  YRotation = 4,
+  ZRotation = 5,
+  WRotation = 6,
 }

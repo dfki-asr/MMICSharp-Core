@@ -5,11 +5,8 @@
  *  @generated
  */
 
-namespace MMIStandard
+public enum MCoordinateSystemType
 {
-  public enum MCoordinateSystemType
-  {
-    Global = 0,
-    Local = 1,
-  }
+  Global = 0,
+  Local = 1,
 }

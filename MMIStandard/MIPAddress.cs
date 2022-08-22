@@ -15,118 +15,115 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace MMIStandard
+
+#if !SILVERLIGHT
+[Serializable]
+#endif
+public partial class MIPAddress : TBase
 {
 
-  #if !SILVERLIGHT
-  [Serializable]
-  #endif
-  public partial class MIPAddress : TBase
+  public string Address { get; set; }
+
+  public int Port { get; set; }
+
+  public MIPAddress() {
+  }
+
+  public MIPAddress(string Address, int Port) : this() {
+    this.Address = Address;
+    this.Port = Port;
+  }
+
+  public void Read (TProtocol iprot)
   {
-
-    public string Address { get; set; }
-
-    public int Port { get; set; }
-
-    public MIPAddress() {
-    }
-
-    public MIPAddress(string Address, int Port) : this() {
-      this.Address = Address;
-      this.Port = Port;
-    }
-
-    public void Read (TProtocol iprot)
+    iprot.IncrementRecursionDepth();
+    try
     {
-      iprot.IncrementRecursionDepth();
-      try
+      bool isset_Address = false;
+      bool isset_Port = false;
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
       {
-        bool isset_Address = false;
-        bool isset_Port = false;
-        TField field;
-        iprot.ReadStructBegin();
-        while (true)
-        {
-          field = iprot.ReadFieldBegin();
-          if (field.Type == TType.Stop) { 
-            break;
-          }
-          switch (field.ID)
-          {
-            case 1:
-              if (field.Type == TType.String) {
-                Address = iprot.ReadString();
-                isset_Address = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 2:
-              if (field.Type == TType.I32) {
-                Port = iprot.ReadI32();
-                isset_Port = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            default: 
-              TProtocolUtil.Skip(iprot, field.Type);
-              break;
-          }
-          iprot.ReadFieldEnd();
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
         }
-        iprot.ReadStructEnd();
-        if (!isset_Address)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Address not set");
-        if (!isset_Port)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Port not set");
+        switch (field.ID)
+        {
+          case 1:
+            if (field.Type == TType.String) {
+              Address = iprot.ReadString();
+              isset_Address = true;
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 2:
+            if (field.Type == TType.I32) {
+              Port = iprot.ReadI32();
+              isset_Port = true;
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
+        }
+        iprot.ReadFieldEnd();
       }
-      finally
-      {
-        iprot.DecrementRecursionDepth();
-      }
+      iprot.ReadStructEnd();
+      if (!isset_Address)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Address not set");
+      if (!isset_Port)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Port not set");
     }
-
-    public void Write(TProtocol oprot) {
-      oprot.IncrementRecursionDepth();
-      try
-      {
-        TStruct struc = new TStruct("MIPAddress");
-        oprot.WriteStructBegin(struc);
-        TField field = new TField();
-        if (Address == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Address not set");
-        field.Name = "Address";
-        field.Type = TType.String;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteString(Address);
-        oprot.WriteFieldEnd();
-        field.Name = "Port";
-        field.Type = TType.I32;
-        field.ID = 2;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(Port);
-        oprot.WriteFieldEnd();
-        oprot.WriteFieldStop();
-        oprot.WriteStructEnd();
-      }
-      finally
-      {
-        oprot.DecrementRecursionDepth();
-      }
+    finally
+    {
+      iprot.DecrementRecursionDepth();
     }
+  }
 
-    public override string ToString() {
-      StringBuilder __sb = new StringBuilder("MIPAddress(");
-      __sb.Append(", Address: ");
-      __sb.Append(Address);
-      __sb.Append(", Port: ");
-      __sb.Append(Port);
-      __sb.Append(")");
-      return __sb.ToString();
+  public void Write(TProtocol oprot) {
+    oprot.IncrementRecursionDepth();
+    try
+    {
+      TStruct struc = new TStruct("MIPAddress");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (Address == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Address not set");
+      field.Name = "Address";
+      field.Type = TType.String;
+      field.ID = 1;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteString(Address);
+      oprot.WriteFieldEnd();
+      field.Name = "Port";
+      field.Type = TType.I32;
+      field.ID = 2;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteI32(Port);
+      oprot.WriteFieldEnd();
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
     }
+    finally
+    {
+      oprot.DecrementRecursionDepth();
+    }
+  }
 
+  public override string ToString() {
+    StringBuilder __sb = new StringBuilder("MIPAddress(");
+    __sb.Append(", Address: ");
+    __sb.Append(Address);
+    __sb.Append(", Port: ");
+    __sb.Append(Port);
+    __sb.Append(")");
+    return __sb.ToString();
   }
 
 }
+

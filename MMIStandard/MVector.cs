@@ -15,131 +15,128 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace MMIStandard
-{
 
+#if !SILVERLIGHT
+[Serializable]
+#endif
+public partial class MVector : TBase
+{
+  private List<double> _Values;
+
+  public List<double> Values
+  {
+    get
+    {
+      return _Values;
+    }
+    set
+    {
+      __isset.Values = true;
+      this._Values = value;
+    }
+  }
+
+
+  public Isset __isset;
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public partial class MVector : TBase
+  public struct Isset {
+    public bool Values;
+  }
+
+  public MVector() {
+  }
+
+  public void Read (TProtocol iprot)
   {
-    private List<double> _Values;
-
-    public List<double> Values
+    iprot.IncrementRecursionDepth();
+    try
     {
-      get
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
       {
-        return _Values;
-      }
-      set
-      {
-        __isset.Values = true;
-        this._Values = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public struct Isset {
-      public bool Values;
-    }
-
-    public MVector() {
-    }
-
-    public void Read (TProtocol iprot)
-    {
-      iprot.IncrementRecursionDepth();
-      try
-      {
-        TField field;
-        iprot.ReadStructBegin();
-        while (true)
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
+        }
+        switch (field.ID)
         {
-          field = iprot.ReadFieldBegin();
-          if (field.Type == TType.Stop) { 
-            break;
-          }
-          switch (field.ID)
-          {
-            case 1:
-              if (field.Type == TType.List) {
+          case 1:
+            if (field.Type == TType.List) {
+              {
+                Values = new List<double>();
+                TList _list0 = iprot.ReadListBegin();
+                for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
                 {
-                  Values = new List<double>();
-                  TList _list0 = iprot.ReadListBegin();
-                  for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
-                  {
-                    double _elem2;
-                    _elem2 = iprot.ReadDouble();
-                    Values.Add(_elem2);
-                  }
-                  iprot.ReadListEnd();
+                  double _elem2;
+                  _elem2 = iprot.ReadDouble();
+                  Values.Add(_elem2);
                 }
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
+                iprot.ReadListEnd();
               }
-              break;
-            default: 
+            } else { 
               TProtocolUtil.Skip(iprot, field.Type);
-              break;
-          }
-          iprot.ReadFieldEnd();
-        }
-        iprot.ReadStructEnd();
-      }
-      finally
-      {
-        iprot.DecrementRecursionDepth();
-      }
-    }
-
-    public void Write(TProtocol oprot) {
-      oprot.IncrementRecursionDepth();
-      try
-      {
-        TStruct struc = new TStruct("MVector");
-        oprot.WriteStructBegin(struc);
-        TField field = new TField();
-        if (Values != null && __isset.Values) {
-          field.Name = "Values";
-          field.Type = TType.List;
-          field.ID = 1;
-          oprot.WriteFieldBegin(field);
-          {
-            oprot.WriteListBegin(new TList(TType.Double, Values.Count));
-            foreach (double _iter3 in Values)
-            {
-              oprot.WriteDouble(_iter3);
             }
-            oprot.WriteListEnd();
-          }
-          oprot.WriteFieldEnd();
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
         }
-        oprot.WriteFieldStop();
-        oprot.WriteStructEnd();
+        iprot.ReadFieldEnd();
       }
-      finally
-      {
-        oprot.DecrementRecursionDepth();
-      }
+      iprot.ReadStructEnd();
     }
+    finally
+    {
+      iprot.DecrementRecursionDepth();
+    }
+  }
 
-    public override string ToString() {
-      StringBuilder __sb = new StringBuilder("MVector(");
-      bool __first = true;
+  public void Write(TProtocol oprot) {
+    oprot.IncrementRecursionDepth();
+    try
+    {
+      TStruct struc = new TStruct("MVector");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
       if (Values != null && __isset.Values) {
-        if(!__first) { __sb.Append(", "); }
-        __first = false;
-        __sb.Append("Values: ");
-        __sb.Append(Values);
+        field.Name = "Values";
+        field.Type = TType.List;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.Double, Values.Count));
+          foreach (double _iter3 in Values)
+          {
+            oprot.WriteDouble(_iter3);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
       }
-      __sb.Append(")");
-      return __sb.ToString();
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
     }
+    finally
+    {
+      oprot.DecrementRecursionDepth();
+    }
+  }
 
+  public override string ToString() {
+    StringBuilder __sb = new StringBuilder("MVector(");
+    bool __first = true;
+    if (Values != null && __isset.Values) {
+      if(!__first) { __sb.Append(", "); }
+      __first = false;
+      __sb.Append("Values: ");
+      __sb.Append(Values);
+    }
+    __sb.Append(")");
+    return __sb.ToString();
   }
 
 }
+

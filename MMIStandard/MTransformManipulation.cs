@@ -15,208 +15,205 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace MMIStandard
-{
 
+#if !SILVERLIGHT
+[Serializable]
+#endif
+public partial class MTransformManipulation : TBase
+{
+  private MVector3 _Position;
+  private MQuaternion _Rotation;
+  private string _Parent;
+
+  public string Target { get; set; }
+
+  public MVector3 Position
+  {
+    get
+    {
+      return _Position;
+    }
+    set
+    {
+      __isset.Position = true;
+      this._Position = value;
+    }
+  }
+
+  public MQuaternion Rotation
+  {
+    get
+    {
+      return _Rotation;
+    }
+    set
+    {
+      __isset.Rotation = true;
+      this._Rotation = value;
+    }
+  }
+
+  public string Parent
+  {
+    get
+    {
+      return _Parent;
+    }
+    set
+    {
+      __isset.Parent = true;
+      this._Parent = value;
+    }
+  }
+
+
+  public Isset __isset;
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public partial class MTransformManipulation : TBase
+  public struct Isset {
+    public bool Position;
+    public bool Rotation;
+    public bool Parent;
+  }
+
+  public MTransformManipulation() {
+  }
+
+  public MTransformManipulation(string Target) : this() {
+    this.Target = Target;
+  }
+
+  public void Read (TProtocol iprot)
   {
-    private MMIStandard.MVector3 _Position;
-    private MMIStandard.MQuaternion _Rotation;
-    private string _Parent;
-
-    public string Target { get; set; }
-
-    public MMIStandard.MVector3 Position
+    iprot.IncrementRecursionDepth();
+    try
     {
-      get
+      bool isset_Target = false;
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
       {
-        return _Position;
-      }
-      set
-      {
-        __isset.Position = true;
-        this._Position = value;
-      }
-    }
-
-    public MMIStandard.MQuaternion Rotation
-    {
-      get
-      {
-        return _Rotation;
-      }
-      set
-      {
-        __isset.Rotation = true;
-        this._Rotation = value;
-      }
-    }
-
-    public string Parent
-    {
-      get
-      {
-        return _Parent;
-      }
-      set
-      {
-        __isset.Parent = true;
-        this._Parent = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public struct Isset {
-      public bool Position;
-      public bool Rotation;
-      public bool Parent;
-    }
-
-    public MTransformManipulation() {
-    }
-
-    public MTransformManipulation(string Target) : this() {
-      this.Target = Target;
-    }
-
-    public void Read (TProtocol iprot)
-    {
-      iprot.IncrementRecursionDepth();
-      try
-      {
-        bool isset_Target = false;
-        TField field;
-        iprot.ReadStructBegin();
-        while (true)
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
+        }
+        switch (field.ID)
         {
-          field = iprot.ReadFieldBegin();
-          if (field.Type == TType.Stop) { 
-            break;
-          }
-          switch (field.ID)
-          {
-            case 1:
-              if (field.Type == TType.String) {
-                Target = iprot.ReadString();
-                isset_Target = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 2:
-              if (field.Type == TType.Struct) {
-                Position = new MMIStandard.MVector3();
-                Position.Read(iprot);
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 3:
-              if (field.Type == TType.Struct) {
-                Rotation = new MMIStandard.MQuaternion();
-                Rotation.Read(iprot);
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 4:
-              if (field.Type == TType.String) {
-                Parent = iprot.ReadString();
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            default: 
+          case 1:
+            if (field.Type == TType.String) {
+              Target = iprot.ReadString();
+              isset_Target = true;
+            } else { 
               TProtocolUtil.Skip(iprot, field.Type);
-              break;
-          }
-          iprot.ReadFieldEnd();
+            }
+            break;
+          case 2:
+            if (field.Type == TType.Struct) {
+              Position = new MVector3();
+              Position.Read(iprot);
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 3:
+            if (field.Type == TType.Struct) {
+              Rotation = new MQuaternion();
+              Rotation.Read(iprot);
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
+            if (field.Type == TType.String) {
+              Parent = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
         }
-        iprot.ReadStructEnd();
-        if (!isset_Target)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Target not set");
+        iprot.ReadFieldEnd();
       }
-      finally
-      {
-        iprot.DecrementRecursionDepth();
-      }
+      iprot.ReadStructEnd();
+      if (!isset_Target)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Target not set");
     }
-
-    public void Write(TProtocol oprot) {
-      oprot.IncrementRecursionDepth();
-      try
-      {
-        TStruct struc = new TStruct("MTransformManipulation");
-        oprot.WriteStructBegin(struc);
-        TField field = new TField();
-        if (Target == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Target not set");
-        field.Name = "Target";
-        field.Type = TType.String;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteString(Target);
-        oprot.WriteFieldEnd();
-        if (Position != null && __isset.Position) {
-          field.Name = "Position";
-          field.Type = TType.Struct;
-          field.ID = 2;
-          oprot.WriteFieldBegin(field);
-          Position.Write(oprot);
-          oprot.WriteFieldEnd();
-        }
-        if (Rotation != null && __isset.Rotation) {
-          field.Name = "Rotation";
-          field.Type = TType.Struct;
-          field.ID = 3;
-          oprot.WriteFieldBegin(field);
-          Rotation.Write(oprot);
-          oprot.WriteFieldEnd();
-        }
-        if (Parent != null && __isset.Parent) {
-          field.Name = "Parent";
-          field.Type = TType.String;
-          field.ID = 4;
-          oprot.WriteFieldBegin(field);
-          oprot.WriteString(Parent);
-          oprot.WriteFieldEnd();
-        }
-        oprot.WriteFieldStop();
-        oprot.WriteStructEnd();
-      }
-      finally
-      {
-        oprot.DecrementRecursionDepth();
-      }
+    finally
+    {
+      iprot.DecrementRecursionDepth();
     }
+  }
 
-    public override string ToString() {
-      StringBuilder __sb = new StringBuilder("MTransformManipulation(");
-      __sb.Append(", Target: ");
-      __sb.Append(Target);
+  public void Write(TProtocol oprot) {
+    oprot.IncrementRecursionDepth();
+    try
+    {
+      TStruct struc = new TStruct("MTransformManipulation");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (Target == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Target not set");
+      field.Name = "Target";
+      field.Type = TType.String;
+      field.ID = 1;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteString(Target);
+      oprot.WriteFieldEnd();
       if (Position != null && __isset.Position) {
-        __sb.Append(", Position: ");
-        __sb.Append(Position== null ? "<null>" : Position.ToString());
+        field.Name = "Position";
+        field.Type = TType.Struct;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        Position.Write(oprot);
+        oprot.WriteFieldEnd();
       }
       if (Rotation != null && __isset.Rotation) {
-        __sb.Append(", Rotation: ");
-        __sb.Append(Rotation== null ? "<null>" : Rotation.ToString());
+        field.Name = "Rotation";
+        field.Type = TType.Struct;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        Rotation.Write(oprot);
+        oprot.WriteFieldEnd();
       }
       if (Parent != null && __isset.Parent) {
-        __sb.Append(", Parent: ");
-        __sb.Append(Parent);
+        field.Name = "Parent";
+        field.Type = TType.String;
+        field.ID = 4;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(Parent);
+        oprot.WriteFieldEnd();
       }
-      __sb.Append(")");
-      return __sb.ToString();
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
     }
+    finally
+    {
+      oprot.DecrementRecursionDepth();
+    }
+  }
 
+  public override string ToString() {
+    StringBuilder __sb = new StringBuilder("MTransformManipulation(");
+    __sb.Append(", Target: ");
+    __sb.Append(Target);
+    if (Position != null && __isset.Position) {
+      __sb.Append(", Position: ");
+      __sb.Append(Position== null ? "<null>" : Position.ToString());
+    }
+    if (Rotation != null && __isset.Rotation) {
+      __sb.Append(", Rotation: ");
+      __sb.Append(Rotation== null ? "<null>" : Rotation.ToString());
+    }
+    if (Parent != null && __isset.Parent) {
+      __sb.Append(", Parent: ");
+      __sb.Append(Parent);
+    }
+    __sb.Append(")");
+    return __sb.ToString();
   }
 
 }
+

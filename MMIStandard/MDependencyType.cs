@@ -5,14 +5,11 @@
  *  @generated
  */
 
-namespace MMIStandard
+public enum MDependencyType
 {
-  public enum MDependencyType
-  {
-    Service = 0,
-    MMU = 1,
-    ProgramLibrary = 2,
-    MMIFramework = 3,
-    Other = 4,
-  }
+  Service = 0,
+  MMU = 1,
+  ProgramLibrary = 2,
+  MMIFramework = 3,
+  Other = 4,
 }

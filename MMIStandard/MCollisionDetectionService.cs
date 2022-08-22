@@ -15,939 +15,936 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace MMIStandard
-{
-  public partial class MCollisionDetectionService {
-    public interface ISync : MMIServiceBase.ISync {
-      MMIStandard.MVector3 ComputePenetration(MMIStandard.MCollider colliderA, MMIStandard.MTransform transformA, MMIStandard.MCollider colliderB, MMIStandard.MTransform transformB);
-      bool CausesCollision(MMIStandard.MCollider colliderA, MMIStandard.MTransform transformA, MMIStandard.MCollider colliderB, MMIStandard.MTransform transformB);
+public partial class MCollisionDetectionService {
+  public interface ISync : MMIServiceBase.ISync {
+    MVector3 ComputePenetration(MCollider colliderA, MTransform transformA, MCollider colliderB, MTransform transformB);
+    bool CausesCollision(MCollider colliderA, MTransform transformA, MCollider colliderB, MTransform transformB);
+  }
+
+  public interface Iface : ISync {
+    #if SILVERLIGHT
+    IAsyncResult Begin_ComputePenetration(AsyncCallback callback, object state, MCollider colliderA, MTransform transformA, MCollider colliderB, MTransform transformB);
+    MVector3 End_ComputePenetration(IAsyncResult asyncResult);
+    #endif
+    #if SILVERLIGHT
+    IAsyncResult Begin_CausesCollision(AsyncCallback callback, object state, MCollider colliderA, MTransform transformA, MCollider colliderB, MTransform transformB);
+    bool End_CausesCollision(IAsyncResult asyncResult);
+    #endif
+  }
+
+  public class Client : MMIServiceBase.Client, Iface {
+    public Client(TProtocol prot) : this(prot, prot)
+    {
     }
 
-    public interface Iface : ISync {
-      #if SILVERLIGHT
-      IAsyncResult Begin_ComputePenetration(AsyncCallback callback, object state, MMIStandard.MCollider colliderA, MMIStandard.MTransform transformA, MMIStandard.MCollider colliderB, MMIStandard.MTransform transformB);
-      MMIStandard.MVector3 End_ComputePenetration(IAsyncResult asyncResult);
-      #endif
-      #if SILVERLIGHT
-      IAsyncResult Begin_CausesCollision(AsyncCallback callback, object state, MMIStandard.MCollider colliderA, MMIStandard.MTransform transformA, MMIStandard.MCollider colliderB, MMIStandard.MTransform transformB);
-      bool End_CausesCollision(IAsyncResult asyncResult);
-      #endif
+    public Client(TProtocol iprot, TProtocol oprot) : base(iprot, oprot)
+    {
     }
 
-    public class Client : MMIServiceBase.Client, Iface {
-      public Client(TProtocol prot) : this(prot, prot)
-      {
-      }
+    
+    #if SILVERLIGHT
+    
+    public IAsyncResult Begin_ComputePenetration(AsyncCallback callback, object state, MCollider colliderA, MTransform transformA, MCollider colliderB, MTransform transformB)
+    {
+      return send_ComputePenetration(callback, state, colliderA, transformA, colliderB, transformB);
+    }
 
-      public Client(TProtocol iprot, TProtocol oprot) : base(iprot, oprot)
-      {
-      }
+    public MVector3 End_ComputePenetration(IAsyncResult asyncResult)
+    {
+      oprot_.Transport.EndFlush(asyncResult);
+      return recv_ComputePenetration();
+    }
 
-      
+    #endif
+
+    public MVector3 ComputePenetration(MCollider colliderA, MTransform transformA, MCollider colliderB, MTransform transformB)
+    {
       #if SILVERLIGHT
-      
-      public IAsyncResult Begin_ComputePenetration(AsyncCallback callback, object state, MMIStandard.MCollider colliderA, MMIStandard.MTransform transformA, MMIStandard.MCollider colliderB, MMIStandard.MTransform transformB)
-      {
-        return send_ComputePenetration(callback, state, colliderA, transformA, colliderB, transformB);
-      }
-
-      public MMIStandard.MVector3 End_ComputePenetration(IAsyncResult asyncResult)
-      {
-        oprot_.Transport.EndFlush(asyncResult);
-        return recv_ComputePenetration();
-      }
-
-      #endif
-
-      public MMIStandard.MVector3 ComputePenetration(MMIStandard.MCollider colliderA, MMIStandard.MTransform transformA, MMIStandard.MCollider colliderB, MMIStandard.MTransform transformB)
-      {
-        #if SILVERLIGHT
-        var asyncResult = Begin_ComputePenetration(null, null, colliderA, transformA, colliderB, transformB);
-        return End_ComputePenetration(asyncResult);
-
-        #else
-        send_ComputePenetration(colliderA, transformA, colliderB, transformB);
-        return recv_ComputePenetration();
-
-        #endif
-      }
-      #if SILVERLIGHT
-      public IAsyncResult send_ComputePenetration(AsyncCallback callback, object state, MMIStandard.MCollider colliderA, MMIStandard.MTransform transformA, MMIStandard.MCollider colliderB, MMIStandard.MTransform transformB)
-      {
-        oprot_.WriteMessageBegin(new TMessage("ComputePenetration", TMessageType.Call, seqid_));
-        ComputePenetration_args args = new ComputePenetration_args();
-        args.ColliderA = colliderA;
-        args.TransformA = transformA;
-        args.ColliderB = colliderB;
-        args.TransformB = transformB;
-        args.Write(oprot_);
-        oprot_.WriteMessageEnd();
-        return oprot_.Transport.BeginFlush(callback, state);
-      }
+      var asyncResult = Begin_ComputePenetration(null, null, colliderA, transformA, colliderB, transformB);
+      return End_ComputePenetration(asyncResult);
 
       #else
+      send_ComputePenetration(colliderA, transformA, colliderB, transformB);
+      return recv_ComputePenetration();
 
-      public void send_ComputePenetration(MMIStandard.MCollider colliderA, MMIStandard.MTransform transformA, MMIStandard.MCollider colliderB, MMIStandard.MTransform transformB)
-      {
-        oprot_.WriteMessageBegin(new TMessage("ComputePenetration", TMessageType.Call, seqid_));
-        ComputePenetration_args args = new ComputePenetration_args();
-        args.ColliderA = colliderA;
-        args.TransformA = transformA;
-        args.ColliderB = colliderB;
-        args.TransformB = transformB;
-        args.Write(oprot_);
-        oprot_.WriteMessageEnd();
-        oprot_.Transport.Flush();
-      }
       #endif
+    }
+    #if SILVERLIGHT
+    public IAsyncResult send_ComputePenetration(AsyncCallback callback, object state, MCollider colliderA, MTransform transformA, MCollider colliderB, MTransform transformB)
+    {
+      oprot_.WriteMessageBegin(new TMessage("ComputePenetration", TMessageType.Call, seqid_));
+      ComputePenetration_args args = new ComputePenetration_args();
+      args.ColliderA = colliderA;
+      args.TransformA = transformA;
+      args.ColliderB = colliderB;
+      args.TransformB = transformB;
+      args.Write(oprot_);
+      oprot_.WriteMessageEnd();
+      return oprot_.Transport.BeginFlush(callback, state);
+    }
 
-      public MMIStandard.MVector3 recv_ComputePenetration()
-      {
-        TMessage msg = iprot_.ReadMessageBegin();
-        if (msg.Type == TMessageType.Exception) {
-          TApplicationException x = TApplicationException.Read(iprot_);
-          iprot_.ReadMessageEnd();
-          throw x;
-        }
-        ComputePenetration_result result = new ComputePenetration_result();
-        result.Read(iprot_);
+    #else
+
+    public void send_ComputePenetration(MCollider colliderA, MTransform transformA, MCollider colliderB, MTransform transformB)
+    {
+      oprot_.WriteMessageBegin(new TMessage("ComputePenetration", TMessageType.Call, seqid_));
+      ComputePenetration_args args = new ComputePenetration_args();
+      args.ColliderA = colliderA;
+      args.TransformA = transformA;
+      args.ColliderB = colliderB;
+      args.TransformB = transformB;
+      args.Write(oprot_);
+      oprot_.WriteMessageEnd();
+      oprot_.Transport.Flush();
+    }
+    #endif
+
+    public MVector3 recv_ComputePenetration()
+    {
+      TMessage msg = iprot_.ReadMessageBegin();
+      if (msg.Type == TMessageType.Exception) {
+        TApplicationException x = TApplicationException.Read(iprot_);
         iprot_.ReadMessageEnd();
-        if (result.__isset.success) {
-          return result.Success;
-        }
-        throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "ComputePenetration failed: unknown result");
+        throw x;
       }
+      ComputePenetration_result result = new ComputePenetration_result();
+      result.Read(iprot_);
+      iprot_.ReadMessageEnd();
+      if (result.__isset.success) {
+        return result.Success;
+      }
+      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "ComputePenetration failed: unknown result");
+    }
 
-      
+    
+    #if SILVERLIGHT
+    
+    public IAsyncResult Begin_CausesCollision(AsyncCallback callback, object state, MCollider colliderA, MTransform transformA, MCollider colliderB, MTransform transformB)
+    {
+      return send_CausesCollision(callback, state, colliderA, transformA, colliderB, transformB);
+    }
+
+    public bool End_CausesCollision(IAsyncResult asyncResult)
+    {
+      oprot_.Transport.EndFlush(asyncResult);
+      return recv_CausesCollision();
+    }
+
+    #endif
+
+    public bool CausesCollision(MCollider colliderA, MTransform transformA, MCollider colliderB, MTransform transformB)
+    {
       #if SILVERLIGHT
-      
-      public IAsyncResult Begin_CausesCollision(AsyncCallback callback, object state, MMIStandard.MCollider colliderA, MMIStandard.MTransform transformA, MMIStandard.MCollider colliderB, MMIStandard.MTransform transformB)
-      {
-        return send_CausesCollision(callback, state, colliderA, transformA, colliderB, transformB);
-      }
-
-      public bool End_CausesCollision(IAsyncResult asyncResult)
-      {
-        oprot_.Transport.EndFlush(asyncResult);
-        return recv_CausesCollision();
-      }
-
-      #endif
-
-      public bool CausesCollision(MMIStandard.MCollider colliderA, MMIStandard.MTransform transformA, MMIStandard.MCollider colliderB, MMIStandard.MTransform transformB)
-      {
-        #if SILVERLIGHT
-        var asyncResult = Begin_CausesCollision(null, null, colliderA, transformA, colliderB, transformB);
-        return End_CausesCollision(asyncResult);
-
-        #else
-        send_CausesCollision(colliderA, transformA, colliderB, transformB);
-        return recv_CausesCollision();
-
-        #endif
-      }
-      #if SILVERLIGHT
-      public IAsyncResult send_CausesCollision(AsyncCallback callback, object state, MMIStandard.MCollider colliderA, MMIStandard.MTransform transformA, MMIStandard.MCollider colliderB, MMIStandard.MTransform transformB)
-      {
-        oprot_.WriteMessageBegin(new TMessage("CausesCollision", TMessageType.Call, seqid_));
-        CausesCollision_args args = new CausesCollision_args();
-        args.ColliderA = colliderA;
-        args.TransformA = transformA;
-        args.ColliderB = colliderB;
-        args.TransformB = transformB;
-        args.Write(oprot_);
-        oprot_.WriteMessageEnd();
-        return oprot_.Transport.BeginFlush(callback, state);
-      }
+      var asyncResult = Begin_CausesCollision(null, null, colliderA, transformA, colliderB, transformB);
+      return End_CausesCollision(asyncResult);
 
       #else
+      send_CausesCollision(colliderA, transformA, colliderB, transformB);
+      return recv_CausesCollision();
 
-      public void send_CausesCollision(MMIStandard.MCollider colliderA, MMIStandard.MTransform transformA, MMIStandard.MCollider colliderB, MMIStandard.MTransform transformB)
-      {
-        oprot_.WriteMessageBegin(new TMessage("CausesCollision", TMessageType.Call, seqid_));
-        CausesCollision_args args = new CausesCollision_args();
-        args.ColliderA = colliderA;
-        args.TransformA = transformA;
-        args.ColliderB = colliderB;
-        args.TransformB = transformB;
-        args.Write(oprot_);
-        oprot_.WriteMessageEnd();
-        oprot_.Transport.Flush();
-      }
       #endif
+    }
+    #if SILVERLIGHT
+    public IAsyncResult send_CausesCollision(AsyncCallback callback, object state, MCollider colliderA, MTransform transformA, MCollider colliderB, MTransform transformB)
+    {
+      oprot_.WriteMessageBegin(new TMessage("CausesCollision", TMessageType.Call, seqid_));
+      CausesCollision_args args = new CausesCollision_args();
+      args.ColliderA = colliderA;
+      args.TransformA = transformA;
+      args.ColliderB = colliderB;
+      args.TransformB = transformB;
+      args.Write(oprot_);
+      oprot_.WriteMessageEnd();
+      return oprot_.Transport.BeginFlush(callback, state);
+    }
 
-      public bool recv_CausesCollision()
-      {
-        TMessage msg = iprot_.ReadMessageBegin();
-        if (msg.Type == TMessageType.Exception) {
-          TApplicationException x = TApplicationException.Read(iprot_);
-          iprot_.ReadMessageEnd();
-          throw x;
-        }
-        CausesCollision_result result = new CausesCollision_result();
-        result.Read(iprot_);
+    #else
+
+    public void send_CausesCollision(MCollider colliderA, MTransform transformA, MCollider colliderB, MTransform transformB)
+    {
+      oprot_.WriteMessageBegin(new TMessage("CausesCollision", TMessageType.Call, seqid_));
+      CausesCollision_args args = new CausesCollision_args();
+      args.ColliderA = colliderA;
+      args.TransformA = transformA;
+      args.ColliderB = colliderB;
+      args.TransformB = transformB;
+      args.Write(oprot_);
+      oprot_.WriteMessageEnd();
+      oprot_.Transport.Flush();
+    }
+    #endif
+
+    public bool recv_CausesCollision()
+    {
+      TMessage msg = iprot_.ReadMessageBegin();
+      if (msg.Type == TMessageType.Exception) {
+        TApplicationException x = TApplicationException.Read(iprot_);
         iprot_.ReadMessageEnd();
-        if (result.__isset.success) {
-          return result.Success;
-        }
-        throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "CausesCollision failed: unknown result");
+        throw x;
       }
-
-    }
-    public class Processor : MMIServiceBase.Processor, TProcessor {
-      public Processor(ISync iface) : base(iface)
-      {
-        iface_ = iface;
-        processMap_["ComputePenetration"] = ComputePenetration_Process;
-        processMap_["CausesCollision"] = CausesCollision_Process;
+      CausesCollision_result result = new CausesCollision_result();
+      result.Read(iprot_);
+      iprot_.ReadMessageEnd();
+      if (result.__isset.success) {
+        return result.Success;
       }
-
-      private ISync iface_;
-
-      public new bool Process(TProtocol iprot, TProtocol oprot)
-      {
-        try
-        {
-          TMessage msg = iprot.ReadMessageBegin();
-          ProcessFunction fn;
-          processMap_.TryGetValue(msg.Name, out fn);
-          if (fn == null) {
-            TProtocolUtil.Skip(iprot, TType.Struct);
-            iprot.ReadMessageEnd();
-            TApplicationException x = new TApplicationException (TApplicationException.ExceptionType.UnknownMethod, "Invalid method name: '" + msg.Name + "'");
-            oprot.WriteMessageBegin(new TMessage(msg.Name, TMessageType.Exception, msg.SeqID));
-            x.Write(oprot);
-            oprot.WriteMessageEnd();
-            oprot.Transport.Flush();
-            return true;
-          }
-          fn(msg.SeqID, iprot, oprot);
-        }
-        catch (IOException)
-        {
-          return false;
-        }
-        return true;
-      }
-
-      public void ComputePenetration_Process(int seqid, TProtocol iprot, TProtocol oprot)
-      {
-        ComputePenetration_args args = new ComputePenetration_args();
-        args.Read(iprot);
-        iprot.ReadMessageEnd();
-        ComputePenetration_result result = new ComputePenetration_result();
-        try
-        {
-          result.Success = iface_.ComputePenetration(args.ColliderA, args.TransformA, args.ColliderB, args.TransformB);
-          oprot.WriteMessageBegin(new TMessage("ComputePenetration", TMessageType.Reply, seqid)); 
-          result.Write(oprot);
-        }
-        catch (TTransportException)
-        {
-          throw;
-        }
-        catch (Exception ex)
-        {
-          Console.Error.WriteLine("Error occurred in processor:");
-          Console.Error.WriteLine(ex.ToString());
-          TApplicationException x = new TApplicationException        (TApplicationException.ExceptionType.InternalError," Internal error.");
-          oprot.WriteMessageBegin(new TMessage("ComputePenetration", TMessageType.Exception, seqid));
-          x.Write(oprot);
-        }
-        oprot.WriteMessageEnd();
-        oprot.Transport.Flush();
-      }
-
-      public void CausesCollision_Process(int seqid, TProtocol iprot, TProtocol oprot)
-      {
-        CausesCollision_args args = new CausesCollision_args();
-        args.Read(iprot);
-        iprot.ReadMessageEnd();
-        CausesCollision_result result = new CausesCollision_result();
-        try
-        {
-          result.Success = iface_.CausesCollision(args.ColliderA, args.TransformA, args.ColliderB, args.TransformB);
-          oprot.WriteMessageBegin(new TMessage("CausesCollision", TMessageType.Reply, seqid)); 
-          result.Write(oprot);
-        }
-        catch (TTransportException)
-        {
-          throw;
-        }
-        catch (Exception ex)
-        {
-          Console.Error.WriteLine("Error occurred in processor:");
-          Console.Error.WriteLine(ex.ToString());
-          TApplicationException x = new TApplicationException        (TApplicationException.ExceptionType.InternalError," Internal error.");
-          oprot.WriteMessageBegin(new TMessage("CausesCollision", TMessageType.Exception, seqid));
-          x.Write(oprot);
-        }
-        oprot.WriteMessageEnd();
-        oprot.Transport.Flush();
-      }
-
-    }
-
-
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public partial class ComputePenetration_args : TBase
-    {
-      private MMIStandard.MCollider _colliderA;
-      private MMIStandard.MTransform _transformA;
-      private MMIStandard.MCollider _colliderB;
-      private MMIStandard.MTransform _transformB;
-
-      public MMIStandard.MCollider ColliderA
-      {
-        get
-        {
-          return _colliderA;
-        }
-        set
-        {
-          __isset.colliderA = true;
-          this._colliderA = value;
-        }
-      }
-
-      public MMIStandard.MTransform TransformA
-      {
-        get
-        {
-          return _transformA;
-        }
-        set
-        {
-          __isset.transformA = true;
-          this._transformA = value;
-        }
-      }
-
-      public MMIStandard.MCollider ColliderB
-      {
-        get
-        {
-          return _colliderB;
-        }
-        set
-        {
-          __isset.colliderB = true;
-          this._colliderB = value;
-        }
-      }
-
-      public MMIStandard.MTransform TransformB
-      {
-        get
-        {
-          return _transformB;
-        }
-        set
-        {
-          __isset.transformB = true;
-          this._transformB = value;
-        }
-      }
-
-
-      public Isset __isset;
-      #if !SILVERLIGHT
-      [Serializable]
-      #endif
-      public struct Isset {
-        public bool colliderA;
-        public bool transformA;
-        public bool colliderB;
-        public bool transformB;
-      }
-
-      public ComputePenetration_args() {
-      }
-
-      public void Read (TProtocol iprot)
-      {
-        iprot.IncrementRecursionDepth();
-        try
-        {
-          TField field;
-          iprot.ReadStructBegin();
-          while (true)
-          {
-            field = iprot.ReadFieldBegin();
-            if (field.Type == TType.Stop) { 
-              break;
-            }
-            switch (field.ID)
-            {
-              case 1:
-                if (field.Type == TType.Struct) {
-                  ColliderA = new MMIStandard.MCollider();
-                  ColliderA.Read(iprot);
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
-                }
-                break;
-              case 2:
-                if (field.Type == TType.Struct) {
-                  TransformA = new MMIStandard.MTransform();
-                  TransformA.Read(iprot);
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
-                }
-                break;
-              case 3:
-                if (field.Type == TType.Struct) {
-                  ColliderB = new MMIStandard.MCollider();
-                  ColliderB.Read(iprot);
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
-                }
-                break;
-              case 4:
-                if (field.Type == TType.Struct) {
-                  TransformB = new MMIStandard.MTransform();
-                  TransformB.Read(iprot);
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
-                }
-                break;
-              default: 
-                TProtocolUtil.Skip(iprot, field.Type);
-                break;
-            }
-            iprot.ReadFieldEnd();
-          }
-          iprot.ReadStructEnd();
-        }
-        finally
-        {
-          iprot.DecrementRecursionDepth();
-        }
-      }
-
-      public void Write(TProtocol oprot) {
-        oprot.IncrementRecursionDepth();
-        try
-        {
-          TStruct struc = new TStruct("ComputePenetration_args");
-          oprot.WriteStructBegin(struc);
-          TField field = new TField();
-          if (ColliderA != null && __isset.colliderA) {
-            field.Name = "colliderA";
-            field.Type = TType.Struct;
-            field.ID = 1;
-            oprot.WriteFieldBegin(field);
-            ColliderA.Write(oprot);
-            oprot.WriteFieldEnd();
-          }
-          if (TransformA != null && __isset.transformA) {
-            field.Name = "transformA";
-            field.Type = TType.Struct;
-            field.ID = 2;
-            oprot.WriteFieldBegin(field);
-            TransformA.Write(oprot);
-            oprot.WriteFieldEnd();
-          }
-          if (ColliderB != null && __isset.colliderB) {
-            field.Name = "colliderB";
-            field.Type = TType.Struct;
-            field.ID = 3;
-            oprot.WriteFieldBegin(field);
-            ColliderB.Write(oprot);
-            oprot.WriteFieldEnd();
-          }
-          if (TransformB != null && __isset.transformB) {
-            field.Name = "transformB";
-            field.Type = TType.Struct;
-            field.ID = 4;
-            oprot.WriteFieldBegin(field);
-            TransformB.Write(oprot);
-            oprot.WriteFieldEnd();
-          }
-          oprot.WriteFieldStop();
-          oprot.WriteStructEnd();
-        }
-        finally
-        {
-          oprot.DecrementRecursionDepth();
-        }
-      }
-
-      public override string ToString() {
-        StringBuilder __sb = new StringBuilder("ComputePenetration_args(");
-        bool __first = true;
-        if (ColliderA != null && __isset.colliderA) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("ColliderA: ");
-          __sb.Append(ColliderA== null ? "<null>" : ColliderA.ToString());
-        }
-        if (TransformA != null && __isset.transformA) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("TransformA: ");
-          __sb.Append(TransformA== null ? "<null>" : TransformA.ToString());
-        }
-        if (ColliderB != null && __isset.colliderB) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("ColliderB: ");
-          __sb.Append(ColliderB== null ? "<null>" : ColliderB.ToString());
-        }
-        if (TransformB != null && __isset.transformB) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("TransformB: ");
-          __sb.Append(TransformB== null ? "<null>" : TransformB.ToString());
-        }
-        __sb.Append(")");
-        return __sb.ToString();
-      }
-
-    }
-
-
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public partial class ComputePenetration_result : TBase
-    {
-      private MMIStandard.MVector3 _success;
-
-      public MMIStandard.MVector3 Success
-      {
-        get
-        {
-          return _success;
-        }
-        set
-        {
-          __isset.success = true;
-          this._success = value;
-        }
-      }
-
-
-      public Isset __isset;
-      #if !SILVERLIGHT
-      [Serializable]
-      #endif
-      public struct Isset {
-        public bool success;
-      }
-
-      public ComputePenetration_result() {
-      }
-
-      public void Read (TProtocol iprot)
-      {
-        iprot.IncrementRecursionDepth();
-        try
-        {
-          TField field;
-          iprot.ReadStructBegin();
-          while (true)
-          {
-            field = iprot.ReadFieldBegin();
-            if (field.Type == TType.Stop) { 
-              break;
-            }
-            switch (field.ID)
-            {
-              case 0:
-                if (field.Type == TType.Struct) {
-                  Success = new MMIStandard.MVector3();
-                  Success.Read(iprot);
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
-                }
-                break;
-              default: 
-                TProtocolUtil.Skip(iprot, field.Type);
-                break;
-            }
-            iprot.ReadFieldEnd();
-          }
-          iprot.ReadStructEnd();
-        }
-        finally
-        {
-          iprot.DecrementRecursionDepth();
-        }
-      }
-
-      public void Write(TProtocol oprot) {
-        oprot.IncrementRecursionDepth();
-        try
-        {
-          TStruct struc = new TStruct("ComputePenetration_result");
-          oprot.WriteStructBegin(struc);
-          TField field = new TField();
-
-          if (this.__isset.success) {
-            if (Success != null) {
-              field.Name = "Success";
-              field.Type = TType.Struct;
-              field.ID = 0;
-              oprot.WriteFieldBegin(field);
-              Success.Write(oprot);
-              oprot.WriteFieldEnd();
-            }
-          }
-          oprot.WriteFieldStop();
-          oprot.WriteStructEnd();
-        }
-        finally
-        {
-          oprot.DecrementRecursionDepth();
-        }
-      }
-
-      public override string ToString() {
-        StringBuilder __sb = new StringBuilder("ComputePenetration_result(");
-        bool __first = true;
-        if (Success != null && __isset.success) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("Success: ");
-          __sb.Append(Success== null ? "<null>" : Success.ToString());
-        }
-        __sb.Append(")");
-        return __sb.ToString();
-      }
-
-    }
-
-
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public partial class CausesCollision_args : TBase
-    {
-      private MMIStandard.MCollider _colliderA;
-      private MMIStandard.MTransform _transformA;
-      private MMIStandard.MCollider _colliderB;
-      private MMIStandard.MTransform _transformB;
-
-      public MMIStandard.MCollider ColliderA
-      {
-        get
-        {
-          return _colliderA;
-        }
-        set
-        {
-          __isset.colliderA = true;
-          this._colliderA = value;
-        }
-      }
-
-      public MMIStandard.MTransform TransformA
-      {
-        get
-        {
-          return _transformA;
-        }
-        set
-        {
-          __isset.transformA = true;
-          this._transformA = value;
-        }
-      }
-
-      public MMIStandard.MCollider ColliderB
-      {
-        get
-        {
-          return _colliderB;
-        }
-        set
-        {
-          __isset.colliderB = true;
-          this._colliderB = value;
-        }
-      }
-
-      public MMIStandard.MTransform TransformB
-      {
-        get
-        {
-          return _transformB;
-        }
-        set
-        {
-          __isset.transformB = true;
-          this._transformB = value;
-        }
-      }
-
-
-      public Isset __isset;
-      #if !SILVERLIGHT
-      [Serializable]
-      #endif
-      public struct Isset {
-        public bool colliderA;
-        public bool transformA;
-        public bool colliderB;
-        public bool transformB;
-      }
-
-      public CausesCollision_args() {
-      }
-
-      public void Read (TProtocol iprot)
-      {
-        iprot.IncrementRecursionDepth();
-        try
-        {
-          TField field;
-          iprot.ReadStructBegin();
-          while (true)
-          {
-            field = iprot.ReadFieldBegin();
-            if (field.Type == TType.Stop) { 
-              break;
-            }
-            switch (field.ID)
-            {
-              case 1:
-                if (field.Type == TType.Struct) {
-                  ColliderA = new MMIStandard.MCollider();
-                  ColliderA.Read(iprot);
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
-                }
-                break;
-              case 2:
-                if (field.Type == TType.Struct) {
-                  TransformA = new MMIStandard.MTransform();
-                  TransformA.Read(iprot);
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
-                }
-                break;
-              case 3:
-                if (field.Type == TType.Struct) {
-                  ColliderB = new MMIStandard.MCollider();
-                  ColliderB.Read(iprot);
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
-                }
-                break;
-              case 4:
-                if (field.Type == TType.Struct) {
-                  TransformB = new MMIStandard.MTransform();
-                  TransformB.Read(iprot);
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
-                }
-                break;
-              default: 
-                TProtocolUtil.Skip(iprot, field.Type);
-                break;
-            }
-            iprot.ReadFieldEnd();
-          }
-          iprot.ReadStructEnd();
-        }
-        finally
-        {
-          iprot.DecrementRecursionDepth();
-        }
-      }
-
-      public void Write(TProtocol oprot) {
-        oprot.IncrementRecursionDepth();
-        try
-        {
-          TStruct struc = new TStruct("CausesCollision_args");
-          oprot.WriteStructBegin(struc);
-          TField field = new TField();
-          if (ColliderA != null && __isset.colliderA) {
-            field.Name = "colliderA";
-            field.Type = TType.Struct;
-            field.ID = 1;
-            oprot.WriteFieldBegin(field);
-            ColliderA.Write(oprot);
-            oprot.WriteFieldEnd();
-          }
-          if (TransformA != null && __isset.transformA) {
-            field.Name = "transformA";
-            field.Type = TType.Struct;
-            field.ID = 2;
-            oprot.WriteFieldBegin(field);
-            TransformA.Write(oprot);
-            oprot.WriteFieldEnd();
-          }
-          if (ColliderB != null && __isset.colliderB) {
-            field.Name = "colliderB";
-            field.Type = TType.Struct;
-            field.ID = 3;
-            oprot.WriteFieldBegin(field);
-            ColliderB.Write(oprot);
-            oprot.WriteFieldEnd();
-          }
-          if (TransformB != null && __isset.transformB) {
-            field.Name = "transformB";
-            field.Type = TType.Struct;
-            field.ID = 4;
-            oprot.WriteFieldBegin(field);
-            TransformB.Write(oprot);
-            oprot.WriteFieldEnd();
-          }
-          oprot.WriteFieldStop();
-          oprot.WriteStructEnd();
-        }
-        finally
-        {
-          oprot.DecrementRecursionDepth();
-        }
-      }
-
-      public override string ToString() {
-        StringBuilder __sb = new StringBuilder("CausesCollision_args(");
-        bool __first = true;
-        if (ColliderA != null && __isset.colliderA) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("ColliderA: ");
-          __sb.Append(ColliderA== null ? "<null>" : ColliderA.ToString());
-        }
-        if (TransformA != null && __isset.transformA) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("TransformA: ");
-          __sb.Append(TransformA== null ? "<null>" : TransformA.ToString());
-        }
-        if (ColliderB != null && __isset.colliderB) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("ColliderB: ");
-          __sb.Append(ColliderB== null ? "<null>" : ColliderB.ToString());
-        }
-        if (TransformB != null && __isset.transformB) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("TransformB: ");
-          __sb.Append(TransformB== null ? "<null>" : TransformB.ToString());
-        }
-        __sb.Append(")");
-        return __sb.ToString();
-      }
-
-    }
-
-
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public partial class CausesCollision_result : TBase
-    {
-      private bool _success;
-
-      public bool Success
-      {
-        get
-        {
-          return _success;
-        }
-        set
-        {
-          __isset.success = true;
-          this._success = value;
-        }
-      }
-
-
-      public Isset __isset;
-      #if !SILVERLIGHT
-      [Serializable]
-      #endif
-      public struct Isset {
-        public bool success;
-      }
-
-      public CausesCollision_result() {
-      }
-
-      public void Read (TProtocol iprot)
-      {
-        iprot.IncrementRecursionDepth();
-        try
-        {
-          TField field;
-          iprot.ReadStructBegin();
-          while (true)
-          {
-            field = iprot.ReadFieldBegin();
-            if (field.Type == TType.Stop) { 
-              break;
-            }
-            switch (field.ID)
-            {
-              case 0:
-                if (field.Type == TType.Bool) {
-                  Success = iprot.ReadBool();
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
-                }
-                break;
-              default: 
-                TProtocolUtil.Skip(iprot, field.Type);
-                break;
-            }
-            iprot.ReadFieldEnd();
-          }
-          iprot.ReadStructEnd();
-        }
-        finally
-        {
-          iprot.DecrementRecursionDepth();
-        }
-      }
-
-      public void Write(TProtocol oprot) {
-        oprot.IncrementRecursionDepth();
-        try
-        {
-          TStruct struc = new TStruct("CausesCollision_result");
-          oprot.WriteStructBegin(struc);
-          TField field = new TField();
-
-          if (this.__isset.success) {
-            field.Name = "Success";
-            field.Type = TType.Bool;
-            field.ID = 0;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteBool(Success);
-            oprot.WriteFieldEnd();
-          }
-          oprot.WriteFieldStop();
-          oprot.WriteStructEnd();
-        }
-        finally
-        {
-          oprot.DecrementRecursionDepth();
-        }
-      }
-
-      public override string ToString() {
-        StringBuilder __sb = new StringBuilder("CausesCollision_result(");
-        bool __first = true;
-        if (__isset.success) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("Success: ");
-          __sb.Append(Success);
-        }
-        __sb.Append(")");
-        return __sb.ToString();
-      }
-
+      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "CausesCollision failed: unknown result");
     }
 
   }
+  public class Processor : MMIServiceBase.Processor, TProcessor {
+    public Processor(ISync iface) : base(iface)
+    {
+      iface_ = iface;
+      processMap_["ComputePenetration"] = ComputePenetration_Process;
+      processMap_["CausesCollision"] = CausesCollision_Process;
+    }
+
+    private ISync iface_;
+
+    public new bool Process(TProtocol iprot, TProtocol oprot)
+    {
+      try
+      {
+        TMessage msg = iprot.ReadMessageBegin();
+        ProcessFunction fn;
+        processMap_.TryGetValue(msg.Name, out fn);
+        if (fn == null) {
+          TProtocolUtil.Skip(iprot, TType.Struct);
+          iprot.ReadMessageEnd();
+          TApplicationException x = new TApplicationException (TApplicationException.ExceptionType.UnknownMethod, "Invalid method name: '" + msg.Name + "'");
+          oprot.WriteMessageBegin(new TMessage(msg.Name, TMessageType.Exception, msg.SeqID));
+          x.Write(oprot);
+          oprot.WriteMessageEnd();
+          oprot.Transport.Flush();
+          return true;
+        }
+        fn(msg.SeqID, iprot, oprot);
+      }
+      catch (IOException)
+      {
+        return false;
+      }
+      return true;
+    }
+
+    public void ComputePenetration_Process(int seqid, TProtocol iprot, TProtocol oprot)
+    {
+      ComputePenetration_args args = new ComputePenetration_args();
+      args.Read(iprot);
+      iprot.ReadMessageEnd();
+      ComputePenetration_result result = new ComputePenetration_result();
+      try
+      {
+        result.Success = iface_.ComputePenetration(args.ColliderA, args.TransformA, args.ColliderB, args.TransformB);
+        oprot.WriteMessageBegin(new TMessage("ComputePenetration", TMessageType.Reply, seqid)); 
+        result.Write(oprot);
+      }
+      catch (TTransportException)
+      {
+        throw;
+      }
+      catch (Exception ex)
+      {
+        Console.Error.WriteLine("Error occurred in processor:");
+        Console.Error.WriteLine(ex.ToString());
+        TApplicationException x = new TApplicationException      (TApplicationException.ExceptionType.InternalError," Internal error.");
+        oprot.WriteMessageBegin(new TMessage("ComputePenetration", TMessageType.Exception, seqid));
+        x.Write(oprot);
+      }
+      oprot.WriteMessageEnd();
+      oprot.Transport.Flush();
+    }
+
+    public void CausesCollision_Process(int seqid, TProtocol iprot, TProtocol oprot)
+    {
+      CausesCollision_args args = new CausesCollision_args();
+      args.Read(iprot);
+      iprot.ReadMessageEnd();
+      CausesCollision_result result = new CausesCollision_result();
+      try
+      {
+        result.Success = iface_.CausesCollision(args.ColliderA, args.TransformA, args.ColliderB, args.TransformB);
+        oprot.WriteMessageBegin(new TMessage("CausesCollision", TMessageType.Reply, seqid)); 
+        result.Write(oprot);
+      }
+      catch (TTransportException)
+      {
+        throw;
+      }
+      catch (Exception ex)
+      {
+        Console.Error.WriteLine("Error occurred in processor:");
+        Console.Error.WriteLine(ex.ToString());
+        TApplicationException x = new TApplicationException      (TApplicationException.ExceptionType.InternalError," Internal error.");
+        oprot.WriteMessageBegin(new TMessage("CausesCollision", TMessageType.Exception, seqid));
+        x.Write(oprot);
+      }
+      oprot.WriteMessageEnd();
+      oprot.Transport.Flush();
+    }
+
+  }
+
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class ComputePenetration_args : TBase
+  {
+    private MCollider _colliderA;
+    private MTransform _transformA;
+    private MCollider _colliderB;
+    private MTransform _transformB;
+
+    public MCollider ColliderA
+    {
+      get
+      {
+        return _colliderA;
+      }
+      set
+      {
+        __isset.colliderA = true;
+        this._colliderA = value;
+      }
+    }
+
+    public MTransform TransformA
+    {
+      get
+      {
+        return _transformA;
+      }
+      set
+      {
+        __isset.transformA = true;
+        this._transformA = value;
+      }
+    }
+
+    public MCollider ColliderB
+    {
+      get
+      {
+        return _colliderB;
+      }
+      set
+      {
+        __isset.colliderB = true;
+        this._colliderB = value;
+      }
+    }
+
+    public MTransform TransformB
+    {
+      get
+      {
+        return _transformB;
+      }
+      set
+      {
+        __isset.transformB = true;
+        this._transformB = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool colliderA;
+      public bool transformA;
+      public bool colliderB;
+      public bool transformB;
+    }
+
+    public ComputePenetration_args() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        iprot.ReadStructBegin();
+        while (true)
+        {
+          field = iprot.ReadFieldBegin();
+          if (field.Type == TType.Stop) { 
+            break;
+          }
+          switch (field.ID)
+          {
+            case 1:
+              if (field.Type == TType.Struct) {
+                ColliderA = new MCollider();
+                ColliderA.Read(iprot);
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            case 2:
+              if (field.Type == TType.Struct) {
+                TransformA = new MTransform();
+                TransformA.Read(iprot);
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            case 3:
+              if (field.Type == TType.Struct) {
+                ColliderB = new MCollider();
+                ColliderB.Read(iprot);
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            case 4:
+              if (field.Type == TType.Struct) {
+                TransformB = new MTransform();
+                TransformB.Read(iprot);
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            default: 
+              TProtocolUtil.Skip(iprot, field.Type);
+              break;
+          }
+          iprot.ReadFieldEnd();
+        }
+        iprot.ReadStructEnd();
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public void Write(TProtocol oprot) {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        TStruct struc = new TStruct("ComputePenetration_args");
+        oprot.WriteStructBegin(struc);
+        TField field = new TField();
+        if (ColliderA != null && __isset.colliderA) {
+          field.Name = "colliderA";
+          field.Type = TType.Struct;
+          field.ID = 1;
+          oprot.WriteFieldBegin(field);
+          ColliderA.Write(oprot);
+          oprot.WriteFieldEnd();
+        }
+        if (TransformA != null && __isset.transformA) {
+          field.Name = "transformA";
+          field.Type = TType.Struct;
+          field.ID = 2;
+          oprot.WriteFieldBegin(field);
+          TransformA.Write(oprot);
+          oprot.WriteFieldEnd();
+        }
+        if (ColliderB != null && __isset.colliderB) {
+          field.Name = "colliderB";
+          field.Type = TType.Struct;
+          field.ID = 3;
+          oprot.WriteFieldBegin(field);
+          ColliderB.Write(oprot);
+          oprot.WriteFieldEnd();
+        }
+        if (TransformB != null && __isset.transformB) {
+          field.Name = "transformB";
+          field.Type = TType.Struct;
+          field.ID = 4;
+          oprot.WriteFieldBegin(field);
+          TransformB.Write(oprot);
+          oprot.WriteFieldEnd();
+        }
+        oprot.WriteFieldStop();
+        oprot.WriteStructEnd();
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override string ToString() {
+      StringBuilder __sb = new StringBuilder("ComputePenetration_args(");
+      bool __first = true;
+      if (ColliderA != null && __isset.colliderA) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("ColliderA: ");
+        __sb.Append(ColliderA== null ? "<null>" : ColliderA.ToString());
+      }
+      if (TransformA != null && __isset.transformA) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("TransformA: ");
+        __sb.Append(TransformA== null ? "<null>" : TransformA.ToString());
+      }
+      if (ColliderB != null && __isset.colliderB) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("ColliderB: ");
+        __sb.Append(ColliderB== null ? "<null>" : ColliderB.ToString());
+      }
+      if (TransformB != null && __isset.transformB) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("TransformB: ");
+        __sb.Append(TransformB== null ? "<null>" : TransformB.ToString());
+      }
+      __sb.Append(")");
+      return __sb.ToString();
+    }
+
+  }
+
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class ComputePenetration_result : TBase
+  {
+    private MVector3 _success;
+
+    public MVector3 Success
+    {
+      get
+      {
+        return _success;
+      }
+      set
+      {
+        __isset.success = true;
+        this._success = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool success;
+    }
+
+    public ComputePenetration_result() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        iprot.ReadStructBegin();
+        while (true)
+        {
+          field = iprot.ReadFieldBegin();
+          if (field.Type == TType.Stop) { 
+            break;
+          }
+          switch (field.ID)
+          {
+            case 0:
+              if (field.Type == TType.Struct) {
+                Success = new MVector3();
+                Success.Read(iprot);
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            default: 
+              TProtocolUtil.Skip(iprot, field.Type);
+              break;
+          }
+          iprot.ReadFieldEnd();
+        }
+        iprot.ReadStructEnd();
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public void Write(TProtocol oprot) {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        TStruct struc = new TStruct("ComputePenetration_result");
+        oprot.WriteStructBegin(struc);
+        TField field = new TField();
+
+        if (this.__isset.success) {
+          if (Success != null) {
+            field.Name = "Success";
+            field.Type = TType.Struct;
+            field.ID = 0;
+            oprot.WriteFieldBegin(field);
+            Success.Write(oprot);
+            oprot.WriteFieldEnd();
+          }
+        }
+        oprot.WriteFieldStop();
+        oprot.WriteStructEnd();
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override string ToString() {
+      StringBuilder __sb = new StringBuilder("ComputePenetration_result(");
+      bool __first = true;
+      if (Success != null && __isset.success) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("Success: ");
+        __sb.Append(Success== null ? "<null>" : Success.ToString());
+      }
+      __sb.Append(")");
+      return __sb.ToString();
+    }
+
+  }
+
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class CausesCollision_args : TBase
+  {
+    private MCollider _colliderA;
+    private MTransform _transformA;
+    private MCollider _colliderB;
+    private MTransform _transformB;
+
+    public MCollider ColliderA
+    {
+      get
+      {
+        return _colliderA;
+      }
+      set
+      {
+        __isset.colliderA = true;
+        this._colliderA = value;
+      }
+    }
+
+    public MTransform TransformA
+    {
+      get
+      {
+        return _transformA;
+      }
+      set
+      {
+        __isset.transformA = true;
+        this._transformA = value;
+      }
+    }
+
+    public MCollider ColliderB
+    {
+      get
+      {
+        return _colliderB;
+      }
+      set
+      {
+        __isset.colliderB = true;
+        this._colliderB = value;
+      }
+    }
+
+    public MTransform TransformB
+    {
+      get
+      {
+        return _transformB;
+      }
+      set
+      {
+        __isset.transformB = true;
+        this._transformB = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool colliderA;
+      public bool transformA;
+      public bool colliderB;
+      public bool transformB;
+    }
+
+    public CausesCollision_args() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        iprot.ReadStructBegin();
+        while (true)
+        {
+          field = iprot.ReadFieldBegin();
+          if (field.Type == TType.Stop) { 
+            break;
+          }
+          switch (field.ID)
+          {
+            case 1:
+              if (field.Type == TType.Struct) {
+                ColliderA = new MCollider();
+                ColliderA.Read(iprot);
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            case 2:
+              if (field.Type == TType.Struct) {
+                TransformA = new MTransform();
+                TransformA.Read(iprot);
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            case 3:
+              if (field.Type == TType.Struct) {
+                ColliderB = new MCollider();
+                ColliderB.Read(iprot);
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            case 4:
+              if (field.Type == TType.Struct) {
+                TransformB = new MTransform();
+                TransformB.Read(iprot);
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            default: 
+              TProtocolUtil.Skip(iprot, field.Type);
+              break;
+          }
+          iprot.ReadFieldEnd();
+        }
+        iprot.ReadStructEnd();
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public void Write(TProtocol oprot) {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        TStruct struc = new TStruct("CausesCollision_args");
+        oprot.WriteStructBegin(struc);
+        TField field = new TField();
+        if (ColliderA != null && __isset.colliderA) {
+          field.Name = "colliderA";
+          field.Type = TType.Struct;
+          field.ID = 1;
+          oprot.WriteFieldBegin(field);
+          ColliderA.Write(oprot);
+          oprot.WriteFieldEnd();
+        }
+        if (TransformA != null && __isset.transformA) {
+          field.Name = "transformA";
+          field.Type = TType.Struct;
+          field.ID = 2;
+          oprot.WriteFieldBegin(field);
+          TransformA.Write(oprot);
+          oprot.WriteFieldEnd();
+        }
+        if (ColliderB != null && __isset.colliderB) {
+          field.Name = "colliderB";
+          field.Type = TType.Struct;
+          field.ID = 3;
+          oprot.WriteFieldBegin(field);
+          ColliderB.Write(oprot);
+          oprot.WriteFieldEnd();
+        }
+        if (TransformB != null && __isset.transformB) {
+          field.Name = "transformB";
+          field.Type = TType.Struct;
+          field.ID = 4;
+          oprot.WriteFieldBegin(field);
+          TransformB.Write(oprot);
+          oprot.WriteFieldEnd();
+        }
+        oprot.WriteFieldStop();
+        oprot.WriteStructEnd();
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override string ToString() {
+      StringBuilder __sb = new StringBuilder("CausesCollision_args(");
+      bool __first = true;
+      if (ColliderA != null && __isset.colliderA) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("ColliderA: ");
+        __sb.Append(ColliderA== null ? "<null>" : ColliderA.ToString());
+      }
+      if (TransformA != null && __isset.transformA) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("TransformA: ");
+        __sb.Append(TransformA== null ? "<null>" : TransformA.ToString());
+      }
+      if (ColliderB != null && __isset.colliderB) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("ColliderB: ");
+        __sb.Append(ColliderB== null ? "<null>" : ColliderB.ToString());
+      }
+      if (TransformB != null && __isset.transformB) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("TransformB: ");
+        __sb.Append(TransformB== null ? "<null>" : TransformB.ToString());
+      }
+      __sb.Append(")");
+      return __sb.ToString();
+    }
+
+  }
+
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class CausesCollision_result : TBase
+  {
+    private bool _success;
+
+    public bool Success
+    {
+      get
+      {
+        return _success;
+      }
+      set
+      {
+        __isset.success = true;
+        this._success = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool success;
+    }
+
+    public CausesCollision_result() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        iprot.ReadStructBegin();
+        while (true)
+        {
+          field = iprot.ReadFieldBegin();
+          if (field.Type == TType.Stop) { 
+            break;
+          }
+          switch (field.ID)
+          {
+            case 0:
+              if (field.Type == TType.Bool) {
+                Success = iprot.ReadBool();
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            default: 
+              TProtocolUtil.Skip(iprot, field.Type);
+              break;
+          }
+          iprot.ReadFieldEnd();
+        }
+        iprot.ReadStructEnd();
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public void Write(TProtocol oprot) {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        TStruct struc = new TStruct("CausesCollision_result");
+        oprot.WriteStructBegin(struc);
+        TField field = new TField();
+
+        if (this.__isset.success) {
+          field.Name = "Success";
+          field.Type = TType.Bool;
+          field.ID = 0;
+          oprot.WriteFieldBegin(field);
+          oprot.WriteBool(Success);
+          oprot.WriteFieldEnd();
+        }
+        oprot.WriteFieldStop();
+        oprot.WriteStructEnd();
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override string ToString() {
+      StringBuilder __sb = new StringBuilder("CausesCollision_result(");
+      bool __first = true;
+      if (__isset.success) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("Success: ");
+        __sb.Append(Success);
+      }
+      __sb.Append(")");
+      return __sb.ToString();
+    }
+
+  }
+
 }

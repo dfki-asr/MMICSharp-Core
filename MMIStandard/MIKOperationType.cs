@@ -5,11 +5,8 @@
  *  @generated
  */
 
-namespace MMIStandard
+public enum MIKOperationType
 {
-  public enum MIKOperationType
-  {
-    SetPosition = 0,
-    SetRotation = 1,
-  }
+  SetPosition = 0,
+  SetRotation = 1,
 }

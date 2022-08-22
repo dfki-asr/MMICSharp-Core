@@ -5,11 +5,8 @@
  *  @generated
  */
 
-namespace MMIStandard
+public enum MTranslationConstraintType
 {
-  public enum MTranslationConstraintType
-  {
-    BOX = 0,
-    ELLIPSOID = 1,
-  }
+  BOX = 0,
+  ELLIPSOID = 1,
 }

@@ -5,15 +5,12 @@
  *  @generated
  */
 
-namespace MMIStandard
+public enum MDrawingCallType
 {
-  public enum MDrawingCallType
-  {
-    DrawLine2D = 0,
-    DrawLine3D = 1,
-    DrawPoint2D = 2,
-    DrawPoint3D = 3,
-    DrawText = 4,
-    Custom = 5,
-  }
+  DrawLine2D = 0,
+  DrawLine3D = 1,
+  DrawPoint2D = 2,
+  DrawPoint3D = 3,
+  DrawText = 4,
+  Custom = 5,
 }

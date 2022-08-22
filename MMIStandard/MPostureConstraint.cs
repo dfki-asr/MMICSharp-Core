@@ -15,157 +15,154 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace MMIStandard
-{
 
+#if !SILVERLIGHT
+[Serializable]
+#endif
+public partial class MPostureConstraint : TBase
+{
+  private List<MJointConstraint> _JointConstraints;
+
+  public MAvatarPostureValues Posture { get; set; }
+
+  public List<MJointConstraint> JointConstraints
+  {
+    get
+    {
+      return _JointConstraints;
+    }
+    set
+    {
+      __isset.JointConstraints = true;
+      this._JointConstraints = value;
+    }
+  }
+
+
+  public Isset __isset;
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public partial class MPostureConstraint : TBase
+  public struct Isset {
+    public bool JointConstraints;
+  }
+
+  public MPostureConstraint() {
+  }
+
+  public MPostureConstraint(MAvatarPostureValues posture) : this() {
+    this.Posture = posture;
+  }
+
+  public void Read (TProtocol iprot)
   {
-    private List<MJointConstraint> _JointConstraints;
-
-    public MMIStandard.MAvatarPostureValues Posture { get; set; }
-
-    public List<MJointConstraint> JointConstraints
+    iprot.IncrementRecursionDepth();
+    try
     {
-      get
+      bool isset_posture = false;
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
       {
-        return _JointConstraints;
-      }
-      set
-      {
-        __isset.JointConstraints = true;
-        this._JointConstraints = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public struct Isset {
-      public bool JointConstraints;
-    }
-
-    public MPostureConstraint() {
-    }
-
-    public MPostureConstraint(MMIStandard.MAvatarPostureValues posture) : this() {
-      this.Posture = posture;
-    }
-
-    public void Read (TProtocol iprot)
-    {
-      iprot.IncrementRecursionDepth();
-      try
-      {
-        bool isset_posture = false;
-        TField field;
-        iprot.ReadStructBegin();
-        while (true)
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
+        }
+        switch (field.ID)
         {
-          field = iprot.ReadFieldBegin();
-          if (field.Type == TType.Stop) { 
-            break;
-          }
-          switch (field.ID)
-          {
-            case 1:
-              if (field.Type == TType.Struct) {
-                Posture = new MMIStandard.MAvatarPostureValues();
-                Posture.Read(iprot);
-                isset_posture = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 2:
-              if (field.Type == TType.List) {
-                {
-                  JointConstraints = new List<MJointConstraint>();
-                  TList _list4 = iprot.ReadListBegin();
-                  for( int _i5 = 0; _i5 < _list4.Count; ++_i5)
-                  {
-                    MJointConstraint _elem6;
-                    _elem6 = new MJointConstraint();
-                    _elem6.Read(iprot);
-                    JointConstraints.Add(_elem6);
-                  }
-                  iprot.ReadListEnd();
-                }
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            default: 
+          case 1:
+            if (field.Type == TType.Struct) {
+              Posture = new MAvatarPostureValues();
+              Posture.Read(iprot);
+              isset_posture = true;
+            } else { 
               TProtocolUtil.Skip(iprot, field.Type);
-              break;
-          }
-          iprot.ReadFieldEnd();
-        }
-        iprot.ReadStructEnd();
-        if (!isset_posture)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Posture not set");
-      }
-      finally
-      {
-        iprot.DecrementRecursionDepth();
-      }
-    }
-
-    public void Write(TProtocol oprot) {
-      oprot.IncrementRecursionDepth();
-      try
-      {
-        TStruct struc = new TStruct("MPostureConstraint");
-        oprot.WriteStructBegin(struc);
-        TField field = new TField();
-        if (Posture == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Posture not set");
-        field.Name = "posture";
-        field.Type = TType.Struct;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        Posture.Write(oprot);
-        oprot.WriteFieldEnd();
-        if (JointConstraints != null && __isset.JointConstraints) {
-          field.Name = "JointConstraints";
-          field.Type = TType.List;
-          field.ID = 2;
-          oprot.WriteFieldBegin(field);
-          {
-            oprot.WriteListBegin(new TList(TType.Struct, JointConstraints.Count));
-            foreach (MJointConstraint _iter7 in JointConstraints)
-            {
-              _iter7.Write(oprot);
             }
-            oprot.WriteListEnd();
-          }
-          oprot.WriteFieldEnd();
+            break;
+          case 2:
+            if (field.Type == TType.List) {
+              {
+                JointConstraints = new List<MJointConstraint>();
+                TList _list4 = iprot.ReadListBegin();
+                for( int _i5 = 0; _i5 < _list4.Count; ++_i5)
+                {
+                  MJointConstraint _elem6;
+                  _elem6 = new MJointConstraint();
+                  _elem6.Read(iprot);
+                  JointConstraints.Add(_elem6);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
         }
-        oprot.WriteFieldStop();
-        oprot.WriteStructEnd();
+        iprot.ReadFieldEnd();
       }
-      finally
-      {
-        oprot.DecrementRecursionDepth();
-      }
+      iprot.ReadStructEnd();
+      if (!isset_posture)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Posture not set");
     }
+    finally
+    {
+      iprot.DecrementRecursionDepth();
+    }
+  }
 
-    public override string ToString() {
-      StringBuilder __sb = new StringBuilder("MPostureConstraint(");
-      __sb.Append(", Posture: ");
-      __sb.Append(Posture== null ? "<null>" : Posture.ToString());
+  public void Write(TProtocol oprot) {
+    oprot.IncrementRecursionDepth();
+    try
+    {
+      TStruct struc = new TStruct("MPostureConstraint");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (Posture == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Posture not set");
+      field.Name = "posture";
+      field.Type = TType.Struct;
+      field.ID = 1;
+      oprot.WriteFieldBegin(field);
+      Posture.Write(oprot);
+      oprot.WriteFieldEnd();
       if (JointConstraints != null && __isset.JointConstraints) {
-        __sb.Append(", JointConstraints: ");
-        __sb.Append(JointConstraints);
+        field.Name = "JointConstraints";
+        field.Type = TType.List;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.Struct, JointConstraints.Count));
+          foreach (MJointConstraint _iter7 in JointConstraints)
+          {
+            _iter7.Write(oprot);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
       }
-      __sb.Append(")");
-      return __sb.ToString();
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
     }
+    finally
+    {
+      oprot.DecrementRecursionDepth();
+    }
+  }
 
+  public override string ToString() {
+    StringBuilder __sb = new StringBuilder("MPostureConstraint(");
+    __sb.Append(", Posture: ");
+    __sb.Append(Posture== null ? "<null>" : Posture.ToString());
+    if (JointConstraints != null && __isset.JointConstraints) {
+      __sb.Append(", JointConstraints: ");
+      __sb.Append(JointConstraints);
+    }
+    __sb.Append(")");
+    return __sb.ToString();
   }
 
 }
+

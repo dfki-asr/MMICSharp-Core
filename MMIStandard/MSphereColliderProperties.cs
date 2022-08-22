@@ -15,94 +15,91 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace MMIStandard
+
+#if !SILVERLIGHT
+[Serializable]
+#endif
+public partial class MSphereColliderProperties : TBase
 {
 
-  #if !SILVERLIGHT
-  [Serializable]
-  #endif
-  public partial class MSphereColliderProperties : TBase
+  public double Radius { get; set; }
+
+  public MSphereColliderProperties() {
+  }
+
+  public MSphereColliderProperties(double Radius) : this() {
+    this.Radius = Radius;
+  }
+
+  public void Read (TProtocol iprot)
   {
-
-    public double Radius { get; set; }
-
-    public MSphereColliderProperties() {
-    }
-
-    public MSphereColliderProperties(double Radius) : this() {
-      this.Radius = Radius;
-    }
-
-    public void Read (TProtocol iprot)
+    iprot.IncrementRecursionDepth();
+    try
     {
-      iprot.IncrementRecursionDepth();
-      try
+      bool isset_Radius = false;
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
       {
-        bool isset_Radius = false;
-        TField field;
-        iprot.ReadStructBegin();
-        while (true)
-        {
-          field = iprot.ReadFieldBegin();
-          if (field.Type == TType.Stop) { 
-            break;
-          }
-          switch (field.ID)
-          {
-            case 1:
-              if (field.Type == TType.Double) {
-                Radius = iprot.ReadDouble();
-                isset_Radius = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            default: 
-              TProtocolUtil.Skip(iprot, field.Type);
-              break;
-          }
-          iprot.ReadFieldEnd();
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
         }
-        iprot.ReadStructEnd();
-        if (!isset_Radius)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Radius not set");
+        switch (field.ID)
+        {
+          case 1:
+            if (field.Type == TType.Double) {
+              Radius = iprot.ReadDouble();
+              isset_Radius = true;
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
+        }
+        iprot.ReadFieldEnd();
       }
-      finally
-      {
-        iprot.DecrementRecursionDepth();
-      }
+      iprot.ReadStructEnd();
+      if (!isset_Radius)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Radius not set");
     }
-
-    public void Write(TProtocol oprot) {
-      oprot.IncrementRecursionDepth();
-      try
-      {
-        TStruct struc = new TStruct("MSphereColliderProperties");
-        oprot.WriteStructBegin(struc);
-        TField field = new TField();
-        field.Name = "Radius";
-        field.Type = TType.Double;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteDouble(Radius);
-        oprot.WriteFieldEnd();
-        oprot.WriteFieldStop();
-        oprot.WriteStructEnd();
-      }
-      finally
-      {
-        oprot.DecrementRecursionDepth();
-      }
+    finally
+    {
+      iprot.DecrementRecursionDepth();
     }
+  }
 
-    public override string ToString() {
-      StringBuilder __sb = new StringBuilder("MSphereColliderProperties(");
-      __sb.Append(", Radius: ");
-      __sb.Append(Radius);
-      __sb.Append(")");
-      return __sb.ToString();
+  public void Write(TProtocol oprot) {
+    oprot.IncrementRecursionDepth();
+    try
+    {
+      TStruct struc = new TStruct("MSphereColliderProperties");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      field.Name = "Radius";
+      field.Type = TType.Double;
+      field.ID = 1;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteDouble(Radius);
+      oprot.WriteFieldEnd();
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
     }
+    finally
+    {
+      oprot.DecrementRecursionDepth();
+    }
+  }
 
+  public override string ToString() {
+    StringBuilder __sb = new StringBuilder("MSphereColliderProperties(");
+    __sb.Append(", Radius: ");
+    __sb.Append(Radius);
+    __sb.Append(")");
+    return __sb.ToString();
   }
 
 }
+

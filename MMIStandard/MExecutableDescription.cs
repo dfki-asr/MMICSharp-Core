@@ -15,411 +15,408 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace MMIStandard
-{
 
+#if !SILVERLIGHT
+[Serializable]
+#endif
+public partial class MExecutableDescription : TBase
+{
+  private List<string> _Dependencies;
+  private string _Vendor;
+  private string _VendorDomain;
+  private string _ServiceUrl;
+  private string _UpdateUrl;
+
+  public string Name { get; set; }
+
+  public string ID { get; set; }
+
+  public string Language { get; set; }
+
+  public string ExecutableName { get; set; }
+
+  public string Author { get; set; }
+
+  public string Version { get; set; }
+
+  public List<string> Dependencies
+  {
+    get
+    {
+      return _Dependencies;
+    }
+    set
+    {
+      __isset.Dependencies = true;
+      this._Dependencies = value;
+    }
+  }
+
+  public string Vendor
+  {
+    get
+    {
+      return _Vendor;
+    }
+    set
+    {
+      __isset.Vendor = true;
+      this._Vendor = value;
+    }
+  }
+
+  public string VendorDomain
+  {
+    get
+    {
+      return _VendorDomain;
+    }
+    set
+    {
+      __isset.VendorDomain = true;
+      this._VendorDomain = value;
+    }
+  }
+
+  public string ServiceUrl
+  {
+    get
+    {
+      return _ServiceUrl;
+    }
+    set
+    {
+      __isset.ServiceUrl = true;
+      this._ServiceUrl = value;
+    }
+  }
+
+  public string UpdateUrl
+  {
+    get
+    {
+      return _UpdateUrl;
+    }
+    set
+    {
+      __isset.UpdateUrl = true;
+      this._UpdateUrl = value;
+    }
+  }
+
+
+  public Isset __isset;
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public partial class MExecutableDescription : TBase
+  public struct Isset {
+    public bool Dependencies;
+    public bool Vendor;
+    public bool VendorDomain;
+    public bool ServiceUrl;
+    public bool UpdateUrl;
+  }
+
+  public MExecutableDescription() {
+  }
+
+  public MExecutableDescription(string Name, string ID, string Language, string ExecutableName, string Author, string Version) : this() {
+    this.Name = Name;
+    this.ID = ID;
+    this.Language = Language;
+    this.ExecutableName = ExecutableName;
+    this.Author = Author;
+    this.Version = Version;
+  }
+
+  public void Read (TProtocol iprot)
   {
-    private List<string> _Dependencies;
-    private string _Vendor;
-    private string _VendorDomain;
-    private string _ServiceUrl;
-    private string _UpdateUrl;
-
-    public string Name { get; set; }
-
-    public string ID { get; set; }
-
-    public string Language { get; set; }
-
-    public string ExecutableName { get; set; }
-
-    public string Author { get; set; }
-
-    public string Version { get; set; }
-
-    public List<string> Dependencies
+    iprot.IncrementRecursionDepth();
+    try
     {
-      get
+      bool isset_Name = false;
+      bool isset_ID = false;
+      bool isset_Language = false;
+      bool isset_ExecutableName = false;
+      bool isset_Author = false;
+      bool isset_Version = false;
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
       {
-        return _Dependencies;
-      }
-      set
-      {
-        __isset.Dependencies = true;
-        this._Dependencies = value;
-      }
-    }
-
-    public string Vendor
-    {
-      get
-      {
-        return _Vendor;
-      }
-      set
-      {
-        __isset.Vendor = true;
-        this._Vendor = value;
-      }
-    }
-
-    public string VendorDomain
-    {
-      get
-      {
-        return _VendorDomain;
-      }
-      set
-      {
-        __isset.VendorDomain = true;
-        this._VendorDomain = value;
-      }
-    }
-
-    public string ServiceUrl
-    {
-      get
-      {
-        return _ServiceUrl;
-      }
-      set
-      {
-        __isset.ServiceUrl = true;
-        this._ServiceUrl = value;
-      }
-    }
-
-    public string UpdateUrl
-    {
-      get
-      {
-        return _UpdateUrl;
-      }
-      set
-      {
-        __isset.UpdateUrl = true;
-        this._UpdateUrl = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public struct Isset {
-      public bool Dependencies;
-      public bool Vendor;
-      public bool VendorDomain;
-      public bool ServiceUrl;
-      public bool UpdateUrl;
-    }
-
-    public MExecutableDescription() {
-    }
-
-    public MExecutableDescription(string Name, string ID, string Language, string ExecutableName, string Author, string Version) : this() {
-      this.Name = Name;
-      this.ID = ID;
-      this.Language = Language;
-      this.ExecutableName = ExecutableName;
-      this.Author = Author;
-      this.Version = Version;
-    }
-
-    public void Read (TProtocol iprot)
-    {
-      iprot.IncrementRecursionDepth();
-      try
-      {
-        bool isset_Name = false;
-        bool isset_ID = false;
-        bool isset_Language = false;
-        bool isset_ExecutableName = false;
-        bool isset_Author = false;
-        bool isset_Version = false;
-        TField field;
-        iprot.ReadStructBegin();
-        while (true)
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
+        }
+        switch (field.ID)
         {
-          field = iprot.ReadFieldBegin();
-          if (field.Type == TType.Stop) { 
-            break;
-          }
-          switch (field.ID)
-          {
-            case 1:
-              if (field.Type == TType.String) {
-                Name = iprot.ReadString();
-                isset_Name = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 2:
-              if (field.Type == TType.String) {
-                ID = iprot.ReadString();
-                isset_ID = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 3:
-              if (field.Type == TType.String) {
-                Language = iprot.ReadString();
-                isset_Language = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 4:
-              if (field.Type == TType.String) {
-                ExecutableName = iprot.ReadString();
-                isset_ExecutableName = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 5:
-              if (field.Type == TType.String) {
-                Author = iprot.ReadString();
-                isset_Author = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 6:
-              if (field.Type == TType.String) {
-                Version = iprot.ReadString();
-                isset_Version = true;
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 7:
-              if (field.Type == TType.List) {
-                {
-                  Dependencies = new List<string>();
-                  TList _list4 = iprot.ReadListBegin();
-                  for( int _i5 = 0; _i5 < _list4.Count; ++_i5)
-                  {
-                    string _elem6;
-                    _elem6 = iprot.ReadString();
-                    Dependencies.Add(_elem6);
-                  }
-                  iprot.ReadListEnd();
-                }
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 8:
-              if (field.Type == TType.String) {
-                Vendor = iprot.ReadString();
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 9:
-              if (field.Type == TType.String) {
-                VendorDomain = iprot.ReadString();
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 10:
-              if (field.Type == TType.String) {
-                ServiceUrl = iprot.ReadString();
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 11:
-              if (field.Type == TType.String) {
-                UpdateUrl = iprot.ReadString();
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            default: 
+          case 1:
+            if (field.Type == TType.String) {
+              Name = iprot.ReadString();
+              isset_Name = true;
+            } else { 
               TProtocolUtil.Skip(iprot, field.Type);
-              break;
-          }
-          iprot.ReadFieldEnd();
-        }
-        iprot.ReadStructEnd();
-        if (!isset_Name)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Name not set");
-        if (!isset_ID)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field ID not set");
-        if (!isset_Language)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Language not set");
-        if (!isset_ExecutableName)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field ExecutableName not set");
-        if (!isset_Author)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Author not set");
-        if (!isset_Version)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Version not set");
-      }
-      finally
-      {
-        iprot.DecrementRecursionDepth();
-      }
-    }
-
-    public void Write(TProtocol oprot) {
-      oprot.IncrementRecursionDepth();
-      try
-      {
-        TStruct struc = new TStruct("MExecutableDescription");
-        oprot.WriteStructBegin(struc);
-        TField field = new TField();
-        if (Name == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Name not set");
-        field.Name = "Name";
-        field.Type = TType.String;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteString(Name);
-        oprot.WriteFieldEnd();
-        if (ID == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field ID not set");
-        field.Name = "ID";
-        field.Type = TType.String;
-        field.ID = 2;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteString(ID);
-        oprot.WriteFieldEnd();
-        if (Language == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Language not set");
-        field.Name = "Language";
-        field.Type = TType.String;
-        field.ID = 3;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteString(Language);
-        oprot.WriteFieldEnd();
-        if (ExecutableName == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field ExecutableName not set");
-        field.Name = "ExecutableName";
-        field.Type = TType.String;
-        field.ID = 4;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteString(ExecutableName);
-        oprot.WriteFieldEnd();
-        if (Author == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Author not set");
-        field.Name = "Author";
-        field.Type = TType.String;
-        field.ID = 5;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteString(Author);
-        oprot.WriteFieldEnd();
-        if (Version == null)
-          throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Version not set");
-        field.Name = "Version";
-        field.Type = TType.String;
-        field.ID = 6;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteString(Version);
-        oprot.WriteFieldEnd();
-        if (Dependencies != null && __isset.Dependencies) {
-          field.Name = "Dependencies";
-          field.Type = TType.List;
-          field.ID = 7;
-          oprot.WriteFieldBegin(field);
-          {
-            oprot.WriteListBegin(new TList(TType.String, Dependencies.Count));
-            foreach (string _iter7 in Dependencies)
-            {
-              oprot.WriteString(_iter7);
             }
-            oprot.WriteListEnd();
-          }
-          oprot.WriteFieldEnd();
+            break;
+          case 2:
+            if (field.Type == TType.String) {
+              ID = iprot.ReadString();
+              isset_ID = true;
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 3:
+            if (field.Type == TType.String) {
+              Language = iprot.ReadString();
+              isset_Language = true;
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
+            if (field.Type == TType.String) {
+              ExecutableName = iprot.ReadString();
+              isset_ExecutableName = true;
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 5:
+            if (field.Type == TType.String) {
+              Author = iprot.ReadString();
+              isset_Author = true;
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 6:
+            if (field.Type == TType.String) {
+              Version = iprot.ReadString();
+              isset_Version = true;
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 7:
+            if (field.Type == TType.List) {
+              {
+                Dependencies = new List<string>();
+                TList _list4 = iprot.ReadListBegin();
+                for( int _i5 = 0; _i5 < _list4.Count; ++_i5)
+                {
+                  string _elem6;
+                  _elem6 = iprot.ReadString();
+                  Dependencies.Add(_elem6);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 8:
+            if (field.Type == TType.String) {
+              Vendor = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 9:
+            if (field.Type == TType.String) {
+              VendorDomain = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 10:
+            if (field.Type == TType.String) {
+              ServiceUrl = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 11:
+            if (field.Type == TType.String) {
+              UpdateUrl = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
         }
-        if (Vendor != null && __isset.Vendor) {
-          field.Name = "Vendor";
-          field.Type = TType.String;
-          field.ID = 8;
-          oprot.WriteFieldBegin(field);
-          oprot.WriteString(Vendor);
-          oprot.WriteFieldEnd();
-        }
-        if (VendorDomain != null && __isset.VendorDomain) {
-          field.Name = "VendorDomain";
-          field.Type = TType.String;
-          field.ID = 9;
-          oprot.WriteFieldBegin(field);
-          oprot.WriteString(VendorDomain);
-          oprot.WriteFieldEnd();
-        }
-        if (ServiceUrl != null && __isset.ServiceUrl) {
-          field.Name = "ServiceUrl";
-          field.Type = TType.String;
-          field.ID = 10;
-          oprot.WriteFieldBegin(field);
-          oprot.WriteString(ServiceUrl);
-          oprot.WriteFieldEnd();
-        }
-        if (UpdateUrl != null && __isset.UpdateUrl) {
-          field.Name = "UpdateUrl";
-          field.Type = TType.String;
-          field.ID = 11;
-          oprot.WriteFieldBegin(field);
-          oprot.WriteString(UpdateUrl);
-          oprot.WriteFieldEnd();
-        }
-        oprot.WriteFieldStop();
-        oprot.WriteStructEnd();
+        iprot.ReadFieldEnd();
       }
-      finally
-      {
-        oprot.DecrementRecursionDepth();
-      }
+      iprot.ReadStructEnd();
+      if (!isset_Name)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Name not set");
+      if (!isset_ID)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field ID not set");
+      if (!isset_Language)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Language not set");
+      if (!isset_ExecutableName)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field ExecutableName not set");
+      if (!isset_Author)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Author not set");
+      if (!isset_Version)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Version not set");
     }
+    finally
+    {
+      iprot.DecrementRecursionDepth();
+    }
+  }
 
-    public override string ToString() {
-      StringBuilder __sb = new StringBuilder("MExecutableDescription(");
-      __sb.Append(", Name: ");
-      __sb.Append(Name);
-      __sb.Append(", ID: ");
-      __sb.Append(ID);
-      __sb.Append(", Language: ");
-      __sb.Append(Language);
-      __sb.Append(", ExecutableName: ");
-      __sb.Append(ExecutableName);
-      __sb.Append(", Author: ");
-      __sb.Append(Author);
-      __sb.Append(", Version: ");
-      __sb.Append(Version);
+  public void Write(TProtocol oprot) {
+    oprot.IncrementRecursionDepth();
+    try
+    {
+      TStruct struc = new TStruct("MExecutableDescription");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (Name == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Name not set");
+      field.Name = "Name";
+      field.Type = TType.String;
+      field.ID = 1;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteString(Name);
+      oprot.WriteFieldEnd();
+      if (ID == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field ID not set");
+      field.Name = "ID";
+      field.Type = TType.String;
+      field.ID = 2;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteString(ID);
+      oprot.WriteFieldEnd();
+      if (Language == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Language not set");
+      field.Name = "Language";
+      field.Type = TType.String;
+      field.ID = 3;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteString(Language);
+      oprot.WriteFieldEnd();
+      if (ExecutableName == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field ExecutableName not set");
+      field.Name = "ExecutableName";
+      field.Type = TType.String;
+      field.ID = 4;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteString(ExecutableName);
+      oprot.WriteFieldEnd();
+      if (Author == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Author not set");
+      field.Name = "Author";
+      field.Type = TType.String;
+      field.ID = 5;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteString(Author);
+      oprot.WriteFieldEnd();
+      if (Version == null)
+        throw new TProtocolException(TProtocolException.INVALID_DATA, "required field Version not set");
+      field.Name = "Version";
+      field.Type = TType.String;
+      field.ID = 6;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteString(Version);
+      oprot.WriteFieldEnd();
       if (Dependencies != null && __isset.Dependencies) {
-        __sb.Append(", Dependencies: ");
-        __sb.Append(Dependencies);
+        field.Name = "Dependencies";
+        field.Type = TType.List;
+        field.ID = 7;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.String, Dependencies.Count));
+          foreach (string _iter7 in Dependencies)
+          {
+            oprot.WriteString(_iter7);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
       }
       if (Vendor != null && __isset.Vendor) {
-        __sb.Append(", Vendor: ");
-        __sb.Append(Vendor);
+        field.Name = "Vendor";
+        field.Type = TType.String;
+        field.ID = 8;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(Vendor);
+        oprot.WriteFieldEnd();
       }
       if (VendorDomain != null && __isset.VendorDomain) {
-        __sb.Append(", VendorDomain: ");
-        __sb.Append(VendorDomain);
+        field.Name = "VendorDomain";
+        field.Type = TType.String;
+        field.ID = 9;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(VendorDomain);
+        oprot.WriteFieldEnd();
       }
       if (ServiceUrl != null && __isset.ServiceUrl) {
-        __sb.Append(", ServiceUrl: ");
-        __sb.Append(ServiceUrl);
+        field.Name = "ServiceUrl";
+        field.Type = TType.String;
+        field.ID = 10;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(ServiceUrl);
+        oprot.WriteFieldEnd();
       }
       if (UpdateUrl != null && __isset.UpdateUrl) {
-        __sb.Append(", UpdateUrl: ");
-        __sb.Append(UpdateUrl);
+        field.Name = "UpdateUrl";
+        field.Type = TType.String;
+        field.ID = 11;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(UpdateUrl);
+        oprot.WriteFieldEnd();
       }
-      __sb.Append(")");
-      return __sb.ToString();
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
     }
+    finally
+    {
+      oprot.DecrementRecursionDepth();
+    }
+  }
 
+  public override string ToString() {
+    StringBuilder __sb = new StringBuilder("MExecutableDescription(");
+    __sb.Append(", Name: ");
+    __sb.Append(Name);
+    __sb.Append(", ID: ");
+    __sb.Append(ID);
+    __sb.Append(", Language: ");
+    __sb.Append(Language);
+    __sb.Append(", ExecutableName: ");
+    __sb.Append(ExecutableName);
+    __sb.Append(", Author: ");
+    __sb.Append(Author);
+    __sb.Append(", Version: ");
+    __sb.Append(Version);
+    if (Dependencies != null && __isset.Dependencies) {
+      __sb.Append(", Dependencies: ");
+      __sb.Append(Dependencies);
+    }
+    if (Vendor != null && __isset.Vendor) {
+      __sb.Append(", Vendor: ");
+      __sb.Append(Vendor);
+    }
+    if (VendorDomain != null && __isset.VendorDomain) {
+      __sb.Append(", VendorDomain: ");
+      __sb.Append(VendorDomain);
+    }
+    if (ServiceUrl != null && __isset.ServiceUrl) {
+      __sb.Append(", ServiceUrl: ");
+      __sb.Append(ServiceUrl);
+    }
+    if (UpdateUrl != null && __isset.UpdateUrl) {
+      __sb.Append(", UpdateUrl: ");
+      __sb.Append(UpdateUrl);
+    }
+    __sb.Append(")");
+    return __sb.ToString();
   }
 
 }
+
