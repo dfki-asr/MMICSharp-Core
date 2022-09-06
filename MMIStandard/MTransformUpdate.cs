@@ -24,6 +24,7 @@ public partial class MTransformUpdate : TBase
   private List<double> _Position;
   private List<double> _Rotation;
   private string _Parent;
+  private List<double> _Scale;
 
   public List<double> Position
   {
@@ -64,6 +65,19 @@ public partial class MTransformUpdate : TBase
     }
   }
 
+  public List<double> Scale
+  {
+    get
+    {
+      return _Scale;
+    }
+    set
+    {
+      __isset.Scale = true;
+      this._Scale = value;
+    }
+  }
+
 
   public Isset __isset;
   #if !SILVERLIGHT
@@ -73,6 +87,7 @@ public partial class MTransformUpdate : TBase
     public bool Position;
     public bool Rotation;
     public bool Parent;
+    public bool Scale;
   }
 
   public MTransformUpdate() {
@@ -134,6 +149,23 @@ public partial class MTransformUpdate : TBase
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
+          case 4:
+            if (field.Type == TType.List) {
+              {
+                Scale = new List<double>();
+                TList _list6 = iprot.ReadListBegin();
+                for( int _i7 = 0; _i7 < _list6.Count; ++_i7)
+                {
+                  double _elem8;
+                  _elem8 = iprot.ReadDouble();
+                  Scale.Add(_elem8);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
           default: 
             TProtocolUtil.Skip(iprot, field.Type);
             break;
@@ -162,9 +194,9 @@ public partial class MTransformUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Double, Position.Count));
-          foreach (double _iter6 in Position)
+          foreach (double _iter9 in Position)
           {
-            oprot.WriteDouble(_iter6);
+            oprot.WriteDouble(_iter9);
           }
           oprot.WriteListEnd();
         }
@@ -177,9 +209,9 @@ public partial class MTransformUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Double, Rotation.Count));
-          foreach (double _iter7 in Rotation)
+          foreach (double _iter10 in Rotation)
           {
-            oprot.WriteDouble(_iter7);
+            oprot.WriteDouble(_iter10);
           }
           oprot.WriteListEnd();
         }
@@ -191,6 +223,21 @@ public partial class MTransformUpdate : TBase
         field.ID = 3;
         oprot.WriteFieldBegin(field);
         oprot.WriteString(Parent);
+        oprot.WriteFieldEnd();
+      }
+      if (Scale != null && __isset.Scale) {
+        field.Name = "Scale";
+        field.Type = TType.List;
+        field.ID = 4;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.Double, Scale.Count));
+          foreach (double _iter11 in Scale)
+          {
+            oprot.WriteDouble(_iter11);
+          }
+          oprot.WriteListEnd();
+        }
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();
@@ -222,6 +269,12 @@ public partial class MTransformUpdate : TBase
       __first = false;
       __sb.Append("Parent: ");
       __sb.Append(Parent);
+    }
+    if (Scale != null && __isset.Scale) {
+      if(!__first) { __sb.Append(", "); }
+      __first = false;
+      __sb.Append("Scale: ");
+      __sb.Append(Scale);
     }
     __sb.Append(")");
     return __sb.ToString();
