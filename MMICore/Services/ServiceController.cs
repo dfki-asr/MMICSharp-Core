@@ -7,6 +7,7 @@ using MMIStandard;
 using System.Threading;
 using System.Threading.Tasks;
 using Thrift;
+using System.Collections.Generic;
 
 namespace MMICSharp.Services
 {
@@ -51,6 +52,7 @@ namespace MMICSharp.Services
         /// </summary>
         private readonly MServiceDescription serviceDescription;
 
+        private MIPAddress internalAddress = null;
 
         /// <summary>
         /// The instance of the adapter implementation
@@ -72,7 +74,7 @@ namespace MMICSharp.Services
         /// <param name="description">The service description</param>
         /// <param name="mmiRegisterAddress">The address of the mmi register</param>
         /// <param name="processor">The assigned processor of the service controller</param>
-        public ServiceController(MServiceDescription description, MIPAddress mmiRegisterAddress, TProcessor processor)
+        public ServiceController(MServiceDescription description, MIPAddress mmiRegisterAddress, TProcessor processor, MIPAddress internalAddress = null)
         {
             //Assign the adapter description
             this.serviceDescription = description;
@@ -81,6 +83,7 @@ namespace MMICSharp.Services
             this.mmiRegisterAddress = mmiRegisterAddress;
             //Assign the processor
             this.processor = processor;
+            this.internalAddress = internalAddress;
         }
 
 
@@ -104,9 +107,15 @@ namespace MMICSharp.Services
         /// <param name="adapterImplementation"></param>
         public virtual void Start()
         {
-
             //Create and start the registration handler
-            this.registrationHandler = new ServiceRegistrationHandler(this.mmiRegisterAddress, this.serviceDescription);
+            if (this.internalAddress == null)
+                this.registrationHandler = new ServiceRegistrationHandler(this.mmiRegisterAddress, this.serviceDescription);
+            else
+            {
+                MServiceDescription extDesc = new MServiceDescription(this.serviceDescription.Name, this.serviceDescription.ID, this.serviceDescription.Language,
+                    new List<MIPAddress>() { this.internalAddress });
+                this.registrationHandler = new ServiceRegistrationHandler(this.mmiRegisterAddress, extDesc);
+            }
 
             //Create and start the thrift server
             this.thriftServer = new ThriftServerBase(this.address.Address, this.address.Port, this.processor);

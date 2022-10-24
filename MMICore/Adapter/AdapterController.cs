@@ -94,7 +94,7 @@ namespace MMICSharp.Adapter
         /// <param name="mmuProvider">A class which provides information regarding the available MMUs</param>
         /// <param name="mmuInstantiatior">A class which can instantiate MMUs based on the file and description</param>
         /// <param name="customAdapterImplementation">An optionally specified customAdapterImplementation which is utilized instead of the default one</param>
-        public AdapterController(SessionData sessionData, MAdapterDescription description, MIPAddress mmiRegisterAddress, IMMUProvider mmuProvider, IMMUInstantiation mmuInstantiatior, MMIAdapter.Iface customAdapterImplementation = null)
+        public AdapterController(SessionData sessionData, MAdapterDescription description, MIPAddress mmiRegisterAddress, IMMUProvider mmuProvider, IMMUInstantiation mmuInstantiatior, MMIAdapter.Iface customAdapterImplementation = null, MIPAddress aint = null)
         {
             //Assign the session data
             this.SessionData = sessionData;
@@ -117,7 +117,10 @@ namespace MMICSharp.Adapter
             SessionData.AdapterDescription = description;
 
             //Assign the addresses
-            this.address = description.Addresses[0];
+            if (aint != null)
+                this.address = aint;
+            else
+                this.address = description.Addresses[0];
             this.mmiRegisterAddress = mmiRegisterAddress;
 
             //Assign the MMI register address
