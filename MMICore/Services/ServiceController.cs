@@ -108,17 +108,21 @@ namespace MMICSharp.Services
         public virtual void Start()
         {
             //Create and start the registration handler
-            if (this.internalAddress == null)
-                this.registrationHandler = new ServiceRegistrationHandler(this.mmiRegisterAddress, this.serviceDescription);
-            else
-            {
-                MServiceDescription extDesc = new MServiceDescription(this.serviceDescription.Name, this.serviceDescription.ID, this.serviceDescription.Language,
-                    new List<MIPAddress>() { this.internalAddress });
-                this.registrationHandler = new ServiceRegistrationHandler(this.mmiRegisterAddress, extDesc);
-            }
+            this.registrationHandler = new ServiceRegistrationHandler(this.mmiRegisterAddress, this.serviceDescription);
 
-            //Create and start the thrift server
-            this.thriftServer = new ThriftServerBase(this.address.Address, this.address.Port, this.processor);
+            string address = this.address.Address;
+            int port = this.address.Port;
+            if(this.internalAddress != null)
+            {
+                address = this.internalAddress.Address;
+                port = this.internalAddress.Port;
+            } 
+            this.thriftServer = new ThriftServerBase(address, port, this.processor);
+
+
+
+            Logger.Log(Log_level.L_INFO, $"Starting Service {this.serviceDescription.Name} at {address}:{port}");
+            Logger.Log(Log_level.L_INFO, $"Registering Service {this.serviceDescription.Name} at {this.address.Address}:{this.address.Port}");
 
             //Start the adapter controller in separate thread
             ThreadPool.QueueUserWorkItem(delegate
