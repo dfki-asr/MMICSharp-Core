@@ -151,7 +151,7 @@ namespace MMICSharp.Adapter
         /// <param name="adapterImplementation"></param>
         public virtual void Start()
         {
-            Logger.Log(Log_level.L_INFO, $"Starting adapter server at {address.Address} {address.Port}: ");
+            Logger.Log(Log_level.L_INFO, $"Starting adapter server socket at {address.Address} {address.Port}: ");
 
             //Set the start time
             this.SessionData.StartTime = DateTime.Now;

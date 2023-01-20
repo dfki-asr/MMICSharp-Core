@@ -121,8 +121,8 @@ namespace MMICSharp.Services
 
 
 
-            Logger.Log(Log_level.L_INFO, $"Starting Service {this.serviceDescription.Name} at {address}:{port}");
-            Logger.Log(Log_level.L_INFO, $"Registering Service {this.serviceDescription.Name} at {this.address.Address}:{this.address.Port}");
+            Logger.Log(Log_level.L_INFO, $"Starting service socket at {this.serviceDescription.Name} at {address}:{port}");
+            Logger.Log(Log_level.L_INFO, $"Registering service at Launcher as {this.serviceDescription.Name} at {this.address.Address}:{this.address.Port}");
 
             //Start the adapter controller in separate thread
             ThreadPool.QueueUserWorkItem(delegate
