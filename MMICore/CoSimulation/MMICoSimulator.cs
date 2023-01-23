@@ -107,6 +107,8 @@ namespace MMICoSimulation
         /// </summary>
         protected CoSimulationRecord record = new CoSimulationRecord();
 
+        protected List<MInstruction> multiInstructions = new List<MInstruction>();
+
         #endregion
 
         #region public fields
@@ -517,6 +519,7 @@ namespace MMICoSimulation
                 //Assign each instruction and call recursively
                 foreach(MInstruction subInstruction in instruction.Instructions)
                     this.AssignInstruction(subInstruction, avatarState);
+                this.multiInstructions.Add(instruction);
             }
 
             //Optionally validate the instructions
@@ -1028,6 +1031,33 @@ namespace MMICoSimulation
         /// </summary>
         public virtual void PostComputeFrame(MSimulationResult result)
         {
+            // check multi-instructions
+            foreach(var ev in result.Events)
+            {
+                if(ev.Type == mmiConstants.MSimulationEvent_End)
+                {
+                    bool instrFound = false;
+                    for (int mInstr = 0; mInstr < this.multiInstructions.Count; mInstr++)
+                    {
+                        for(int i = 0; i < this.multiInstructions[mInstr].Instructions.Count; i++)
+                        {
+                            if(this.multiInstructions[mInstr].Instructions[i].ID == ev.Reference)
+                            {
+                                this.multiInstructions[mInstr].Instructions.RemoveAt(i);
+                                if(this.multiInstructions[mInstr].Instructions.Count == 0)
+                                {
+                                    // multi instruction ended
+                                    result.Events.Add(new MSimulationEvent("MultiEnd", mmiConstants.MSimulationEvent_End, this.multiInstructions[mInstr].ID));
+                                    this.multiInstructions.RemoveAt(mInstr);
+                                    instrFound = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(instrFound) { break; }
+                    }
+                }
+            }
         }
 
 
