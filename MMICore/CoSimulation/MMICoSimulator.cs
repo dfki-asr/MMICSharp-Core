@@ -1031,34 +1031,46 @@ namespace MMICoSimulation
         /// </summary>
         public virtual void PostComputeFrame(MSimulationResult result)
         {
-            // check multi-instructions
-            foreach(var ev in result.Events)
+            int m_instr_end = -1;
+            if (result.Events != null)
             {
-                if(ev.Type == mmiConstants.MSimulationEvent_End)
+                // check multi-instructions
+                foreach (var ev in result.Events)
                 {
-                    bool instrFound = false;
-                    for (int mInstr = 0; mInstr < this.multiInstructions.Count; mInstr++)
+                    if (ev.Type == mmiConstants.MSimulationEvent_End)
                     {
-                        for(int i = 0; i < this.multiInstructions[mInstr].Instructions.Count; i++)
+                        bool instrFound = false;
+                        for (int mInstr = 0; mInstr < this.multiInstructions.Count; mInstr++)
                         {
-                            if(this.multiInstructions[mInstr].Instructions[i].ID == ev.Reference)
+                            for (int i = 0; i < this.multiInstructions[mInstr].Instructions.Count; i++)
                             {
-                                this.multiInstructions[mInstr].Instructions.RemoveAt(i);
-                                if(this.multiInstructions[mInstr].Instructions.Count == 0)
+                                if (this.multiInstructions[mInstr].Instructions[i].ID == ev.Reference)
                                 {
-                                    // multi instruction ended
-                                    result.Events.Add(new MSimulationEvent(this.multiInstructions[mInstr].Name, mmiConstants.MSimulationEvent_End, this.multiInstructions[mInstr].ID));
-                                    this.multiInstructions.RemoveAt(mInstr);
+                                    this.multiInstructions[mInstr].Instructions.RemoveAt(i);
                                     instrFound = true;
+                                    if (this.multiInstructions[mInstr].Instructions.Count == 0)
+                                    {
+                                        m_instr_end = mInstr;
+                                    }
                                     break;
                                 }
                             }
+                            if (instrFound) { break; }
                         }
-                        if(instrFound) { break; }
                     }
                 }
             }
+            // multi instruction ended?
+            if (m_instr_end >= 0)
+            {
+                MSimulationEvent multiEnd = new MSimulationEvent(this.multiInstructions[m_instr_end].Name, mmiConstants.MSimulationEvent_End, this.multiInstructions[m_instr_end].ID);
+                result.Events.Add(multiEnd);
+                this.multiInstructions.RemoveAt(m_instr_end);
+                this.MSimulationEventHandler?.Invoke(this, multiEnd);
+            }
         }
+
+
 
 
         #region actual co-simulation methods
