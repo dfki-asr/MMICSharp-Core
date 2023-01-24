@@ -1047,7 +1047,7 @@ namespace MMICoSimulation
                                 if(this.multiInstructions[mInstr].Instructions.Count == 0)
                                 {
                                     // multi instruction ended
-                                    result.Events.Add(new MSimulationEvent("MultiEnd", mmiConstants.MSimulationEvent_End, this.multiInstructions[mInstr].ID));
+                                    result.Events.Add(new MSimulationEvent(this.multiInstructions[mInstr].Name, mmiConstants.MSimulationEvent_End, this.multiInstructions[mInstr].ID));
                                     this.multiInstructions.RemoveAt(mInstr);
                                     instrFound = true;
                                     break;
