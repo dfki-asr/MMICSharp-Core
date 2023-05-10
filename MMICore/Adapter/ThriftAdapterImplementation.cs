@@ -391,7 +391,7 @@ namespace MMICSharp.Adapter
             sessionContent.UpdateLastAccessTime();
 
 
-            Logger.Log(Log_level.L_DEBUG, $"Execute instruction {instruction.Name}, {mmuID}");
+            Logger.Log(Log_level.L_DEBUG, $"Execute instruction {instruction.Name}:{instruction.ID} on {mmuID}");
 
 
             //Directly assign the instruction
