@@ -24,6 +24,16 @@ namespace MMICSharp.Common.Communication
             return System.Text.Encoding.UTF8.GetString(Utf8Json.JsonSerializer.Serialize<T>(data));
         }
 
+        public static byte[] ToJsonBinary<T>(T data)
+        {
+            return Utf8Json.JsonSerializer.Serialize<T>(data);
+        }
+
+        public static T FromJsonBinary<T>(byte[] data)
+        {
+            return Utf8Json.JsonSerializer.Deserialize<T>(data);
+        }
+
 
 
         /// <summary>
