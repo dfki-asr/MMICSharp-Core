@@ -30,5 +30,12 @@ namespace MMIStandard
         {
             return MQuaternionExtensions.FromEuler(rConstraint.GetVector3());
         }
+
+        public static MRotationConstraint Clone(this MRotationConstraint rConstraint)
+        {
+            if(rConstraint == null) { return null; }
+            MRotationConstraint nc = new MRotationConstraint(rConstraint.Limits.Clone());
+            return nc;
+        }
     }
 }

@@ -25,5 +25,12 @@ namespace MMIStandard
         {
             return new MVector3(tConstraint.X(), tConstraint.Y(), tConstraint.Z());
         }
+
+        public static MTranslationConstraint Clone(this MTranslationConstraint tConstraint)
+        {
+            if (tConstraint == null) return null;
+            MTranslationConstraint newT = new MTranslationConstraint(tConstraint.Type, tConstraint.Limits.Clone());
+            return newT;
+        }
     }
 }

@@ -230,5 +230,24 @@ namespace MMIStandard
         {
             return new MVector3(1, 1, 1);
         }
+        public static MVector3 Zero()
+        {
+            return new MVector3(0, 0, 0);
+        }
+        public static MVector3 Forward()
+        {
+            return new MVector3(0, 0, 1);
+        }
+        public static MVector3 Up()
+        {
+            return new MVector3(0, 1, 0);
+        }
+        public static MVector3 Right()
+        {
+            return new MVector3(1, 0, 0);
+        }
+
+
+
     }
 }

@@ -63,5 +63,23 @@ namespace MMIStandard
 
             return null;
         }
+
+        /// <summary>
+        /// Clones the MGeometry Constraint
+        /// </summary>
+        /// <param name="constraint"></param>
+        /// <returns></returns>
+        public static MGeometryConstraint Clone(this MGeometryConstraint constraint)
+        {
+            MGeometryConstraint nc = new MGeometryConstraint(constraint.ParentObjectID + "")
+            {
+                ParentToConstraint = constraint.ParentToConstraint.Clone(),
+                RotationConstraint = constraint.RotationConstraint.Clone(),
+                TranslationConstraint = constraint.TranslationConstraint.Clone(),
+                WeightingFactor = constraint.WeightingFactor * 1.0
+            };
+            return nc;
+        }
+
     }
 }

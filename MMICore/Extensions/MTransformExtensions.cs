@@ -94,5 +94,10 @@ namespace MMIStandard
             }
             return newT;
         }
+
+        public static MTransform Identity()
+        {
+            return new MTransform("", MVector3Extensions.Zero(), MQuaternionExtensions.Identity(), MVector3Extensions.One());
+        }
     }
 }
