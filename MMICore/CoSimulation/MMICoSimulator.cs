@@ -2026,7 +2026,15 @@ namespace MMICoSimulation
         /// <returns></returns>
         public virtual List<MConstraint> GetBoundaryConstraints(MInstruction instruction)
         {
-            return new List<MConstraint>();
+            List<MConstraint> cs = new List<MConstraint>();
+            foreach (var instance in this.mmuInstances)
+            {
+                if(instance.Description.MotionType == instruction.MotionType)
+                {
+                    cs.AddRange(instance.GetBoundaryConstraints(instruction));
+                }
+            }
+            return cs;
         }
 
 
