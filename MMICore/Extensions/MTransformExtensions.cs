@@ -31,6 +31,11 @@ namespace MMIStandard
             return MQuaternionExtensions.Inverse(transform.Rotation).Multiply(globalPosition.Subtract(transform.Position));
         }
 
+        public static MTransform Inverse(this MTransform transform)
+        {
+            return new MTransform(transform.ID + "_inverse", transform.Position.Multiply(-1), MQuaternionExtensions.Inverse(transform.Rotation), transform.Scale);
+        }
+
         /// <summary>
         /// Transforms a rotation form local space of the MTransform to the global space
         /// </summary>
