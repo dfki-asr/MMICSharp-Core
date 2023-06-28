@@ -419,5 +419,15 @@ namespace MMICoSimulation
         {
             return new MBoolResponse(false);
         }
+
+        public List<MConstraint> GetBoundaryConstraints(MInstruction instruction)
+        {
+            return this.coSimulator.GetBoundaryConstraints(instruction);
+        }
+
+        public MBoolResponse CheckPrerequisites(MInstruction instruction)
+        {
+            return this.coSimulator.CheckPrerequisites(instruction);    
+        }
     }
 }
