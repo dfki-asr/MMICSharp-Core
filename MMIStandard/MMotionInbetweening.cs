@@ -15,15 +15,15 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-public partial class MWalkPointEstimationService {
+public partial class MMotionInbetweening {
   public interface ISync : MMIServiceBase.ISync {
-    List<MWalkPoint> EstimateWalkPoints(List<MSceneObject> sceneObjects, MSceneObject target, int amount, Dictionary<string, string> properties);
+    List<MAvatarPostureValues> Blend(MAvatarPostureValues start, MAvatarPostureValues target, double duration);
   }
 
   public interface Iface : ISync {
     #if SILVERLIGHT
-    IAsyncResult Begin_EstimateWalkPoints(AsyncCallback callback, object state, List<MSceneObject> sceneObjects, MSceneObject target, int amount, Dictionary<string, string> properties);
-    List<MWalkPoint> End_EstimateWalkPoints(IAsyncResult asyncResult);
+    IAsyncResult Begin_Blend(AsyncCallback callback, object state, MAvatarPostureValues start, MAvatarPostureValues target, double duration);
+    List<MAvatarPostureValues> End_Blend(IAsyncResult asyncResult);
     #endif
   }
 
@@ -39,40 +39,39 @@ public partial class MWalkPointEstimationService {
     
     #if SILVERLIGHT
     
-    public IAsyncResult Begin_EstimateWalkPoints(AsyncCallback callback, object state, List<MSceneObject> sceneObjects, MSceneObject target, int amount, Dictionary<string, string> properties)
+    public IAsyncResult Begin_Blend(AsyncCallback callback, object state, MAvatarPostureValues start, MAvatarPostureValues target, double duration)
     {
-      return send_EstimateWalkPoints(callback, state, sceneObjects, target, amount, properties);
+      return send_Blend(callback, state, start, target, duration);
     }
 
-    public List<MWalkPoint> End_EstimateWalkPoints(IAsyncResult asyncResult)
+    public List<MAvatarPostureValues> End_Blend(IAsyncResult asyncResult)
     {
       oprot_.Transport.EndFlush(asyncResult);
-      return recv_EstimateWalkPoints();
+      return recv_Blend();
     }
 
     #endif
 
-    public List<MWalkPoint> EstimateWalkPoints(List<MSceneObject> sceneObjects, MSceneObject target, int amount, Dictionary<string, string> properties)
+    public List<MAvatarPostureValues> Blend(MAvatarPostureValues start, MAvatarPostureValues target, double duration)
     {
       #if SILVERLIGHT
-      var asyncResult = Begin_EstimateWalkPoints(null, null, sceneObjects, target, amount, properties);
-      return End_EstimateWalkPoints(asyncResult);
+      var asyncResult = Begin_Blend(null, null, start, target, duration);
+      return End_Blend(asyncResult);
 
       #else
-      send_EstimateWalkPoints(sceneObjects, target, amount, properties);
-      return recv_EstimateWalkPoints();
+      send_Blend(start, target, duration);
+      return recv_Blend();
 
       #endif
     }
     #if SILVERLIGHT
-    public IAsyncResult send_EstimateWalkPoints(AsyncCallback callback, object state, List<MSceneObject> sceneObjects, MSceneObject target, int amount, Dictionary<string, string> properties)
+    public IAsyncResult send_Blend(AsyncCallback callback, object state, MAvatarPostureValues start, MAvatarPostureValues target, double duration)
     {
-      oprot_.WriteMessageBegin(new TMessage("EstimateWalkPoints", TMessageType.Call, seqid_));
-      EstimateWalkPoints_args args = new EstimateWalkPoints_args();
-      args.SceneObjects = sceneObjects;
+      oprot_.WriteMessageBegin(new TMessage("Blend", TMessageType.Call, seqid_));
+      Blend_args args = new Blend_args();
+      args.Start = start;
       args.Target = target;
-      args.Amount = amount;
-      args.Properties = properties;
+      args.Duration = duration;
       args.Write(oprot_);
       oprot_.WriteMessageEnd();
       return oprot_.Transport.BeginFlush(callback, state);
@@ -80,21 +79,20 @@ public partial class MWalkPointEstimationService {
 
     #else
 
-    public void send_EstimateWalkPoints(List<MSceneObject> sceneObjects, MSceneObject target, int amount, Dictionary<string, string> properties)
+    public void send_Blend(MAvatarPostureValues start, MAvatarPostureValues target, double duration)
     {
-      oprot_.WriteMessageBegin(new TMessage("EstimateWalkPoints", TMessageType.Call, seqid_));
-      EstimateWalkPoints_args args = new EstimateWalkPoints_args();
-      args.SceneObjects = sceneObjects;
+      oprot_.WriteMessageBegin(new TMessage("Blend", TMessageType.Call, seqid_));
+      Blend_args args = new Blend_args();
+      args.Start = start;
       args.Target = target;
-      args.Amount = amount;
-      args.Properties = properties;
+      args.Duration = duration;
       args.Write(oprot_);
       oprot_.WriteMessageEnd();
       oprot_.Transport.Flush();
     }
     #endif
 
-    public List<MWalkPoint> recv_EstimateWalkPoints()
+    public List<MAvatarPostureValues> recv_Blend()
     {
       TMessage msg = iprot_.ReadMessageBegin();
       if (msg.Type == TMessageType.Exception) {
@@ -102,13 +100,13 @@ public partial class MWalkPointEstimationService {
         iprot_.ReadMessageEnd();
         throw x;
       }
-      EstimateWalkPoints_result result = new EstimateWalkPoints_result();
+      Blend_result result = new Blend_result();
       result.Read(iprot_);
       iprot_.ReadMessageEnd();
       if (result.__isset.success) {
         return result.Success;
       }
-      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "EstimateWalkPoints failed: unknown result");
+      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "Blend failed: unknown result");
     }
 
   }
@@ -116,7 +114,7 @@ public partial class MWalkPointEstimationService {
     public Processor(ISync iface) : base(iface)
     {
       iface_ = iface;
-      processMap_["EstimateWalkPoints"] = EstimateWalkPoints_Process;
+      processMap_["Blend"] = Blend_Process;
     }
 
     private ISync iface_;
@@ -147,16 +145,16 @@ public partial class MWalkPointEstimationService {
       return true;
     }
 
-    public void EstimateWalkPoints_Process(int seqid, TProtocol iprot, TProtocol oprot)
+    public void Blend_Process(int seqid, TProtocol iprot, TProtocol oprot)
     {
-      EstimateWalkPoints_args args = new EstimateWalkPoints_args();
+      Blend_args args = new Blend_args();
       args.Read(iprot);
       iprot.ReadMessageEnd();
-      EstimateWalkPoints_result result = new EstimateWalkPoints_result();
+      Blend_result result = new Blend_result();
       try
       {
-        result.Success = iface_.EstimateWalkPoints(args.SceneObjects, args.Target, args.Amount, args.Properties);
-        oprot.WriteMessageBegin(new TMessage("EstimateWalkPoints", TMessageType.Reply, seqid)); 
+        result.Success = iface_.Blend(args.Start, args.Target, args.Duration);
+        oprot.WriteMessageBegin(new TMessage("Blend", TMessageType.Reply, seqid)); 
         result.Write(oprot);
       }
       catch (TTransportException)
@@ -168,7 +166,7 @@ public partial class MWalkPointEstimationService {
         Console.Error.WriteLine("Error occurred in processor:");
         Console.Error.WriteLine(ex.ToString());
         TApplicationException x = new TApplicationException      (TApplicationException.ExceptionType.InternalError," Internal error.");
-        oprot.WriteMessageBegin(new TMessage("EstimateWalkPoints", TMessageType.Exception, seqid));
+        oprot.WriteMessageBegin(new TMessage("Blend", TMessageType.Exception, seqid));
         x.Write(oprot);
       }
       oprot.WriteMessageEnd();
@@ -181,27 +179,26 @@ public partial class MWalkPointEstimationService {
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public partial class EstimateWalkPoints_args : TBase
+  public partial class Blend_args : TBase
   {
-    private List<MSceneObject> _sceneObjects;
-    private MSceneObject _target;
-    private int _amount;
-    private Dictionary<string, string> _properties;
+    private MAvatarPostureValues _start;
+    private MAvatarPostureValues _target;
+    private double _duration;
 
-    public List<MSceneObject> SceneObjects
+    public MAvatarPostureValues Start
     {
       get
       {
-        return _sceneObjects;
+        return _start;
       }
       set
       {
-        __isset.sceneObjects = true;
-        this._sceneObjects = value;
+        __isset.start = true;
+        this._start = value;
       }
     }
 
-    public MSceneObject Target
+    public MAvatarPostureValues Target
     {
       get
       {
@@ -214,29 +211,16 @@ public partial class MWalkPointEstimationService {
       }
     }
 
-    public int Amount
+    public double Duration
     {
       get
       {
-        return _amount;
+        return _duration;
       }
       set
       {
-        __isset.amount = true;
-        this._amount = value;
-      }
-    }
-
-    public Dictionary<string, string> Properties
-    {
-      get
-      {
-        return _properties;
-      }
-      set
-      {
-        __isset.properties = true;
-        this._properties = value;
+        __isset.duration = true;
+        this._duration = value;
       }
     }
 
@@ -246,13 +230,12 @@ public partial class MWalkPointEstimationService {
     [Serializable]
     #endif
     public struct Isset {
-      public bool sceneObjects;
+      public bool start;
       public bool target;
-      public bool amount;
-      public bool properties;
+      public bool duration;
     }
 
-    public EstimateWalkPoints_args() {
+    public Blend_args() {
     }
 
     public void Read (TProtocol iprot)
@@ -271,53 +254,24 @@ public partial class MWalkPointEstimationService {
           switch (field.ID)
           {
             case 1:
-              if (field.Type == TType.List) {
-                {
-                  SceneObjects = new List<MSceneObject>();
-                  TList _list153 = iprot.ReadListBegin();
-                  for( int _i154 = 0; _i154 < _list153.Count; ++_i154)
-                  {
-                    MSceneObject _elem155;
-                    _elem155 = new MSceneObject();
-                    _elem155.Read(iprot);
-                    SceneObjects.Add(_elem155);
-                  }
-                  iprot.ReadListEnd();
-                }
+              if (field.Type == TType.Struct) {
+                Start = new MAvatarPostureValues();
+                Start.Read(iprot);
               } else { 
                 TProtocolUtil.Skip(iprot, field.Type);
               }
               break;
             case 2:
               if (field.Type == TType.Struct) {
-                Target = new MSceneObject();
+                Target = new MAvatarPostureValues();
                 Target.Read(iprot);
               } else { 
                 TProtocolUtil.Skip(iprot, field.Type);
               }
               break;
             case 3:
-              if (field.Type == TType.I32) {
-                Amount = iprot.ReadI32();
-              } else { 
-                TProtocolUtil.Skip(iprot, field.Type);
-              }
-              break;
-            case 4:
-              if (field.Type == TType.Map) {
-                {
-                  Properties = new Dictionary<string, string>();
-                  TMap _map156 = iprot.ReadMapBegin();
-                  for( int _i157 = 0; _i157 < _map156.Count; ++_i157)
-                  {
-                    string _key158;
-                    string _val159;
-                    _key158 = iprot.ReadString();
-                    _val159 = iprot.ReadString();
-                    Properties[_key158] = _val159;
-                  }
-                  iprot.ReadMapEnd();
-                }
+              if (field.Type == TType.Double) {
+                Duration = iprot.ReadDouble();
               } else { 
                 TProtocolUtil.Skip(iprot, field.Type);
               }
@@ -340,22 +294,15 @@ public partial class MWalkPointEstimationService {
       oprot.IncrementRecursionDepth();
       try
       {
-        TStruct struc = new TStruct("EstimateWalkPoints_args");
+        TStruct struc = new TStruct("Blend_args");
         oprot.WriteStructBegin(struc);
         TField field = new TField();
-        if (SceneObjects != null && __isset.sceneObjects) {
-          field.Name = "sceneObjects";
-          field.Type = TType.List;
+        if (Start != null && __isset.start) {
+          field.Name = "start";
+          field.Type = TType.Struct;
           field.ID = 1;
           oprot.WriteFieldBegin(field);
-          {
-            oprot.WriteListBegin(new TList(TType.Struct, SceneObjects.Count));
-            foreach (MSceneObject _iter160 in SceneObjects)
-            {
-              _iter160.Write(oprot);
-            }
-            oprot.WriteListEnd();
-          }
+          Start.Write(oprot);
           oprot.WriteFieldEnd();
         }
         if (Target != null && __isset.target) {
@@ -366,28 +313,12 @@ public partial class MWalkPointEstimationService {
           Target.Write(oprot);
           oprot.WriteFieldEnd();
         }
-        if (__isset.amount) {
-          field.Name = "amount";
-          field.Type = TType.I32;
+        if (__isset.duration) {
+          field.Name = "duration";
+          field.Type = TType.Double;
           field.ID = 3;
           oprot.WriteFieldBegin(field);
-          oprot.WriteI32(Amount);
-          oprot.WriteFieldEnd();
-        }
-        if (Properties != null && __isset.properties) {
-          field.Name = "properties";
-          field.Type = TType.Map;
-          field.ID = 4;
-          oprot.WriteFieldBegin(field);
-          {
-            oprot.WriteMapBegin(new TMap(TType.String, TType.String, Properties.Count));
-            foreach (string _iter161 in Properties.Keys)
-            {
-              oprot.WriteString(_iter161);
-              oprot.WriteString(Properties[_iter161]);
-            }
-            oprot.WriteMapEnd();
-          }
+          oprot.WriteDouble(Duration);
           oprot.WriteFieldEnd();
         }
         oprot.WriteFieldStop();
@@ -400,13 +331,13 @@ public partial class MWalkPointEstimationService {
     }
 
     public override string ToString() {
-      StringBuilder __sb = new StringBuilder("EstimateWalkPoints_args(");
+      StringBuilder __sb = new StringBuilder("Blend_args(");
       bool __first = true;
-      if (SceneObjects != null && __isset.sceneObjects) {
+      if (Start != null && __isset.start) {
         if(!__first) { __sb.Append(", "); }
         __first = false;
-        __sb.Append("SceneObjects: ");
-        __sb.Append(SceneObjects);
+        __sb.Append("Start: ");
+        __sb.Append(Start== null ? "<null>" : Start.ToString());
       }
       if (Target != null && __isset.target) {
         if(!__first) { __sb.Append(", "); }
@@ -414,17 +345,11 @@ public partial class MWalkPointEstimationService {
         __sb.Append("Target: ");
         __sb.Append(Target== null ? "<null>" : Target.ToString());
       }
-      if (__isset.amount) {
+      if (__isset.duration) {
         if(!__first) { __sb.Append(", "); }
         __first = false;
-        __sb.Append("Amount: ");
-        __sb.Append(Amount);
-      }
-      if (Properties != null && __isset.properties) {
-        if(!__first) { __sb.Append(", "); }
-        __first = false;
-        __sb.Append("Properties: ");
-        __sb.Append(Properties);
+        __sb.Append("Duration: ");
+        __sb.Append(Duration);
       }
       __sb.Append(")");
       return __sb.ToString();
@@ -436,11 +361,11 @@ public partial class MWalkPointEstimationService {
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public partial class EstimateWalkPoints_result : TBase
+  public partial class Blend_result : TBase
   {
-    private List<MWalkPoint> _success;
+    private List<MAvatarPostureValues> _success;
 
-    public List<MWalkPoint> Success
+    public List<MAvatarPostureValues> Success
     {
       get
       {
@@ -462,7 +387,7 @@ public partial class MWalkPointEstimationService {
       public bool success;
     }
 
-    public EstimateWalkPoints_result() {
+    public Blend_result() {
     }
 
     public void Read (TProtocol iprot)
@@ -483,14 +408,14 @@ public partial class MWalkPointEstimationService {
             case 0:
               if (field.Type == TType.List) {
                 {
-                  Success = new List<MWalkPoint>();
-                  TList _list162 = iprot.ReadListBegin();
-                  for( int _i163 = 0; _i163 < _list162.Count; ++_i163)
+                  Success = new List<MAvatarPostureValues>();
+                  TList _list136 = iprot.ReadListBegin();
+                  for( int _i137 = 0; _i137 < _list136.Count; ++_i137)
                   {
-                    MWalkPoint _elem164;
-                    _elem164 = new MWalkPoint();
-                    _elem164.Read(iprot);
-                    Success.Add(_elem164);
+                    MAvatarPostureValues _elem138;
+                    _elem138 = new MAvatarPostureValues();
+                    _elem138.Read(iprot);
+                    Success.Add(_elem138);
                   }
                   iprot.ReadListEnd();
                 }
@@ -516,7 +441,7 @@ public partial class MWalkPointEstimationService {
       oprot.IncrementRecursionDepth();
       try
       {
-        TStruct struc = new TStruct("EstimateWalkPoints_result");
+        TStruct struc = new TStruct("Blend_result");
         oprot.WriteStructBegin(struc);
         TField field = new TField();
 
@@ -528,9 +453,9 @@ public partial class MWalkPointEstimationService {
             oprot.WriteFieldBegin(field);
             {
               oprot.WriteListBegin(new TList(TType.Struct, Success.Count));
-              foreach (MWalkPoint _iter165 in Success)
+              foreach (MAvatarPostureValues _iter139 in Success)
               {
-                _iter165.Write(oprot);
+                _iter139.Write(oprot);
               }
               oprot.WriteListEnd();
             }
@@ -547,7 +472,7 @@ public partial class MWalkPointEstimationService {
     }
 
     public override string ToString() {
-      StringBuilder __sb = new StringBuilder("EstimateWalkPoints_result(");
+      StringBuilder __sb = new StringBuilder("Blend_result(");
       bool __first = true;
       if (Success != null && __isset.success) {
         if(!__first) { __sb.Append(", "); }

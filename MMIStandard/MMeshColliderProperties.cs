@@ -55,13 +55,13 @@ public partial class MMeshColliderProperties : TBase
             if (field.Type == TType.List) {
               {
                 Vertices = new List<MVector3>();
-                TList _list32 = iprot.ReadListBegin();
-                for( int _i33 = 0; _i33 < _list32.Count; ++_i33)
+                TList _list36 = iprot.ReadListBegin();
+                for( int _i37 = 0; _i37 < _list36.Count; ++_i37)
                 {
-                  MVector3 _elem34;
-                  _elem34 = new MVector3();
-                  _elem34.Read(iprot);
-                  Vertices.Add(_elem34);
+                  MVector3 _elem38;
+                  _elem38 = new MVector3();
+                  _elem38.Read(iprot);
+                  Vertices.Add(_elem38);
                 }
                 iprot.ReadListEnd();
               }
@@ -74,12 +74,12 @@ public partial class MMeshColliderProperties : TBase
             if (field.Type == TType.List) {
               {
                 Triangles = new List<int>();
-                TList _list35 = iprot.ReadListBegin();
-                for( int _i36 = 0; _i36 < _list35.Count; ++_i36)
+                TList _list39 = iprot.ReadListBegin();
+                for( int _i40 = 0; _i40 < _list39.Count; ++_i40)
                 {
-                  int _elem37;
-                  _elem37 = iprot.ReadI32();
-                  Triangles.Add(_elem37);
+                  int _elem41;
+                  _elem41 = iprot.ReadI32();
+                  Triangles.Add(_elem41);
                 }
                 iprot.ReadListEnd();
               }
@@ -121,9 +121,9 @@ public partial class MMeshColliderProperties : TBase
       oprot.WriteFieldBegin(field);
       {
         oprot.WriteListBegin(new TList(TType.Struct, Vertices.Count));
-        foreach (MVector3 _iter38 in Vertices)
+        foreach (MVector3 _iter42 in Vertices)
         {
-          _iter38.Write(oprot);
+          _iter42.Write(oprot);
         }
         oprot.WriteListEnd();
       }
@@ -136,9 +136,9 @@ public partial class MMeshColliderProperties : TBase
       oprot.WriteFieldBegin(field);
       {
         oprot.WriteListBegin(new TList(TType.I32, Triangles.Count));
-        foreach (int _iter39 in Triangles)
+        foreach (int _iter43 in Triangles)
         {
-          oprot.WriteI32(_iter39);
+          oprot.WriteI32(_iter43);
         }
         oprot.WriteListEnd();
       }

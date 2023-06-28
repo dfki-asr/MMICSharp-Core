@@ -206,14 +206,14 @@ public partial class MSceneObject : TBase
             if (field.Type == TType.Map) {
               {
                 Properties = new Dictionary<string, string>();
-                TMap _map113 = iprot.ReadMapBegin();
-                for( int _i114 = 0; _i114 < _map113.Count; ++_i114)
+                TMap _map117 = iprot.ReadMapBegin();
+                for( int _i118 = 0; _i118 < _map117.Count; ++_i118)
                 {
-                  string _key115;
-                  string _val116;
-                  _key115 = iprot.ReadString();
-                  _val116 = iprot.ReadString();
-                  Properties[_key115] = _val116;
+                  string _key119;
+                  string _val120;
+                  _key119 = iprot.ReadString();
+                  _val120 = iprot.ReadString();
+                  Properties[_key119] = _val120;
                 }
                 iprot.ReadMapEnd();
               }
@@ -225,13 +225,13 @@ public partial class MSceneObject : TBase
             if (field.Type == TType.List) {
               {
                 Attachments = new List<MAttachment>();
-                TList _list117 = iprot.ReadListBegin();
-                for( int _i118 = 0; _i118 < _list117.Count; ++_i118)
+                TList _list121 = iprot.ReadListBegin();
+                for( int _i122 = 0; _i122 < _list121.Count; ++_i122)
                 {
-                  MAttachment _elem119;
-                  _elem119 = new MAttachment();
-                  _elem119.Read(iprot);
-                  Attachments.Add(_elem119);
+                  MAttachment _elem123;
+                  _elem123 = new MAttachment();
+                  _elem123.Read(iprot);
+                  Attachments.Add(_elem123);
                 }
                 iprot.ReadListEnd();
               }
@@ -243,13 +243,13 @@ public partial class MSceneObject : TBase
             if (field.Type == TType.List) {
               {
                 Constraints = new List<MConstraint>();
-                TList _list120 = iprot.ReadListBegin();
-                for( int _i121 = 0; _i121 < _list120.Count; ++_i121)
+                TList _list124 = iprot.ReadListBegin();
+                for( int _i125 = 0; _i125 < _list124.Count; ++_i125)
                 {
-                  MConstraint _elem122;
-                  _elem122 = new MConstraint();
-                  _elem122.Read(iprot);
-                  Constraints.Add(_elem122);
+                  MConstraint _elem126;
+                  _elem126 = new MConstraint();
+                  _elem126.Read(iprot);
+                  Constraints.Add(_elem126);
                 }
                 iprot.ReadListEnd();
               }
@@ -339,10 +339,10 @@ public partial class MSceneObject : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.String, TType.String, Properties.Count));
-          foreach (string _iter123 in Properties.Keys)
+          foreach (string _iter127 in Properties.Keys)
           {
-            oprot.WriteString(_iter123);
-            oprot.WriteString(Properties[_iter123]);
+            oprot.WriteString(_iter127);
+            oprot.WriteString(Properties[_iter127]);
           }
           oprot.WriteMapEnd();
         }
@@ -355,9 +355,9 @@ public partial class MSceneObject : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, Attachments.Count));
-          foreach (MAttachment _iter124 in Attachments)
+          foreach (MAttachment _iter128 in Attachments)
           {
-            _iter124.Write(oprot);
+            _iter128.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -370,9 +370,9 @@ public partial class MSceneObject : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, Constraints.Count));
-          foreach (MConstraint _iter125 in Constraints)
+          foreach (MConstraint _iter129 in Constraints)
           {
-            _iter125.Write(oprot);
+            _iter129.Write(oprot);
           }
           oprot.WriteListEnd();
         }

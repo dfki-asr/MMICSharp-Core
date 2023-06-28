@@ -23,6 +23,8 @@ public partial class MCoSimulationAccess {
     MBoolResponse Abort(string avatarID);
     MBoolResponse AbortInstruction(string instructionID);
     MBoolResponse AbortInstructions(List<string> instructionIDs);
+    List<MConstraint> GetBoundaryConstraints(MInstruction instruction);
+    MBoolResponse CheckPrerequisites(MInstruction instruction);
     List<MCoSimulationEvents> GetHistoryFromTime(double startTime, double endTime, string eventType, string avatarID);
     List<MCoSimulationEvents> GetHistoryFromFrames(int fromFrame, int toFrame, string eventType, string avatarID);
     List<MCoSimulationEvents> GetHistory(string eventType, string avatarID);
@@ -53,6 +55,14 @@ public partial class MCoSimulationAccess {
     #if SILVERLIGHT
     IAsyncResult Begin_AbortInstructions(AsyncCallback callback, object state, List<string> instructionIDs);
     MBoolResponse End_AbortInstructions(IAsyncResult asyncResult);
+    #endif
+    #if SILVERLIGHT
+    IAsyncResult Begin_GetBoundaryConstraints(AsyncCallback callback, object state, MInstruction instruction);
+    List<MConstraint> End_GetBoundaryConstraints(IAsyncResult asyncResult);
+    #endif
+    #if SILVERLIGHT
+    IAsyncResult Begin_CheckPrerequisites(AsyncCallback callback, object state, MInstruction instruction);
+    MBoolResponse End_CheckPrerequisites(IAsyncResult asyncResult);
     #endif
     #if SILVERLIGHT
     IAsyncResult Begin_GetHistoryFromTime(AsyncCallback callback, object state, double startTime, double endTime, string eventType, string avatarID);
@@ -508,6 +518,144 @@ public partial class MCoSimulationAccess {
     
     #if SILVERLIGHT
     
+    public IAsyncResult Begin_GetBoundaryConstraints(AsyncCallback callback, object state, MInstruction instruction)
+    {
+      return send_GetBoundaryConstraints(callback, state, instruction);
+    }
+
+    public List<MConstraint> End_GetBoundaryConstraints(IAsyncResult asyncResult)
+    {
+      oprot_.Transport.EndFlush(asyncResult);
+      return recv_GetBoundaryConstraints();
+    }
+
+    #endif
+
+    public List<MConstraint> GetBoundaryConstraints(MInstruction instruction)
+    {
+      #if SILVERLIGHT
+      var asyncResult = Begin_GetBoundaryConstraints(null, null, instruction);
+      return End_GetBoundaryConstraints(asyncResult);
+
+      #else
+      send_GetBoundaryConstraints(instruction);
+      return recv_GetBoundaryConstraints();
+
+      #endif
+    }
+    #if SILVERLIGHT
+    public IAsyncResult send_GetBoundaryConstraints(AsyncCallback callback, object state, MInstruction instruction)
+    {
+      oprot_.WriteMessageBegin(new TMessage("GetBoundaryConstraints", TMessageType.Call, seqid_));
+      GetBoundaryConstraints_args args = new GetBoundaryConstraints_args();
+      args.Instruction = instruction;
+      args.Write(oprot_);
+      oprot_.WriteMessageEnd();
+      return oprot_.Transport.BeginFlush(callback, state);
+    }
+
+    #else
+
+    public void send_GetBoundaryConstraints(MInstruction instruction)
+    {
+      oprot_.WriteMessageBegin(new TMessage("GetBoundaryConstraints", TMessageType.Call, seqid_));
+      GetBoundaryConstraints_args args = new GetBoundaryConstraints_args();
+      args.Instruction = instruction;
+      args.Write(oprot_);
+      oprot_.WriteMessageEnd();
+      oprot_.Transport.Flush();
+    }
+    #endif
+
+    public List<MConstraint> recv_GetBoundaryConstraints()
+    {
+      TMessage msg = iprot_.ReadMessageBegin();
+      if (msg.Type == TMessageType.Exception) {
+        TApplicationException x = TApplicationException.Read(iprot_);
+        iprot_.ReadMessageEnd();
+        throw x;
+      }
+      GetBoundaryConstraints_result result = new GetBoundaryConstraints_result();
+      result.Read(iprot_);
+      iprot_.ReadMessageEnd();
+      if (result.__isset.success) {
+        return result.Success;
+      }
+      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "GetBoundaryConstraints failed: unknown result");
+    }
+
+    
+    #if SILVERLIGHT
+    
+    public IAsyncResult Begin_CheckPrerequisites(AsyncCallback callback, object state, MInstruction instruction)
+    {
+      return send_CheckPrerequisites(callback, state, instruction);
+    }
+
+    public MBoolResponse End_CheckPrerequisites(IAsyncResult asyncResult)
+    {
+      oprot_.Transport.EndFlush(asyncResult);
+      return recv_CheckPrerequisites();
+    }
+
+    #endif
+
+    public MBoolResponse CheckPrerequisites(MInstruction instruction)
+    {
+      #if SILVERLIGHT
+      var asyncResult = Begin_CheckPrerequisites(null, null, instruction);
+      return End_CheckPrerequisites(asyncResult);
+
+      #else
+      send_CheckPrerequisites(instruction);
+      return recv_CheckPrerequisites();
+
+      #endif
+    }
+    #if SILVERLIGHT
+    public IAsyncResult send_CheckPrerequisites(AsyncCallback callback, object state, MInstruction instruction)
+    {
+      oprot_.WriteMessageBegin(new TMessage("CheckPrerequisites", TMessageType.Call, seqid_));
+      CheckPrerequisites_args args = new CheckPrerequisites_args();
+      args.Instruction = instruction;
+      args.Write(oprot_);
+      oprot_.WriteMessageEnd();
+      return oprot_.Transport.BeginFlush(callback, state);
+    }
+
+    #else
+
+    public void send_CheckPrerequisites(MInstruction instruction)
+    {
+      oprot_.WriteMessageBegin(new TMessage("CheckPrerequisites", TMessageType.Call, seqid_));
+      CheckPrerequisites_args args = new CheckPrerequisites_args();
+      args.Instruction = instruction;
+      args.Write(oprot_);
+      oprot_.WriteMessageEnd();
+      oprot_.Transport.Flush();
+    }
+    #endif
+
+    public MBoolResponse recv_CheckPrerequisites()
+    {
+      TMessage msg = iprot_.ReadMessageBegin();
+      if (msg.Type == TMessageType.Exception) {
+        TApplicationException x = TApplicationException.Read(iprot_);
+        iprot_.ReadMessageEnd();
+        throw x;
+      }
+      CheckPrerequisites_result result = new CheckPrerequisites_result();
+      result.Read(iprot_);
+      iprot_.ReadMessageEnd();
+      if (result.__isset.success) {
+        return result.Success;
+      }
+      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "CheckPrerequisites failed: unknown result");
+    }
+
+    
+    #if SILVERLIGHT
+    
     public IAsyncResult Begin_GetHistoryFromTime(AsyncCallback callback, object state, double startTime, double endTime, string eventType, string avatarID)
     {
       return send_GetHistoryFromTime(callback, state, startTime, endTime, eventType, avatarID);
@@ -806,6 +954,8 @@ public partial class MCoSimulationAccess {
       processMap_["Abort"] = Abort_Process;
       processMap_["AbortInstruction"] = AbortInstruction_Process;
       processMap_["AbortInstructions"] = AbortInstructions_Process;
+      processMap_["GetBoundaryConstraints"] = GetBoundaryConstraints_Process;
+      processMap_["CheckPrerequisites"] = CheckPrerequisites_Process;
       processMap_["GetHistoryFromTime"] = GetHistoryFromTime_Process;
       processMap_["GetHistoryFromFrames"] = GetHistoryFromFrames_Process;
       processMap_["GetHistory"] = GetHistory_Process;
@@ -1002,6 +1152,62 @@ public partial class MCoSimulationAccess {
         Console.Error.WriteLine(ex.ToString());
         TApplicationException x = new TApplicationException      (TApplicationException.ExceptionType.InternalError," Internal error.");
         oprot.WriteMessageBegin(new TMessage("AbortInstructions", TMessageType.Exception, seqid));
+        x.Write(oprot);
+      }
+      oprot.WriteMessageEnd();
+      oprot.Transport.Flush();
+    }
+
+    public void GetBoundaryConstraints_Process(int seqid, TProtocol iprot, TProtocol oprot)
+    {
+      GetBoundaryConstraints_args args = new GetBoundaryConstraints_args();
+      args.Read(iprot);
+      iprot.ReadMessageEnd();
+      GetBoundaryConstraints_result result = new GetBoundaryConstraints_result();
+      try
+      {
+        result.Success = iface_.GetBoundaryConstraints(args.Instruction);
+        oprot.WriteMessageBegin(new TMessage("GetBoundaryConstraints", TMessageType.Reply, seqid)); 
+        result.Write(oprot);
+      }
+      catch (TTransportException)
+      {
+        throw;
+      }
+      catch (Exception ex)
+      {
+        Console.Error.WriteLine("Error occurred in processor:");
+        Console.Error.WriteLine(ex.ToString());
+        TApplicationException x = new TApplicationException      (TApplicationException.ExceptionType.InternalError," Internal error.");
+        oprot.WriteMessageBegin(new TMessage("GetBoundaryConstraints", TMessageType.Exception, seqid));
+        x.Write(oprot);
+      }
+      oprot.WriteMessageEnd();
+      oprot.Transport.Flush();
+    }
+
+    public void CheckPrerequisites_Process(int seqid, TProtocol iprot, TProtocol oprot)
+    {
+      CheckPrerequisites_args args = new CheckPrerequisites_args();
+      args.Read(iprot);
+      iprot.ReadMessageEnd();
+      CheckPrerequisites_result result = new CheckPrerequisites_result();
+      try
+      {
+        result.Success = iface_.CheckPrerequisites(args.Instruction);
+        oprot.WriteMessageBegin(new TMessage("CheckPrerequisites", TMessageType.Reply, seqid)); 
+        result.Write(oprot);
+      }
+      catch (TTransportException)
+      {
+        throw;
+      }
+      catch (Exception ex)
+      {
+        Console.Error.WriteLine("Error occurred in processor:");
+        Console.Error.WriteLine(ex.ToString());
+        TApplicationException x = new TApplicationException      (TApplicationException.ExceptionType.InternalError," Internal error.");
+        oprot.WriteMessageBegin(new TMessage("CheckPrerequisites", TMessageType.Exception, seqid));
         x.Write(oprot);
       }
       oprot.WriteMessageEnd();
@@ -2666,6 +2872,465 @@ public partial class MCoSimulationAccess {
   #if !SILVERLIGHT
   [Serializable]
   #endif
+  public partial class GetBoundaryConstraints_args : TBase
+  {
+    private MInstruction _instruction;
+
+    public MInstruction Instruction
+    {
+      get
+      {
+        return _instruction;
+      }
+      set
+      {
+        __isset.instruction = true;
+        this._instruction = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool instruction;
+    }
+
+    public GetBoundaryConstraints_args() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        iprot.ReadStructBegin();
+        while (true)
+        {
+          field = iprot.ReadFieldBegin();
+          if (field.Type == TType.Stop) { 
+            break;
+          }
+          switch (field.ID)
+          {
+            case 1:
+              if (field.Type == TType.Struct) {
+                Instruction = new MInstruction();
+                Instruction.Read(iprot);
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            default: 
+              TProtocolUtil.Skip(iprot, field.Type);
+              break;
+          }
+          iprot.ReadFieldEnd();
+        }
+        iprot.ReadStructEnd();
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public void Write(TProtocol oprot) {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        TStruct struc = new TStruct("GetBoundaryConstraints_args");
+        oprot.WriteStructBegin(struc);
+        TField field = new TField();
+        if (Instruction != null && __isset.instruction) {
+          field.Name = "instruction";
+          field.Type = TType.Struct;
+          field.ID = 1;
+          oprot.WriteFieldBegin(field);
+          Instruction.Write(oprot);
+          oprot.WriteFieldEnd();
+        }
+        oprot.WriteFieldStop();
+        oprot.WriteStructEnd();
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override string ToString() {
+      StringBuilder __sb = new StringBuilder("GetBoundaryConstraints_args(");
+      bool __first = true;
+      if (Instruction != null && __isset.instruction) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("Instruction: ");
+        __sb.Append(Instruction== null ? "<null>" : Instruction.ToString());
+      }
+      __sb.Append(")");
+      return __sb.ToString();
+    }
+
+  }
+
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class GetBoundaryConstraints_result : TBase
+  {
+    private List<MConstraint> _success;
+
+    public List<MConstraint> Success
+    {
+      get
+      {
+        return _success;
+      }
+      set
+      {
+        __isset.success = true;
+        this._success = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool success;
+    }
+
+    public GetBoundaryConstraints_result() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        iprot.ReadStructBegin();
+        while (true)
+        {
+          field = iprot.ReadFieldBegin();
+          if (field.Type == TType.Stop) { 
+            break;
+          }
+          switch (field.ID)
+          {
+            case 0:
+              if (field.Type == TType.List) {
+                {
+                  Success = new List<MConstraint>();
+                  TList _list13 = iprot.ReadListBegin();
+                  for( int _i14 = 0; _i14 < _list13.Count; ++_i14)
+                  {
+                    MConstraint _elem15;
+                    _elem15 = new MConstraint();
+                    _elem15.Read(iprot);
+                    Success.Add(_elem15);
+                  }
+                  iprot.ReadListEnd();
+                }
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            default: 
+              TProtocolUtil.Skip(iprot, field.Type);
+              break;
+          }
+          iprot.ReadFieldEnd();
+        }
+        iprot.ReadStructEnd();
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public void Write(TProtocol oprot) {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        TStruct struc = new TStruct("GetBoundaryConstraints_result");
+        oprot.WriteStructBegin(struc);
+        TField field = new TField();
+
+        if (this.__isset.success) {
+          if (Success != null) {
+            field.Name = "Success";
+            field.Type = TType.List;
+            field.ID = 0;
+            oprot.WriteFieldBegin(field);
+            {
+              oprot.WriteListBegin(new TList(TType.Struct, Success.Count));
+              foreach (MConstraint _iter16 in Success)
+              {
+                _iter16.Write(oprot);
+              }
+              oprot.WriteListEnd();
+            }
+            oprot.WriteFieldEnd();
+          }
+        }
+        oprot.WriteFieldStop();
+        oprot.WriteStructEnd();
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override string ToString() {
+      StringBuilder __sb = new StringBuilder("GetBoundaryConstraints_result(");
+      bool __first = true;
+      if (Success != null && __isset.success) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("Success: ");
+        __sb.Append(Success);
+      }
+      __sb.Append(")");
+      return __sb.ToString();
+    }
+
+  }
+
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class CheckPrerequisites_args : TBase
+  {
+    private MInstruction _instruction;
+
+    public MInstruction Instruction
+    {
+      get
+      {
+        return _instruction;
+      }
+      set
+      {
+        __isset.instruction = true;
+        this._instruction = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool instruction;
+    }
+
+    public CheckPrerequisites_args() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        iprot.ReadStructBegin();
+        while (true)
+        {
+          field = iprot.ReadFieldBegin();
+          if (field.Type == TType.Stop) { 
+            break;
+          }
+          switch (field.ID)
+          {
+            case 1:
+              if (field.Type == TType.Struct) {
+                Instruction = new MInstruction();
+                Instruction.Read(iprot);
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            default: 
+              TProtocolUtil.Skip(iprot, field.Type);
+              break;
+          }
+          iprot.ReadFieldEnd();
+        }
+        iprot.ReadStructEnd();
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public void Write(TProtocol oprot) {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        TStruct struc = new TStruct("CheckPrerequisites_args");
+        oprot.WriteStructBegin(struc);
+        TField field = new TField();
+        if (Instruction != null && __isset.instruction) {
+          field.Name = "instruction";
+          field.Type = TType.Struct;
+          field.ID = 1;
+          oprot.WriteFieldBegin(field);
+          Instruction.Write(oprot);
+          oprot.WriteFieldEnd();
+        }
+        oprot.WriteFieldStop();
+        oprot.WriteStructEnd();
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override string ToString() {
+      StringBuilder __sb = new StringBuilder("CheckPrerequisites_args(");
+      bool __first = true;
+      if (Instruction != null && __isset.instruction) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("Instruction: ");
+        __sb.Append(Instruction== null ? "<null>" : Instruction.ToString());
+      }
+      __sb.Append(")");
+      return __sb.ToString();
+    }
+
+  }
+
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class CheckPrerequisites_result : TBase
+  {
+    private MBoolResponse _success;
+
+    public MBoolResponse Success
+    {
+      get
+      {
+        return _success;
+      }
+      set
+      {
+        __isset.success = true;
+        this._success = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool success;
+    }
+
+    public CheckPrerequisites_result() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        iprot.ReadStructBegin();
+        while (true)
+        {
+          field = iprot.ReadFieldBegin();
+          if (field.Type == TType.Stop) { 
+            break;
+          }
+          switch (field.ID)
+          {
+            case 0:
+              if (field.Type == TType.Struct) {
+                Success = new MBoolResponse();
+                Success.Read(iprot);
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            default: 
+              TProtocolUtil.Skip(iprot, field.Type);
+              break;
+          }
+          iprot.ReadFieldEnd();
+        }
+        iprot.ReadStructEnd();
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public void Write(TProtocol oprot) {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        TStruct struc = new TStruct("CheckPrerequisites_result");
+        oprot.WriteStructBegin(struc);
+        TField field = new TField();
+
+        if (this.__isset.success) {
+          if (Success != null) {
+            field.Name = "Success";
+            field.Type = TType.Struct;
+            field.ID = 0;
+            oprot.WriteFieldBegin(field);
+            Success.Write(oprot);
+            oprot.WriteFieldEnd();
+          }
+        }
+        oprot.WriteFieldStop();
+        oprot.WriteStructEnd();
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override string ToString() {
+      StringBuilder __sb = new StringBuilder("CheckPrerequisites_result(");
+      bool __first = true;
+      if (Success != null && __isset.success) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("Success: ");
+        __sb.Append(Success== null ? "<null>" : Success.ToString());
+      }
+      __sb.Append(")");
+      return __sb.ToString();
+    }
+
+  }
+
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
   public partial class GetHistoryFromTime_args : TBase
   {
     private double _startTime;
@@ -2930,13 +3595,13 @@ public partial class MCoSimulationAccess {
               if (field.Type == TType.List) {
                 {
                   Success = new List<MCoSimulationEvents>();
-                  TList _list13 = iprot.ReadListBegin();
-                  for( int _i14 = 0; _i14 < _list13.Count; ++_i14)
+                  TList _list17 = iprot.ReadListBegin();
+                  for( int _i18 = 0; _i18 < _list17.Count; ++_i18)
                   {
-                    MCoSimulationEvents _elem15;
-                    _elem15 = new MCoSimulationEvents();
-                    _elem15.Read(iprot);
-                    Success.Add(_elem15);
+                    MCoSimulationEvents _elem19;
+                    _elem19 = new MCoSimulationEvents();
+                    _elem19.Read(iprot);
+                    Success.Add(_elem19);
                   }
                   iprot.ReadListEnd();
                 }
@@ -2974,9 +3639,9 @@ public partial class MCoSimulationAccess {
             oprot.WriteFieldBegin(field);
             {
               oprot.WriteListBegin(new TList(TType.Struct, Success.Count));
-              foreach (MCoSimulationEvents _iter16 in Success)
+              foreach (MCoSimulationEvents _iter20 in Success)
               {
-                _iter16.Write(oprot);
+                _iter20.Write(oprot);
               }
               oprot.WriteListEnd();
             }
@@ -3275,13 +3940,13 @@ public partial class MCoSimulationAccess {
               if (field.Type == TType.List) {
                 {
                   Success = new List<MCoSimulationEvents>();
-                  TList _list17 = iprot.ReadListBegin();
-                  for( int _i18 = 0; _i18 < _list17.Count; ++_i18)
+                  TList _list21 = iprot.ReadListBegin();
+                  for( int _i22 = 0; _i22 < _list21.Count; ++_i22)
                   {
-                    MCoSimulationEvents _elem19;
-                    _elem19 = new MCoSimulationEvents();
-                    _elem19.Read(iprot);
-                    Success.Add(_elem19);
+                    MCoSimulationEvents _elem23;
+                    _elem23 = new MCoSimulationEvents();
+                    _elem23.Read(iprot);
+                    Success.Add(_elem23);
                   }
                   iprot.ReadListEnd();
                 }
@@ -3319,9 +3984,9 @@ public partial class MCoSimulationAccess {
             oprot.WriteFieldBegin(field);
             {
               oprot.WriteListBegin(new TList(TType.Struct, Success.Count));
-              foreach (MCoSimulationEvents _iter20 in Success)
+              foreach (MCoSimulationEvents _iter24 in Success)
               {
-                _iter20.Write(oprot);
+                _iter24.Write(oprot);
               }
               oprot.WriteListEnd();
             }
@@ -3548,13 +4213,13 @@ public partial class MCoSimulationAccess {
               if (field.Type == TType.List) {
                 {
                   Success = new List<MCoSimulationEvents>();
-                  TList _list21 = iprot.ReadListBegin();
-                  for( int _i22 = 0; _i22 < _list21.Count; ++_i22)
+                  TList _list25 = iprot.ReadListBegin();
+                  for( int _i26 = 0; _i26 < _list25.Count; ++_i26)
                   {
-                    MCoSimulationEvents _elem23;
-                    _elem23 = new MCoSimulationEvents();
-                    _elem23.Read(iprot);
-                    Success.Add(_elem23);
+                    MCoSimulationEvents _elem27;
+                    _elem27 = new MCoSimulationEvents();
+                    _elem27.Read(iprot);
+                    Success.Add(_elem27);
                   }
                   iprot.ReadListEnd();
                 }
@@ -3592,9 +4257,9 @@ public partial class MCoSimulationAccess {
             oprot.WriteFieldBegin(field);
             {
               oprot.WriteListBegin(new TList(TType.Struct, Success.Count));
-              foreach (MCoSimulationEvents _iter24 in Success)
+              foreach (MCoSimulationEvents _iter28 in Success)
               {
-                _iter24.Write(oprot);
+                _iter28.Write(oprot);
               }
               oprot.WriteListEnd();
             }

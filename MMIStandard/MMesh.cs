@@ -105,13 +105,13 @@ public partial class MMesh : TBase
             if (field.Type == TType.List) {
               {
                 Vertices = new List<MVector3>();
-                TList _list40 = iprot.ReadListBegin();
-                for( int _i41 = 0; _i41 < _list40.Count; ++_i41)
+                TList _list44 = iprot.ReadListBegin();
+                for( int _i45 = 0; _i45 < _list44.Count; ++_i45)
                 {
-                  MVector3 _elem42;
-                  _elem42 = new MVector3();
-                  _elem42.Read(iprot);
-                  Vertices.Add(_elem42);
+                  MVector3 _elem46;
+                  _elem46 = new MVector3();
+                  _elem46.Read(iprot);
+                  Vertices.Add(_elem46);
                 }
                 iprot.ReadListEnd();
               }
@@ -124,12 +124,12 @@ public partial class MMesh : TBase
             if (field.Type == TType.List) {
               {
                 Triangles = new List<int>();
-                TList _list43 = iprot.ReadListBegin();
-                for( int _i44 = 0; _i44 < _list43.Count; ++_i44)
+                TList _list47 = iprot.ReadListBegin();
+                for( int _i48 = 0; _i48 < _list47.Count; ++_i48)
                 {
-                  int _elem45;
-                  _elem45 = iprot.ReadI32();
-                  Triangles.Add(_elem45);
+                  int _elem49;
+                  _elem49 = iprot.ReadI32();
+                  Triangles.Add(_elem49);
                 }
                 iprot.ReadListEnd();
               }
@@ -142,13 +142,13 @@ public partial class MMesh : TBase
             if (field.Type == TType.List) {
               {
                 UVCoordinates = new List<MVector2>();
-                TList _list46 = iprot.ReadListBegin();
-                for( int _i47 = 0; _i47 < _list46.Count; ++_i47)
+                TList _list50 = iprot.ReadListBegin();
+                for( int _i51 = 0; _i51 < _list50.Count; ++_i51)
                 {
-                  MVector2 _elem48;
-                  _elem48 = new MVector2();
-                  _elem48.Read(iprot);
-                  UVCoordinates.Add(_elem48);
+                  MVector2 _elem52;
+                  _elem52 = new MVector2();
+                  _elem52.Read(iprot);
+                  UVCoordinates.Add(_elem52);
                 }
                 iprot.ReadListEnd();
               }
@@ -160,14 +160,14 @@ public partial class MMesh : TBase
             if (field.Type == TType.Map) {
               {
                 Properties = new Dictionary<string, string>();
-                TMap _map49 = iprot.ReadMapBegin();
-                for( int _i50 = 0; _i50 < _map49.Count; ++_i50)
+                TMap _map53 = iprot.ReadMapBegin();
+                for( int _i54 = 0; _i54 < _map53.Count; ++_i54)
                 {
-                  string _key51;
-                  string _val52;
-                  _key51 = iprot.ReadString();
-                  _val52 = iprot.ReadString();
-                  Properties[_key51] = _val52;
+                  string _key55;
+                  string _val56;
+                  _key55 = iprot.ReadString();
+                  _val56 = iprot.ReadString();
+                  Properties[_key55] = _val56;
                 }
                 iprot.ReadMapEnd();
               }
@@ -218,9 +218,9 @@ public partial class MMesh : TBase
       oprot.WriteFieldBegin(field);
       {
         oprot.WriteListBegin(new TList(TType.Struct, Vertices.Count));
-        foreach (MVector3 _iter53 in Vertices)
+        foreach (MVector3 _iter57 in Vertices)
         {
-          _iter53.Write(oprot);
+          _iter57.Write(oprot);
         }
         oprot.WriteListEnd();
       }
@@ -233,9 +233,9 @@ public partial class MMesh : TBase
       oprot.WriteFieldBegin(field);
       {
         oprot.WriteListBegin(new TList(TType.I32, Triangles.Count));
-        foreach (int _iter54 in Triangles)
+        foreach (int _iter58 in Triangles)
         {
-          oprot.WriteI32(_iter54);
+          oprot.WriteI32(_iter58);
         }
         oprot.WriteListEnd();
       }
@@ -247,9 +247,9 @@ public partial class MMesh : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, UVCoordinates.Count));
-          foreach (MVector2 _iter55 in UVCoordinates)
+          foreach (MVector2 _iter59 in UVCoordinates)
           {
-            _iter55.Write(oprot);
+            _iter59.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -262,10 +262,10 @@ public partial class MMesh : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.String, TType.String, Properties.Count));
-          foreach (string _iter56 in Properties.Keys)
+          foreach (string _iter60 in Properties.Keys)
           {
-            oprot.WriteString(_iter56);
-            oprot.WriteString(Properties[_iter56]);
+            oprot.WriteString(_iter60);
+            oprot.WriteString(Properties[_iter60]);
           }
           oprot.WriteMapEnd();
         }

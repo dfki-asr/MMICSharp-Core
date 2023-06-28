@@ -112,13 +112,13 @@ public partial class MSceneManipulation : TBase
             if (field.Type == TType.List) {
               {
                 Transforms = new List<MTransformManipulation>();
-                TList _list88 = iprot.ReadListBegin();
-                for( int _i89 = 0; _i89 < _list88.Count; ++_i89)
+                TList _list92 = iprot.ReadListBegin();
+                for( int _i93 = 0; _i93 < _list92.Count; ++_i93)
                 {
-                  MTransformManipulation _elem90;
-                  _elem90 = new MTransformManipulation();
-                  _elem90.Read(iprot);
-                  Transforms.Add(_elem90);
+                  MTransformManipulation _elem94;
+                  _elem94 = new MTransformManipulation();
+                  _elem94.Read(iprot);
+                  Transforms.Add(_elem94);
                 }
                 iprot.ReadListEnd();
               }
@@ -130,13 +130,13 @@ public partial class MSceneManipulation : TBase
             if (field.Type == TType.List) {
               {
                 PhysicsInteractions = new List<MPhysicsInteraction>();
-                TList _list91 = iprot.ReadListBegin();
-                for( int _i92 = 0; _i92 < _list91.Count; ++_i92)
+                TList _list95 = iprot.ReadListBegin();
+                for( int _i96 = 0; _i96 < _list95.Count; ++_i96)
                 {
-                  MPhysicsInteraction _elem93;
-                  _elem93 = new MPhysicsInteraction();
-                  _elem93.Read(iprot);
-                  PhysicsInteractions.Add(_elem93);
+                  MPhysicsInteraction _elem97;
+                  _elem97 = new MPhysicsInteraction();
+                  _elem97.Read(iprot);
+                  PhysicsInteractions.Add(_elem97);
                 }
                 iprot.ReadListEnd();
               }
@@ -148,13 +148,13 @@ public partial class MSceneManipulation : TBase
             if (field.Type == TType.List) {
               {
                 Properties = new List<MPropertyManipulation>();
-                TList _list94 = iprot.ReadListBegin();
-                for( int _i95 = 0; _i95 < _list94.Count; ++_i95)
+                TList _list98 = iprot.ReadListBegin();
+                for( int _i99 = 0; _i99 < _list98.Count; ++_i99)
                 {
-                  MPropertyManipulation _elem96;
-                  _elem96 = new MPropertyManipulation();
-                  _elem96.Read(iprot);
-                  Properties.Add(_elem96);
+                  MPropertyManipulation _elem100;
+                  _elem100 = new MPropertyManipulation();
+                  _elem100.Read(iprot);
+                  Properties.Add(_elem100);
                 }
                 iprot.ReadListEnd();
               }
@@ -166,13 +166,13 @@ public partial class MSceneManipulation : TBase
             if (field.Type == TType.List) {
               {
                 Attachments = new List<MAttachmentManipulation>();
-                TList _list97 = iprot.ReadListBegin();
-                for( int _i98 = 0; _i98 < _list97.Count; ++_i98)
+                TList _list101 = iprot.ReadListBegin();
+                for( int _i102 = 0; _i102 < _list101.Count; ++_i102)
                 {
-                  MAttachmentManipulation _elem99;
-                  _elem99 = new MAttachmentManipulation();
-                  _elem99.Read(iprot);
-                  Attachments.Add(_elem99);
+                  MAttachmentManipulation _elem103;
+                  _elem103 = new MAttachmentManipulation();
+                  _elem103.Read(iprot);
+                  Attachments.Add(_elem103);
                 }
                 iprot.ReadListEnd();
               }
@@ -208,9 +208,9 @@ public partial class MSceneManipulation : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, Transforms.Count));
-          foreach (MTransformManipulation _iter100 in Transforms)
+          foreach (MTransformManipulation _iter104 in Transforms)
           {
-            _iter100.Write(oprot);
+            _iter104.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -223,9 +223,9 @@ public partial class MSceneManipulation : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, PhysicsInteractions.Count));
-          foreach (MPhysicsInteraction _iter101 in PhysicsInteractions)
+          foreach (MPhysicsInteraction _iter105 in PhysicsInteractions)
           {
-            _iter101.Write(oprot);
+            _iter105.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -238,9 +238,9 @@ public partial class MSceneManipulation : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, Properties.Count));
-          foreach (MPropertyManipulation _iter102 in Properties)
+          foreach (MPropertyManipulation _iter106 in Properties)
           {
-            _iter102.Write(oprot);
+            _iter106.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -253,9 +253,9 @@ public partial class MSceneManipulation : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, Attachments.Count));
-          foreach (MAttachmentManipulation _iter103 in Attachments)
+          foreach (MAttachmentManipulation _iter107 in Attachments)
           {
-            _iter103.Write(oprot);
+            _iter107.Write(oprot);
           }
           oprot.WriteListEnd();
         }
