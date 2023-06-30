@@ -64,6 +64,41 @@ namespace MMIStandard
             return null;
         }
 
+        public static MGeometryConstraint MakeGlobalConstraint(this MGeometryConstraint constraint, MSceneAccess.Iface sceneAccess)
+        {
+            if(constraint.ParentObjectID != "")
+            {
+                MVector3 scale = constraint.ParentToConstraint.Scale.Clone();
+                MTransform parentTransform = sceneAccess.GetTransformByID(constraint.ParentObjectID);
+                scale.X *= parentTransform.Scale.X;
+                scale.Y *= parentTransform.Scale.Y;
+                scale.Z *= parentTransform.Scale.Z;
+                MGeometryConstraint global = new MGeometryConstraint("")
+                {
+                    ParentToConstraint = new MTransform(constraint.ParentToConstraint.ID,
+                    constraint.GetGlobalPosition(sceneAccess), constraint.GetGlobalRotation(sceneAccess), scale),
+                    RotationConstraint = constraint.RotationConstraint.Clone(),
+                    TranslationConstraint = constraint.TranslationConstraint.Clone(),
+                    WeightingFactor = constraint.WeightingFactor
+                };
+                return global;
+            }
+            else
+            {
+                // nothing to globalize
+                return constraint.Clone();
+            }
+        }
+
+        public static MGeometryConstraint Identity(string parent)
+        {
+            MGeometryConstraint local = new MGeometryConstraint(parent)
+            {
+                ParentToConstraint = MTransformExtensions.Identity()
+            };
+            return local;
+        }
+
         /// <summary>
         /// Clones the MGeometry Constraint
         /// </summary>
