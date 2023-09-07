@@ -379,23 +379,28 @@ namespace MMICSharp.Adapter
         /// <param name="sessionID"></param>
         public virtual MBoolResponse AssignInstruction(MInstruction instruction, MSimulationState simulationState, string mmuID, string sessionID)
         {
+            var watch = new System.Diagnostics.Stopwatch();
+            float t_getContent; float t_UpdateAccess; float t_AssignInstr;
             SessionContent sessionContent = null;
             AvatarContent avatarContent = null;
 
             MBoolResponse sessionResult = SessionData.GetContents(sessionID, out sessionContent, out avatarContent);
-
+            t_getContent = watch.ElapsedMilliseconds;
             //Directly return if not successfull
             if (!sessionResult.Successful)
                 return sessionResult;
 
             sessionContent.UpdateLastAccessTime();
+            t_UpdateAccess = watch.ElapsedMilliseconds - (t_getContent);
 
+            Logger.Log(Log_level.L_DEBUG, $"ThriftAdapterImplementation.AssignInstruction: Execute instruction {instruction.Name}:{instruction.ID} on {mmuID}");
 
-            Logger.Log(Log_level.L_DEBUG, $"Execute instruction {instruction.Name}:{instruction.ID} on {mmuID}");
-
-
+            var ret = avatarContent.MMUs[mmuID].AssignInstruction(instruction, simulationState);
+            t_AssignInstr = watch.ElapsedMilliseconds - (t_getContent + t_UpdateAccess);
+            //Logger.Log(Log_level.L_DEBUG, $"ThriftAdapterImplementation.AssignInstruction: t_getContent {t_getContent}ms, t_UpdateAccess {t_UpdateAccess}ms, t_AssignInstr {t_AssignInstr}ms");
+            watch.Stop();
             //Directly assign the instruction
-            return avatarContent.MMUs[mmuID].AssignInstruction(instruction, simulationState);        
+            return ret;
         }
 
 
@@ -409,19 +414,28 @@ namespace MMICSharp.Adapter
         /// <returns></returns>
         public virtual MSimulationResult DoStep(double time, MSimulationState simulationState, string mmuID, string sessionID)
         {
+            var watch = new System.Diagnostics.Stopwatch();
+            watch.Restart();
+            float t_getContent; float t_UpdateAccess; float t_AssignInstr;
+
             SessionContent sessionContent = null;
             AvatarContent avatarContent = null;
 
             MBoolResponse sessionResult = SessionData.GetContents(sessionID, out sessionContent, out avatarContent);
+            t_getContent = watch.ElapsedMilliseconds;
 
             //Skip if invalid session result
             if (!sessionResult.Successful)
                 return null;
 
             sessionContent.UpdateLastAccessTime();
-
+            t_UpdateAccess = watch.ElapsedMilliseconds - (t_getContent);
+            var ret = avatarContent.MMUs[mmuID].DoStep(time, simulationState);
+            t_AssignInstr = watch.ElapsedMilliseconds - (t_getContent + t_UpdateAccess);
+            //Logger.Log(Log_level.L_DEBUG, $"ThriftAdapterImplementation.DoStep:  {mmuID} t_getContent {t_getContent}ms, t_UpdateAccess {t_UpdateAccess}ms, t_doStep {t_AssignInstr}ms");
+            watch.Stop();
             //Execute the do step of the respective MMU
-            return avatarContent.MMUs[mmuID].DoStep(time, simulationState);
+            return ret;
         }
 
 
