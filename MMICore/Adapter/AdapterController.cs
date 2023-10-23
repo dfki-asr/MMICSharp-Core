@@ -156,15 +156,15 @@ namespace MMICSharp.Adapter
             //Set the start time
             this.SessionData.StartTime = DateTime.Now;
 
-            //Create and start the registration handler
-            this.registrationHandler = new AdapterRegistrationHandler(this.mmiRegisterAddress, this.adapterDescription);
-            Logger.Log(Log_level.L_INFO, $"Registration finished.");
-
             //Scan the loadable MMUs
             SessionData.MMULoadingProperties = this.mmuProvider.GetAvailableMMUs();
             this.UpdateAvailableMMUDescriptions(SessionData.MMULoadingProperties);
 
             Logger.Log(Log_level.L_INFO, $"Updated {SessionData.MMULoadingProperties.Count} MMUs properties");
+
+            //Create and start the registration handler
+            this.registrationHandler = new AdapterRegistrationHandler(this.mmiRegisterAddress, this.adapterDescription);
+            Logger.Log(Log_level.L_INFO, $"Registration finished.");
 
             //Create and start the thrift server
             this.thriftServer = new AdapterServer(this.address.Address, this.address.Port, this.adapterImplementation);
@@ -174,7 +174,7 @@ namespace MMICSharp.Adapter
             {
                 this.thriftServer.Start();
                 this.Started = true;
-                Logger.Log(Log_level.L_INFO, $"Started adapter server started...");
+                //Logger.Log(Log_level.L_INFO, $"Started adapter server started...");
             });
             Logger.Log(Log_level.L_INFO, $"Started adapter server waiting for confirmation...");
 
