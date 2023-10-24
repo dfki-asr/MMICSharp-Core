@@ -58,9 +58,11 @@ namespace MMICSharp.Adapter
             //Use a multithreaded server
             this.server = new TThreadPoolServer(processor, serverTransport, new BufferedTransportFactory(), new TCompactProtocol.Factory());
 
+
             int i = 0;
-            while (i < 10)
+            while (i < 2)
             {
+                i++;
                 try
                 {
                     this.server.Serve();
@@ -73,7 +75,13 @@ namespace MMICSharp.Adapter
                     MMICSharp.Logger.LogError($"SocketErrorCode: {e.SocketErrorCode}");
                     MMICSharp.Logger.LogError($"ErrorCode: {e.ErrorCode}");
                 }
-                i++;
+                catch (Exception e)
+                {
+                    MMICSharp.Logger.LogError($"Other Exception while opening a threaded pool server in the AdapterServer. ");
+                    MMICSharp.Logger.LogError(e.ToString());
+                    MMICSharp.Logger.LogError($"Message: {e.Message}");
+                }
+                System.Threading.Thread.Sleep(500);
             }
         }
 
