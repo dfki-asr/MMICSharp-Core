@@ -80,6 +80,8 @@ namespace MMICSharp.Adapter
                 status.Add("Exception", e.Message);
             }
 
+            MMICSharp.Logger.LogDebug("Status request finished");
+
             return status;
         }
 
@@ -90,6 +92,7 @@ namespace MMICSharp.Adapter
         /// <returns></returns>
         public virtual List<MMUDescription> GetLoadableMMUs()
         {
+            MMICSharp.Logger.LogDebug("Get Loadable MMUs requested");
             return SessionData.MMUDescriptions;
         }
 
