@@ -28,6 +28,8 @@ namespace MMICSharp.Clients
             this.address = address;
             this.port = port;
 
+            MMICSharp.Logger.LogDebug($"Starting Client {this.GetType()} at address {this.address}:{this.port}");
+
             //Create a buffered transport
             this.transport = new TBufferedTransport(new TSocket(this.address, this.port));
 
