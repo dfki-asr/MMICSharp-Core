@@ -93,32 +93,45 @@ namespace MMICSharp.Common
 
         public MQuaternion RetargetRotationToIS(MQuaternion globalRot)
         {
-            MQuaternion rot = globalRot.Multiply(this.invTargetGBR).Multiply(this.isGBR);
+            MQuaternion rot = RE_RotationToIS(globalRot);
             this.globalRot = rot;
             return rot;
+        }
+
+        public MQuaternion RE_RotationToIS(MQuaternion globalRot) {
+            return globalRot.Multiply(this.invTargetGBR).Multiply(this.isGBR);
         }
 
         public MQuaternion RetargetRotationToTarget()
         {
             MQuaternion globalRot = this.GetGlobalRotation();
-            MQuaternion rot = globalRot.Multiply(this.invIsGBR).Multiply(this.targetGBR);
+            MQuaternion rot = RE_RotationToTarget(globalRot);
             return rot;
+        }
+        
+        public MQuaternion RE_RotationToTarget(MQuaternion globalRot) {
+            return globalRot.Multiply(this.invIsGBR).Multiply(this.targetGBR);
         }
 
         public MVector3 RetargetPositionToIS(MVector3 globalPos, MQuaternion globalRot)
         {
-            MVector3 pos = globalPos.Add(globalRot.Multiply(this.targetOffset));
+            MVector3 pos = RE_PositionToIS(globalPos, globalRot);
             this.globalPos = pos;
             return pos;
         }
 
-        public MVector3 RetargetPositionToTarget()
-        {
-            return this.GetGlobalPosition().Add(this.GetGlobalRotation().Multiply(this.isOffset));
+        public MVector3 RE_PositionToIS(MVector3 globalPos, MQuaternion globalRot) {
+            return globalPos.Add(globalRot.Multiply(this.targetOffset));
         }
 
+        public MVector3 RetargetPositionToTarget()
+        {
+            return RE_PositionToTarget(this.GetGlobalPosition(), this.GetGlobalRotation());
+        }
 
-
+        public MVector3 RE_PositionToTarget(MVector3 globalPos, MQuaternion globalRot) {
+            return globalPos.Add(globalRot.Multiply(this.isOffset));
+        }
 
         private static MVector3 getJointPosition(MAvatarPosture globalTarget, string joint)
         {
