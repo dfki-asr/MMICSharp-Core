@@ -21,10 +21,20 @@ namespace MMIStandard
             return new MJoint(bone.ID, bone.Type, bone.Position.Clone(), bone.Rotation.Clone())
             {
                 Parent = bone.Parent,
+                Channels = bone.Channels.Clone(),
             };
         }
 
 
+        public static List<MChannel> Clone (this List<MChannel> c)
+        {
+            var nc = new List<MChannel>();
+            foreach(MChannel mc in c)
+            {
+                nc.Add(mc);
+            }
+            return nc;
+        }
 
         /// <summary>
         /// Returns a deep copy of a MTransform

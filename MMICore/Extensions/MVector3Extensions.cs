@@ -226,6 +226,7 @@ namespace MMIStandard
             return AngleAxis(angle, axis.Normalize());
         }
 
+        
         public static MVector3 One()
         {
             return new MVector3(1, 1, 1);

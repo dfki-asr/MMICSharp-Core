@@ -1114,7 +1114,7 @@ namespace MMICoSimulation
             //Skip if no matching MMU is available
             if (mmu == null)
             {
-                Console.WriteLine($"No Compatible MMU found: {instruction.Name}, skipping the instruction assignment!");
+                MMICSharp.Logger.LogError($"(Co-Simulator) No Compatible MMU found: {instruction.Name}, skipping the instruction assignment!");
                 return;
             }
 
@@ -1131,7 +1131,7 @@ namespace MMICoSimulation
             //Add to the buffer/ queue
             this.taskBuffer.Add(motionTask);
 
-            Console.WriteLine("Instruction added to co-simulator: " + instruction.Name + " " + instruction.MotionType);
+            MMICSharp.Logger.LogDebug("Instruction added to co-simulator: " + instruction.Name + " " + instruction.MotionType);
         }
 
 
@@ -1177,12 +1177,12 @@ namespace MMICoSimulation
                     if (response.Successful)
                     {
                         //Create the start event
-                        Console.WriteLine($"Task updated: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
+                        MMICSharp.Logger.LogDebug($"Task updated: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
                     }
 
                     else
                     {
-                        Console.WriteLine($"Task cannot be updated-> Error at assign instruction: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
+                        MMICSharp.Logger.LogError($"(Co-Simulator) Task cannot be updated-> Error at assign instruction: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
                     }
                 }
                 else {
@@ -1222,7 +1222,7 @@ namespace MMICoSimulation
                     {
                         //Create the start event
                         events.Add(new MSimulationEvent(task.Instruction.Name, mmiConstants.MSimulationEvent_Start, task.Instruction.ID));
-                        Console.WriteLine($"Task started: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
+                        MMICSharp.Logger.LogDebug($"Task started: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
                     }
 
                     else
@@ -1233,13 +1233,13 @@ namespace MMICoSimulation
                         //Further raise an init error event
                         events.Add(new MSimulationEvent(task.Instruction.Name, mmiConstants.MSimulationEvent_InitError, task.Instruction.ID));
 
-                        Console.WriteLine($"Task cannot be started-> Error at assign instruction: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
+                        MMICSharp.Logger.LogError($"(Co-Simulator) Task cannot be started-> Error at assign instruction: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
 
                         if (response.LogData != null && response.LogData.Count > 0)
                         {
-                            Console.WriteLine("LogData:");
+                            MMICSharp.Logger.LogError("LogData:");
                             foreach (string entry in response.LogData)
-                                Console.WriteLine(entry);
+                                MMICSharp.Logger.LogError(entry);
 
                         }
                     }
@@ -1548,7 +1548,7 @@ namespace MMICoSimulation
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception occured during execution of CheckPrerequisites of MMU: " + motionTask.MMUContainer.MMU.Name + " " + e.Message);
+                MMICSharp.Logger.LogError("(Co-Simulator) Exception occured during execution of CheckPrerequisites of MMU: " + motionTask.MMUContainer.MMU.Name + " " + e.Message);
                 this.LogEventHandler?.Invoke(this, new CoSimulationLogEvent("Exception occured during execution of CheckPrerequisites of MMU: " + motionTask.MMUContainer.MMU.Name + " " + e.Message));
             }
 
@@ -1764,10 +1764,12 @@ namespace MMICoSimulation
                     //Create the body of the subactions
                     string[] body = subAction.Split(new string[] { "->" },StringSplitOptions.RemoveEmptyEntries);
 
+                    /*
                     foreach(string b in body)
                     {
                         Console.WriteLine("Body: " + b);
                     }
+                    */
 
                     if (body.Length >= 2)
                     {
@@ -1931,7 +1933,7 @@ namespace MMICoSimulation
             }
             catch (Exception)
             {
-                Console.WriteLine("(Co-Simulator) Failed to evaluate the expression: " + formatedExpression);
+                MMICSharp.Logger.LogError("(Co-Simulator) Failed to evaluate the expression: " + formatedExpression);
             }
 
             return expressionResult;
@@ -2022,7 +2024,7 @@ namespace MMICoSimulation
             }
             catch (Exception)
             {
-                Console.WriteLine("(Co-Simulator) Failed to evaluate the expression: " + formatedExpression);
+                MMICSharp.Logger.LogError("(Co-Simulator) Failed to evaluate the expression: " + formatedExpression);
             }
 
             return expressionResult;

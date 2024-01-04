@@ -28,7 +28,7 @@ namespace MMICSharp.Adapter
         /// <summary>
         /// The assigned session data
         /// </summary>
-        private readonly SessionData SessionData;
+        protected readonly SessionData SessionData;
 
 
         /// <summary>
