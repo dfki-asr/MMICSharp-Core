@@ -345,10 +345,11 @@ namespace MMICSharp.Adapter
                 sessionContent.UpdateLastAccessTime();
 
 
-                Logger.Log(Log_level.L_INFO, "MMU initialized: " + mmu.Name + " " + sessionID);
+                //Logger.Log(Log_level.L_INFO, "MMU initialized: " + mmu.Name + " " + sessionID);
 
+                var cDesc = avatarDescription.Clone();
                 //Call the respective MMU
-                return mmu.Initialize(avatarDescription, properties);
+                return mmu.Initialize(cDesc, properties);
             }
             catch (Exception e)
             {
@@ -395,7 +396,7 @@ namespace MMICSharp.Adapter
 
             Logger.Log(Log_level.L_DEBUG, $"ThriftAdapterImplementation.AssignInstruction: Execute instruction {instruction.Name}:{instruction.ID} on {mmuID}");
 
-            var ret = avatarContent.MMUs[mmuID].AssignInstruction(instruction, simulationState);
+            var ret = avatarContent.MMUs[mmuID].AssignInstruction(instruction.Clone(), simulationState.Clone());
             t_AssignInstr = watch.ElapsedMilliseconds - (t_getContent + t_UpdateAccess);
             //Logger.Log(Log_level.L_DEBUG, $"ThriftAdapterImplementation.AssignInstruction: t_getContent {t_getContent}ms, t_UpdateAccess {t_UpdateAccess}ms, t_AssignInstr {t_AssignInstr}ms");
             watch.Stop();
@@ -430,7 +431,7 @@ namespace MMICSharp.Adapter
 
             sessionContent.UpdateLastAccessTime();
             t_UpdateAccess = watch.ElapsedMilliseconds - (t_getContent);
-            var ret = avatarContent.MMUs[mmuID].DoStep(time, simulationState);
+            var ret = avatarContent.MMUs[mmuID].DoStep(time, simulationState.Clone());
             t_AssignInstr = watch.ElapsedMilliseconds - (t_getContent + t_UpdateAccess);
             //Logger.Log(Log_level.L_DEBUG, $"ThriftAdapterImplementation.DoStep:  {mmuID} t_getContent {t_getContent}ms, t_UpdateAccess {t_UpdateAccess}ms, t_doStep {t_AssignInstr}ms");
             watch.Stop();

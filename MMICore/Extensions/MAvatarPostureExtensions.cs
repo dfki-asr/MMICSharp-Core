@@ -140,6 +140,15 @@ namespace MMIStandard
             return mchannels;
         }
 
+        public static MAvatarPostureValues Clone(this MAvatarPostureValues v)
+        {
+            MAvatarPostureValues nv = new MAvatarPostureValues(v.AvatarID + "", new List<double>(v.PostureData));
+            if (v.PartialJointList != null)
+                nv.PartialJointList = new List<MJointType>(v.PartialJointList);
+            return nv;
+        }
+        
+
 
 
         private static Dictionary<string, MJointType> MJointTypeMap = new Dictionary<string, MJointType>()

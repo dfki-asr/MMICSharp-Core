@@ -2,6 +2,8 @@
 // The content of this file has been developed in the context of the MOSIM research project.
 // Original author(s): Felix Gaisbauer
 
+using System.Collections.Generic;
+
 namespace MMIStandard
 {
     /// <summary>
@@ -114,6 +116,16 @@ namespace MMIStandard
                 WeightingFactor = constraint.WeightingFactor * 1.0
             };
             return nc;
+        }
+
+        public static List<MGeometryConstraint> Clone(this List<MGeometryConstraint> l)
+        {
+            var nl = new List<MGeometryConstraint>();
+            foreach(MGeometryConstraint c in l)
+            {
+                nl.Add(c.Clone());
+            }
+            return nl;
         }
 
     }
