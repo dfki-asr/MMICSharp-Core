@@ -28,6 +28,7 @@ namespace MMIStandard
 
         public static List<MChannel> Clone (this List<MChannel> c)
         {
+            if(c == null) { return c; }
             var nc = new List<MChannel>();
             foreach(MChannel mc in c)
             {
