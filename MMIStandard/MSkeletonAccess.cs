@@ -2805,12 +2805,12 @@ public partial class MSkeletonAccess {
               if (field.Type == TType.List) {
                 {
                   Joints = new List<MJointType>();
-                  TList _list162 = iprot.ReadListBegin();
-                  for( int _i163 = 0; _i163 < _list162.Count; ++_i163)
+                  TList _list166 = iprot.ReadListBegin();
+                  for( int _i167 = 0; _i167 < _list166.Count; ++_i167)
                   {
-                    MJointType _elem164;
-                    _elem164 = (MJointType)iprot.ReadI32();
-                    Joints.Add(_elem164);
+                    MJointType _elem168;
+                    _elem168 = (MJointType)iprot.ReadI32();
+                    Joints.Add(_elem168);
                   }
                   iprot.ReadListEnd();
                 }
@@ -2854,9 +2854,9 @@ public partial class MSkeletonAccess {
           oprot.WriteFieldBegin(field);
           {
             oprot.WriteListBegin(new TList(TType.I32, Joints.Count));
-            foreach (MJointType _iter165 in Joints)
+            foreach (MJointType _iter169 in Joints)
             {
-              oprot.WriteI32((int)_iter165);
+              oprot.WriteI32((int)_iter169);
             }
             oprot.WriteListEnd();
           }
@@ -3861,12 +3861,12 @@ public partial class MSkeletonAccess {
               if (field.Type == TType.List) {
                 {
                   Joints = new List<MJointType>();
-                  TList _list166 = iprot.ReadListBegin();
-                  for( int _i167 = 0; _i167 < _list166.Count; ++_i167)
+                  TList _list170 = iprot.ReadListBegin();
+                  for( int _i171 = 0; _i171 < _list170.Count; ++_i171)
                   {
-                    MJointType _elem168;
-                    _elem168 = (MJointType)iprot.ReadI32();
-                    Joints.Add(_elem168);
+                    MJointType _elem172;
+                    _elem172 = (MJointType)iprot.ReadI32();
+                    Joints.Add(_elem172);
                   }
                   iprot.ReadListEnd();
                 }
@@ -3910,9 +3910,9 @@ public partial class MSkeletonAccess {
           oprot.WriteFieldBegin(field);
           {
             oprot.WriteListBegin(new TList(TType.I32, Joints.Count));
-            foreach (MJointType _iter169 in Joints)
+            foreach (MJointType _iter173 in Joints)
             {
-              oprot.WriteI32((int)_iter169);
+              oprot.WriteI32((int)_iter173);
             }
             oprot.WriteListEnd();
           }
@@ -4220,13 +4220,13 @@ public partial class MSkeletonAccess {
               if (field.Type == TType.List) {
                 {
                   Success = new List<MVector3>();
-                  TList _list170 = iprot.ReadListBegin();
-                  for( int _i171 = 0; _i171 < _list170.Count; ++_i171)
+                  TList _list174 = iprot.ReadListBegin();
+                  for( int _i175 = 0; _i175 < _list174.Count; ++_i175)
                   {
-                    MVector3 _elem172;
-                    _elem172 = new MVector3();
-                    _elem172.Read(iprot);
-                    Success.Add(_elem172);
+                    MVector3 _elem176;
+                    _elem176 = new MVector3();
+                    _elem176.Read(iprot);
+                    Success.Add(_elem176);
                   }
                   iprot.ReadListEnd();
                 }
@@ -4264,9 +4264,9 @@ public partial class MSkeletonAccess {
             oprot.WriteFieldBegin(field);
             {
               oprot.WriteListBegin(new TList(TType.Struct, Success.Count));
-              foreach (MVector3 _iter173 in Success)
+              foreach (MVector3 _iter177 in Success)
               {
-                _iter173.Write(oprot);
+                _iter177.Write(oprot);
               }
               oprot.WriteListEnd();
             }

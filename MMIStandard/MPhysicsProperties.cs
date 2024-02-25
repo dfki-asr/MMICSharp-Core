@@ -221,12 +221,12 @@ public partial class MPhysicsProperties : TBase
             if (field.Type == TType.List) {
               {
                 CenterOfMass = new List<double>();
-                TList _list8 = iprot.ReadListBegin();
-                for( int _i9 = 0; _i9 < _list8.Count; ++_i9)
+                TList _list12 = iprot.ReadListBegin();
+                for( int _i13 = 0; _i13 < _list12.Count; ++_i13)
                 {
-                  double _elem10;
-                  _elem10 = iprot.ReadDouble();
-                  CenterOfMass.Add(_elem10);
+                  double _elem14;
+                  _elem14 = iprot.ReadDouble();
+                  CenterOfMass.Add(_elem14);
                 }
                 iprot.ReadListEnd();
               }
@@ -239,12 +239,12 @@ public partial class MPhysicsProperties : TBase
             if (field.Type == TType.List) {
               {
                 Inertia = new List<double>();
-                TList _list11 = iprot.ReadListBegin();
-                for( int _i12 = 0; _i12 < _list11.Count; ++_i12)
+                TList _list15 = iprot.ReadListBegin();
+                for( int _i16 = 0; _i16 < _list15.Count; ++_i16)
                 {
-                  double _elem13;
-                  _elem13 = iprot.ReadDouble();
-                  Inertia.Add(_elem13);
+                  double _elem17;
+                  _elem17 = iprot.ReadDouble();
+                  Inertia.Add(_elem17);
                 }
                 iprot.ReadListEnd();
               }
@@ -256,12 +256,12 @@ public partial class MPhysicsProperties : TBase
             if (field.Type == TType.List) {
               {
                 Velocity = new List<double>();
-                TList _list14 = iprot.ReadListBegin();
-                for( int _i15 = 0; _i15 < _list14.Count; ++_i15)
+                TList _list18 = iprot.ReadListBegin();
+                for( int _i19 = 0; _i19 < _list18.Count; ++_i19)
                 {
-                  double _elem16;
-                  _elem16 = iprot.ReadDouble();
-                  Velocity.Add(_elem16);
+                  double _elem20;
+                  _elem20 = iprot.ReadDouble();
+                  Velocity.Add(_elem20);
                 }
                 iprot.ReadListEnd();
               }
@@ -273,12 +273,12 @@ public partial class MPhysicsProperties : TBase
             if (field.Type == TType.List) {
               {
                 AngularVelocity = new List<double>();
-                TList _list17 = iprot.ReadListBegin();
-                for( int _i18 = 0; _i18 < _list17.Count; ++_i18)
+                TList _list21 = iprot.ReadListBegin();
+                for( int _i22 = 0; _i22 < _list21.Count; ++_i22)
                 {
-                  double _elem19;
-                  _elem19 = iprot.ReadDouble();
-                  AngularVelocity.Add(_elem19);
+                  double _elem23;
+                  _elem23 = iprot.ReadDouble();
+                  AngularVelocity.Add(_elem23);
                 }
                 iprot.ReadListEnd();
               }
@@ -290,12 +290,12 @@ public partial class MPhysicsProperties : TBase
             if (field.Type == TType.List) {
               {
                 NetForce = new List<double>();
-                TList _list20 = iprot.ReadListBegin();
-                for( int _i21 = 0; _i21 < _list20.Count; ++_i21)
+                TList _list24 = iprot.ReadListBegin();
+                for( int _i25 = 0; _i25 < _list24.Count; ++_i25)
                 {
-                  double _elem22;
-                  _elem22 = iprot.ReadDouble();
-                  NetForce.Add(_elem22);
+                  double _elem26;
+                  _elem26 = iprot.ReadDouble();
+                  NetForce.Add(_elem26);
                 }
                 iprot.ReadListEnd();
               }
@@ -307,12 +307,12 @@ public partial class MPhysicsProperties : TBase
             if (field.Type == TType.List) {
               {
                 NetTorque = new List<double>();
-                TList _list23 = iprot.ReadListBegin();
-                for( int _i24 = 0; _i24 < _list23.Count; ++_i24)
+                TList _list27 = iprot.ReadListBegin();
+                for( int _i28 = 0; _i28 < _list27.Count; ++_i28)
                 {
-                  double _elem25;
-                  _elem25 = iprot.ReadDouble();
-                  NetTorque.Add(_elem25);
+                  double _elem29;
+                  _elem29 = iprot.ReadDouble();
+                  NetTorque.Add(_elem29);
                 }
                 iprot.ReadListEnd();
               }
@@ -394,9 +394,9 @@ public partial class MPhysicsProperties : TBase
       oprot.WriteFieldBegin(field);
       {
         oprot.WriteListBegin(new TList(TType.Double, CenterOfMass.Count));
-        foreach (double _iter26 in CenterOfMass)
+        foreach (double _iter30 in CenterOfMass)
         {
-          oprot.WriteDouble(_iter26);
+          oprot.WriteDouble(_iter30);
         }
         oprot.WriteListEnd();
       }
@@ -408,9 +408,9 @@ public partial class MPhysicsProperties : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Double, Inertia.Count));
-          foreach (double _iter27 in Inertia)
+          foreach (double _iter31 in Inertia)
           {
-            oprot.WriteDouble(_iter27);
+            oprot.WriteDouble(_iter31);
           }
           oprot.WriteListEnd();
         }
@@ -423,9 +423,9 @@ public partial class MPhysicsProperties : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Double, Velocity.Count));
-          foreach (double _iter28 in Velocity)
+          foreach (double _iter32 in Velocity)
           {
-            oprot.WriteDouble(_iter28);
+            oprot.WriteDouble(_iter32);
           }
           oprot.WriteListEnd();
         }
@@ -438,9 +438,9 @@ public partial class MPhysicsProperties : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Double, AngularVelocity.Count));
-          foreach (double _iter29 in AngularVelocity)
+          foreach (double _iter33 in AngularVelocity)
           {
-            oprot.WriteDouble(_iter29);
+            oprot.WriteDouble(_iter33);
           }
           oprot.WriteListEnd();
         }
@@ -453,9 +453,9 @@ public partial class MPhysicsProperties : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Double, NetForce.Count));
-          foreach (double _iter30 in NetForce)
+          foreach (double _iter34 in NetForce)
           {
-            oprot.WriteDouble(_iter30);
+            oprot.WriteDouble(_iter34);
           }
           oprot.WriteListEnd();
         }
@@ -468,9 +468,9 @@ public partial class MPhysicsProperties : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Double, NetTorque.Count));
-          foreach (double _iter31 in NetTorque)
+          foreach (double _iter35 in NetTorque)
           {
-            oprot.WriteDouble(_iter31);
+            oprot.WriteDouble(_iter35);
           }
           oprot.WriteListEnd();
         }

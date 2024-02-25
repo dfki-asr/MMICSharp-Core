@@ -102,12 +102,12 @@ public partial class MPhysicsInteraction : TBase
             if (field.Type == TType.List) {
               {
                 Values = new List<double>();
-                TList _list79 = iprot.ReadListBegin();
-                for( int _i80 = 0; _i80 < _list79.Count; ++_i80)
+                TList _list83 = iprot.ReadListBegin();
+                for( int _i84 = 0; _i84 < _list83.Count; ++_i84)
                 {
-                  double _elem81;
-                  _elem81 = iprot.ReadDouble();
-                  Values.Add(_elem81);
+                  double _elem85;
+                  _elem85 = iprot.ReadDouble();
+                  Values.Add(_elem85);
                 }
                 iprot.ReadListEnd();
               }
@@ -120,14 +120,14 @@ public partial class MPhysicsInteraction : TBase
             if (field.Type == TType.Map) {
               {
                 Properties = new Dictionary<string, string>();
-                TMap _map82 = iprot.ReadMapBegin();
-                for( int _i83 = 0; _i83 < _map82.Count; ++_i83)
+                TMap _map86 = iprot.ReadMapBegin();
+                for( int _i87 = 0; _i87 < _map86.Count; ++_i87)
                 {
-                  string _key84;
-                  string _val85;
-                  _key84 = iprot.ReadString();
-                  _val85 = iprot.ReadString();
-                  Properties[_key84] = _val85;
+                  string _key88;
+                  string _val89;
+                  _key88 = iprot.ReadString();
+                  _val89 = iprot.ReadString();
+                  Properties[_key88] = _val89;
                 }
                 iprot.ReadMapEnd();
               }
@@ -184,9 +184,9 @@ public partial class MPhysicsInteraction : TBase
       oprot.WriteFieldBegin(field);
       {
         oprot.WriteListBegin(new TList(TType.Double, Values.Count));
-        foreach (double _iter86 in Values)
+        foreach (double _iter90 in Values)
         {
-          oprot.WriteDouble(_iter86);
+          oprot.WriteDouble(_iter90);
         }
         oprot.WriteListEnd();
       }
@@ -198,10 +198,10 @@ public partial class MPhysicsInteraction : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.String, TType.String, Properties.Count));
-          foreach (string _iter87 in Properties.Keys)
+          foreach (string _iter91 in Properties.Keys)
           {
-            oprot.WriteString(_iter87);
-            oprot.WriteString(Properties[_iter87]);
+            oprot.WriteString(_iter91);
+            oprot.WriteString(Properties[_iter91]);
           }
           oprot.WriteMapEnd();
         }

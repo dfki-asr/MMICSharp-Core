@@ -297,13 +297,13 @@ public partial class MCollider : TBase
             if (field.Type == TType.List) {
               {
                 Colliders = new List<MCollider>();
-                TList _list104 = iprot.ReadListBegin();
-                for( int _i105 = 0; _i105 < _list104.Count; ++_i105)
+                TList _list108 = iprot.ReadListBegin();
+                for( int _i109 = 0; _i109 < _list108.Count; ++_i109)
                 {
-                  MCollider _elem106;
-                  _elem106 = new MCollider();
-                  _elem106.Read(iprot);
-                  Colliders.Add(_elem106);
+                  MCollider _elem110;
+                  _elem110 = new MCollider();
+                  _elem110.Read(iprot);
+                  Colliders.Add(_elem110);
                 }
                 iprot.ReadListEnd();
               }
@@ -315,14 +315,14 @@ public partial class MCollider : TBase
             if (field.Type == TType.Map) {
               {
                 Properties = new Dictionary<string, string>();
-                TMap _map107 = iprot.ReadMapBegin();
-                for( int _i108 = 0; _i108 < _map107.Count; ++_i108)
+                TMap _map111 = iprot.ReadMapBegin();
+                for( int _i112 = 0; _i112 < _map111.Count; ++_i112)
                 {
-                  string _key109;
-                  string _val110;
-                  _key109 = iprot.ReadString();
-                  _val110 = iprot.ReadString();
-                  Properties[_key109] = _val110;
+                  string _key113;
+                  string _val114;
+                  _key113 = iprot.ReadString();
+                  _val114 = iprot.ReadString();
+                  Properties[_key113] = _val114;
                 }
                 iprot.ReadMapEnd();
               }
@@ -440,9 +440,9 @@ public partial class MCollider : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, Colliders.Count));
-          foreach (MCollider _iter111 in Colliders)
+          foreach (MCollider _iter115 in Colliders)
           {
-            _iter111.Write(oprot);
+            _iter115.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -455,10 +455,10 @@ public partial class MCollider : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.String, TType.String, Properties.Count));
-          foreach (string _iter112 in Properties.Keys)
+          foreach (string _iter116 in Properties.Keys)
           {
-            oprot.WriteString(_iter112);
-            oprot.WriteString(Properties[_iter112]);
+            oprot.WriteString(_iter116);
+            oprot.WriteString(Properties[_iter116]);
           }
           oprot.WriteMapEnd();
         }

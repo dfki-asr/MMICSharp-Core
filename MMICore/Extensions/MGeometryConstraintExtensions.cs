@@ -2,6 +2,8 @@
 // The content of this file has been developed in the context of the MOSIM research project.
 // Original author(s): Felix Gaisbauer
 
+using System.Collections.Generic;
+
 namespace MMIStandard
 {
     /// <summary>
@@ -63,5 +65,68 @@ namespace MMIStandard
 
             return null;
         }
+
+        public static MGeometryConstraint MakeGlobalConstraint(this MGeometryConstraint constraint, MSceneAccess.Iface sceneAccess)
+        {
+            if(constraint.ParentObjectID != "")
+            {
+                MVector3 scale = constraint.ParentToConstraint.Scale.Clone();
+                MTransform parentTransform = sceneAccess.GetTransformByID(constraint.ParentObjectID);
+                scale.X *= parentTransform.Scale.X;
+                scale.Y *= parentTransform.Scale.Y;
+                scale.Z *= parentTransform.Scale.Z;
+                MGeometryConstraint global = new MGeometryConstraint("")
+                {
+                    ParentToConstraint = new MTransform(constraint.ParentToConstraint.ID,
+                    constraint.GetGlobalPosition(sceneAccess), constraint.GetGlobalRotation(sceneAccess), scale),
+                    RotationConstraint = constraint.RotationConstraint.Clone(),
+                    TranslationConstraint = constraint.TranslationConstraint.Clone(),
+                    WeightingFactor = constraint.WeightingFactor
+                };
+                return global;
+            }
+            else
+            {
+                // nothing to globalize
+                return constraint.Clone();
+            }
+        }
+
+        public static MGeometryConstraint Identity(string parent)
+        {
+            MGeometryConstraint local = new MGeometryConstraint(parent)
+            {
+                ParentToConstraint = MTransformExtensions.Identity()
+            };
+            return local;
+        }
+
+        /// <summary>
+        /// Clones the MGeometry Constraint
+        /// </summary>
+        /// <param name="constraint"></param>
+        /// <returns></returns>
+        public static MGeometryConstraint Clone(this MGeometryConstraint constraint)
+        {
+            MGeometryConstraint nc = new MGeometryConstraint(constraint.ParentObjectID + "")
+            {
+                ParentToConstraint = constraint.ParentToConstraint.Clone(),
+                RotationConstraint = constraint.RotationConstraint.Clone(),
+                TranslationConstraint = constraint.TranslationConstraint.Clone(),
+                WeightingFactor = constraint.WeightingFactor * 1.0
+            };
+            return nc;
+        }
+
+        public static List<MGeometryConstraint> Clone(this List<MGeometryConstraint> l)
+        {
+            var nl = new List<MGeometryConstraint>();
+            foreach(MGeometryConstraint c in l)
+            {
+                nl.Add(c.Clone());
+            }
+            return nl;
+        }
+
     }
 }

@@ -627,7 +627,8 @@ namespace MMICoSimulation
         /// <returns></returns>
         public virtual MSimulationResult DoStep(double time, MSimulationState avatarState)
         {
-            //stopwatch.Restart();
+            stopwatch.Restart();
+            float precompute; float compute; float raiseEvent; float postCompute; 
             //Assign the avatar state if defined
             if (this.OverwriteSimulationState && avatarState != null)
             {
@@ -637,15 +638,21 @@ namespace MMICoSimulation
 
             //Perform precomputation operations
             this.PreComputeFrame();
+            precompute = stopwatch.ElapsedMilliseconds;
 
             //Compute the actual frame using the given timespan
             MSimulationResult result = this.ComputeFrame((float)time);
+            compute = stopwatch.ElapsedMilliseconds - precompute;
 
             //Raise event
             this.OnResult?.Invoke(this,result);
+            raiseEvent = stopwatch.ElapsedMilliseconds - (precompute + compute);
 
             //Perform the post comptuing
             this.PostComputeFrame(result);
+            postCompute = stopwatch.ElapsedMilliseconds - (precompute + compute + raiseEvent);
+
+            //MMICSharp.Logger.LogDebug($"MMICoSimulation.DopStep: All {stopwatch.ElapsedMilliseconds}ms, pre {precompute}ms, compute {compute}ms, raise {raiseEvent}ms, post {postCompute}ms ");
 
             //MMICSharp.Logger.LogDebug($"MMICoSimulation.DoStep: {stopwatch.ElapsedMilliseconds} ms");
 
@@ -887,6 +894,9 @@ namespace MMICoSimulation
         /// <returns></returns>
         public virtual MSimulationResult ComputeFrame(float time)
         {
+            System.Diagnostics.Stopwatch _watch = new System.Diagnostics.Stopwatch();
+            _watch.Restart();
+            float handle; float doStep; float merge;
             //Create a container format to store the information provided within a frame
             CoSimulationFrame currentFrame = new CoSimulationFrame((int)this.FrameNumber, TimeSpan.FromSeconds(this.Time))
             {
@@ -903,6 +913,7 @@ namespace MMICoSimulation
             //Add the frame time to the dictionary
             this.frameTimes.Add((int)this.FrameNumber, this.Time);
 
+
             //Handle the mmus
             foreach (MMUContainer mmuContainer in mmuContainers)
             {
@@ -912,7 +923,9 @@ namespace MMICoSimulation
                 //Handle the task end processing (remove/abort the MMU if desired)
                 this.HandleTasksEnd(mmuContainer);
             }
-
+            handle = _watch.ElapsedMilliseconds;
+            
+            System.Diagnostics.Stopwatch _containerWatch = new System.Diagnostics.Stopwatch();
             foreach (MMUContainer mmuContainer in mmuContainers)
             {
                 //Only perform do step if the MMU is active and not paused
@@ -922,10 +935,14 @@ namespace MMICoSimulation
                     try
                     {
                         //Restart the stopwatch for time measurement
-                        this.stopwatch.Restart();
+                        //this.stopwatch.Restart();
+                        _containerWatch.Restart();
+                        float t_exec; float t_drawing; float t_events; float t_solving;
 
                         //Perform the actual do step (computationally expensive)
                         MSimulationResult result = mmuContainer.MMU.DoStep(time, this.SimulationState);
+
+                        t_exec = _containerWatch.ElapsedMilliseconds;
 
                         //Log the times if enabled
                         if (LogTimes)
@@ -933,8 +950,10 @@ namespace MMICoSimulation
                             if (result.LogData == null)
                                 result.LogData = new List<string>();
 
-                            result.LogData.Add("executionTime:" + this.stopwatch.Elapsed.TotalMilliseconds.ToString("F8", CultureInfo.InvariantCulture));
+                            result.LogData.Add("executionTime:" + t_exec.ToString("F8", CultureInfo.InvariantCulture));
                         }
+
+
 
                         //Add the result to the results list -> Hacky beacuse multiple instances might be duplicated
                         for (int i=0; i< mmuContainer.CurrentTasks.Count;i++)
@@ -946,10 +965,11 @@ namespace MMICoSimulation
                         //Handle the drawing calls (if defined)
                         if(result.DrawingCalls!=null && result.DrawingCalls.Count >0)
                             this.HandleDrawingCalls(result, mmuContainer);
-
+                        t_drawing = _containerWatch.ElapsedMilliseconds - t_exec;
                         //Handle the events of the MMUs (if available)
-                        if(result.Events!=null && result.Events.Count >0)
+                        if (result.Events!=null && result.Events.Count >0)
                             this.HandleEvents(mmuContainer, result.Events);
+                        t_events = _containerWatch.ElapsedMilliseconds - (t_exec + t_drawing);
 
                         //Update the current simulation state which is the input for the next MMU in hiearchy
                         this.SimulationState.Current = result.Posture.Copy();
@@ -979,7 +999,7 @@ namespace MMICoSimulation
                                         if (result.LogData == null)
                                             result.LogData = new List<string>();
 
-                                        result.LogData.Add("executionTime:" + this.stopwatch.Elapsed.TotalMilliseconds.ToString("F8", CultureInfo.InvariantCulture));
+                                        result.LogData.Add("executionTime:" + _containerWatch.ElapsedMilliseconds.ToString("F8", CultureInfo.InvariantCulture));
                                     }
                                 }
                             }
@@ -987,6 +1007,9 @@ namespace MMICoSimulation
                             //Assign the current posture
                             this.SimulationState.Current = result.Posture.Copy();
                         }
+                        t_solving = _containerWatch.ElapsedMilliseconds - (t_exec + t_events + t_drawing);
+                        //MMICSharp.Logger.LogDebug($"MMICoSimulation.ComputeFrame - {mmuContainer.Description.MotionType}: All {_containerWatch.ElapsedMilliseconds}ms, exec: {t_exec}ms, drawing {t_drawing}ms, events {t_events}ms, solving {t_solving}ms");
+
                     }
                     catch (Exception e)
                     {
@@ -995,6 +1018,7 @@ namespace MMICoSimulation
                     }
                 }
             }
+            doStep = _watch.ElapsedMilliseconds - handle;
 
             //Do the final merging
             currentFrame.MergedResult = this.MergeResults(currentFrame.Results, ref currentFrame, time);
@@ -1019,7 +1043,9 @@ namespace MMICoSimulation
             //Optionally store the results
             if (this.Recording)
                 this.record.Frames.Add(currentFrame);
+            merge = _watch.ElapsedMilliseconds - (handle + doStep);
 
+            //MMICSharp.Logger.LogDebug($"MMICoSimulation.ComputeFrame: All {stopwatch.ElapsedMilliseconds}ms, handle {handle}ms, doStep {doStep}ms, merge {merge}ms");
             //Return the cosimulated result
             return currentFrame.MergedResult;
         }
@@ -1088,7 +1114,7 @@ namespace MMICoSimulation
             //Skip if no matching MMU is available
             if (mmu == null)
             {
-                Console.WriteLine($"No Compatible MMU found: {instruction.Name}, skipping the instruction assignment!");
+                MMICSharp.Logger.LogError($"(Co-Simulator) No Compatible MMU found: {instruction.Name}, skipping the instruction assignment!");
                 return;
             }
 
@@ -1105,7 +1131,7 @@ namespace MMICoSimulation
             //Add to the buffer/ queue
             this.taskBuffer.Add(motionTask);
 
-            Console.WriteLine("Instruction added to co-simulator: " + instruction.Name + " " + instruction.MotionType);
+            MMICSharp.Logger.LogDebug("Instruction added to co-simulator: " + instruction.Name + " " + instruction.MotionType);
         }
 
 
@@ -1151,12 +1177,12 @@ namespace MMICoSimulation
                     if (response.Successful)
                     {
                         //Create the start event
-                        Console.WriteLine($"Task updated: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
+                        MMICSharp.Logger.LogDebug($"Task updated: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
                     }
 
                     else
                     {
-                        Console.WriteLine($"Task cannot be updated-> Error at assign instruction: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
+                        MMICSharp.Logger.LogError($"(Co-Simulator) Task cannot be updated-> Error at assign instruction: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
                     }
                 }
                 else {
@@ -1196,7 +1222,7 @@ namespace MMICoSimulation
                     {
                         //Create the start event
                         events.Add(new MSimulationEvent(task.Instruction.Name, mmiConstants.MSimulationEvent_Start, task.Instruction.ID));
-                        Console.WriteLine($"Task started: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
+                        MMICSharp.Logger.LogDebug($"Task started: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
                     }
 
                     else
@@ -1207,13 +1233,13 @@ namespace MMICoSimulation
                         //Further raise an init error event
                         events.Add(new MSimulationEvent(task.Instruction.Name, mmiConstants.MSimulationEvent_InitError, task.Instruction.ID));
 
-                        Console.WriteLine($"Task cannot be started-> Error at assign instruction: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
+                        MMICSharp.Logger.LogError($"(Co-Simulator) Task cannot be started-> Error at assign instruction: {task.Instruction.Name}, {task.MMUContainer.MMU.ID}, frameNumber: {this.FrameNumber}");
 
                         if (response.LogData != null && response.LogData.Count > 0)
                         {
-                            Console.WriteLine("LogData:");
+                            MMICSharp.Logger.LogError("LogData:");
                             foreach (string entry in response.LogData)
-                                Console.WriteLine(entry);
+                                MMICSharp.Logger.LogError(entry);
 
                         }
                     }
@@ -1522,7 +1548,7 @@ namespace MMICoSimulation
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception occured during execution of CheckPrerequisites of MMU: " + motionTask.MMUContainer.MMU.Name + " " + e.Message);
+                MMICSharp.Logger.LogError("(Co-Simulator) Exception occured during execution of CheckPrerequisites of MMU: " + motionTask.MMUContainer.MMU.Name + " " + e.Message);
                 this.LogEventHandler?.Invoke(this, new CoSimulationLogEvent("Exception occured during execution of CheckPrerequisites of MMU: " + motionTask.MMUContainer.MMU.Name + " " + e.Message));
             }
 
@@ -1738,10 +1764,12 @@ namespace MMICoSimulation
                     //Create the body of the subactions
                     string[] body = subAction.Split(new string[] { "->" },StringSplitOptions.RemoveEmptyEntries);
 
+                    /*
                     foreach(string b in body)
                     {
                         Console.WriteLine("Body: " + b);
                     }
+                    */
 
                     if (body.Length >= 2)
                     {
@@ -1905,7 +1933,7 @@ namespace MMICoSimulation
             }
             catch (Exception)
             {
-                Console.WriteLine("(Co-Simulator) Failed to evaluate the expression: " + formatedExpression);
+                MMICSharp.Logger.LogError("(Co-Simulator) Failed to evaluate the expression: " + formatedExpression);
             }
 
             return expressionResult;
@@ -1996,7 +2024,7 @@ namespace MMICoSimulation
             }
             catch (Exception)
             {
-                Console.WriteLine("(Co-Simulator) Failed to evaluate the expression: " + formatedExpression);
+                MMICSharp.Logger.LogError("(Co-Simulator) Failed to evaluate the expression: " + formatedExpression);
             }
 
             return expressionResult;
@@ -2026,7 +2054,15 @@ namespace MMICoSimulation
         /// <returns></returns>
         public virtual List<MConstraint> GetBoundaryConstraints(MInstruction instruction)
         {
-            return new List<MConstraint>();
+            List<MConstraint> cs = new List<MConstraint>();
+            foreach (var instance in this.mmuInstances)
+            {
+                if(instance.Description.MotionType == instruction.MotionType)
+                {
+                    cs.AddRange(instance.GetBoundaryConstraints(instruction));
+                }
+            }
+            return cs;
         }
 
 

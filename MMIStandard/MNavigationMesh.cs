@@ -78,13 +78,13 @@ public partial class MNavigationMesh : TBase
             if (field.Type == TType.List) {
               {
                 Vertices = new List<MVector3>();
-                TList _list57 = iprot.ReadListBegin();
-                for( int _i58 = 0; _i58 < _list57.Count; ++_i58)
+                TList _list61 = iprot.ReadListBegin();
+                for( int _i62 = 0; _i62 < _list61.Count; ++_i62)
                 {
-                  MVector3 _elem59;
-                  _elem59 = new MVector3();
-                  _elem59.Read(iprot);
-                  Vertices.Add(_elem59);
+                  MVector3 _elem63;
+                  _elem63 = new MVector3();
+                  _elem63.Read(iprot);
+                  Vertices.Add(_elem63);
                 }
                 iprot.ReadListEnd();
               }
@@ -97,12 +97,12 @@ public partial class MNavigationMesh : TBase
             if (field.Type == TType.List) {
               {
                 Triangles = new List<int>();
-                TList _list60 = iprot.ReadListBegin();
-                for( int _i61 = 0; _i61 < _list60.Count; ++_i61)
+                TList _list64 = iprot.ReadListBegin();
+                for( int _i65 = 0; _i65 < _list64.Count; ++_i65)
                 {
-                  int _elem62;
-                  _elem62 = iprot.ReadI32();
-                  Triangles.Add(_elem62);
+                  int _elem66;
+                  _elem66 = iprot.ReadI32();
+                  Triangles.Add(_elem66);
                 }
                 iprot.ReadListEnd();
               }
@@ -115,14 +115,14 @@ public partial class MNavigationMesh : TBase
             if (field.Type == TType.Map) {
               {
                 Properties = new Dictionary<string, string>();
-                TMap _map63 = iprot.ReadMapBegin();
-                for( int _i64 = 0; _i64 < _map63.Count; ++_i64)
+                TMap _map67 = iprot.ReadMapBegin();
+                for( int _i68 = 0; _i68 < _map67.Count; ++_i68)
                 {
-                  string _key65;
-                  string _val66;
-                  _key65 = iprot.ReadString();
-                  _val66 = iprot.ReadString();
-                  Properties[_key65] = _val66;
+                  string _key69;
+                  string _val70;
+                  _key69 = iprot.ReadString();
+                  _val70 = iprot.ReadString();
+                  Properties[_key69] = _val70;
                 }
                 iprot.ReadMapEnd();
               }
@@ -163,9 +163,9 @@ public partial class MNavigationMesh : TBase
       oprot.WriteFieldBegin(field);
       {
         oprot.WriteListBegin(new TList(TType.Struct, Vertices.Count));
-        foreach (MVector3 _iter67 in Vertices)
+        foreach (MVector3 _iter71 in Vertices)
         {
-          _iter67.Write(oprot);
+          _iter71.Write(oprot);
         }
         oprot.WriteListEnd();
       }
@@ -178,9 +178,9 @@ public partial class MNavigationMesh : TBase
       oprot.WriteFieldBegin(field);
       {
         oprot.WriteListBegin(new TList(TType.I32, Triangles.Count));
-        foreach (int _iter68 in Triangles)
+        foreach (int _iter72 in Triangles)
         {
-          oprot.WriteI32(_iter68);
+          oprot.WriteI32(_iter72);
         }
         oprot.WriteListEnd();
       }
@@ -192,10 +192,10 @@ public partial class MNavigationMesh : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.String, TType.String, Properties.Count));
-          foreach (string _iter69 in Properties.Keys)
+          foreach (string _iter73 in Properties.Keys)
           {
-            oprot.WriteString(_iter69);
-            oprot.WriteString(Properties[_iter69]);
+            oprot.WriteString(_iter73);
+            oprot.WriteString(Properties[_iter73]);
           }
           oprot.WriteMapEnd();
         }

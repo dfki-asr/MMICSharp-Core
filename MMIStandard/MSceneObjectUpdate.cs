@@ -241,13 +241,13 @@ public partial class MSceneObjectUpdate : TBase
             if (field.Type == TType.List) {
               {
                 HandPoses = new List<MHandPose>();
-                TList _list126 = iprot.ReadListBegin();
-                for( int _i127 = 0; _i127 < _list126.Count; ++_i127)
+                TList _list130 = iprot.ReadListBegin();
+                for( int _i131 = 0; _i131 < _list130.Count; ++_i131)
                 {
-                  MHandPose _elem128;
-                  _elem128 = new MHandPose();
-                  _elem128.Read(iprot);
-                  HandPoses.Add(_elem128);
+                  MHandPose _elem132;
+                  _elem132 = new MHandPose();
+                  _elem132.Read(iprot);
+                  HandPoses.Add(_elem132);
                 }
                 iprot.ReadListEnd();
               }
@@ -259,13 +259,13 @@ public partial class MSceneObjectUpdate : TBase
             if (field.Type == TType.List) {
               {
                 Properties = new List<MPropertyUpdate>();
-                TList _list129 = iprot.ReadListBegin();
-                for( int _i130 = 0; _i130 < _list129.Count; ++_i130)
+                TList _list133 = iprot.ReadListBegin();
+                for( int _i134 = 0; _i134 < _list133.Count; ++_i134)
                 {
-                  MPropertyUpdate _elem131;
-                  _elem131 = new MPropertyUpdate();
-                  _elem131.Read(iprot);
-                  Properties.Add(_elem131);
+                  MPropertyUpdate _elem135;
+                  _elem135 = new MPropertyUpdate();
+                  _elem135.Read(iprot);
+                  Properties.Add(_elem135);
                 }
                 iprot.ReadListEnd();
               }
@@ -277,13 +277,13 @@ public partial class MSceneObjectUpdate : TBase
             if (field.Type == TType.List) {
               {
                 Attachments = new List<MAttachment>();
-                TList _list132 = iprot.ReadListBegin();
-                for( int _i133 = 0; _i133 < _list132.Count; ++_i133)
+                TList _list136 = iprot.ReadListBegin();
+                for( int _i137 = 0; _i137 < _list136.Count; ++_i137)
                 {
-                  MAttachment _elem134;
-                  _elem134 = new MAttachment();
-                  _elem134.Read(iprot);
-                  Attachments.Add(_elem134);
+                  MAttachment _elem138;
+                  _elem138 = new MAttachment();
+                  _elem138.Read(iprot);
+                  Attachments.Add(_elem138);
                 }
                 iprot.ReadListEnd();
               }
@@ -295,13 +295,13 @@ public partial class MSceneObjectUpdate : TBase
             if (field.Type == TType.List) {
               {
                 Constraints = new List<MConstraint>();
-                TList _list135 = iprot.ReadListBegin();
-                for( int _i136 = 0; _i136 < _list135.Count; ++_i136)
+                TList _list139 = iprot.ReadListBegin();
+                for( int _i140 = 0; _i140 < _list139.Count; ++_i140)
                 {
-                  MConstraint _elem137;
-                  _elem137 = new MConstraint();
-                  _elem137.Read(iprot);
-                  Constraints.Add(_elem137);
+                  MConstraint _elem141;
+                  _elem141 = new MConstraint();
+                  _elem141.Read(iprot);
+                  Constraints.Add(_elem141);
                 }
                 iprot.ReadListEnd();
               }
@@ -387,9 +387,9 @@ public partial class MSceneObjectUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, HandPoses.Count));
-          foreach (MHandPose _iter138 in HandPoses)
+          foreach (MHandPose _iter142 in HandPoses)
           {
-            _iter138.Write(oprot);
+            _iter142.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -402,9 +402,9 @@ public partial class MSceneObjectUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, Properties.Count));
-          foreach (MPropertyUpdate _iter139 in Properties)
+          foreach (MPropertyUpdate _iter143 in Properties)
           {
-            _iter139.Write(oprot);
+            _iter143.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -417,9 +417,9 @@ public partial class MSceneObjectUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, Attachments.Count));
-          foreach (MAttachment _iter140 in Attachments)
+          foreach (MAttachment _iter144 in Attachments)
           {
-            _iter140.Write(oprot);
+            _iter144.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -432,9 +432,9 @@ public partial class MSceneObjectUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, Constraints.Count));
-          foreach (MConstraint _iter141 in Constraints)
+          foreach (MConstraint _iter145 in Constraints)
           {
-            _iter141.Write(oprot);
+            _iter145.Write(oprot);
           }
           oprot.WriteListEnd();
         }

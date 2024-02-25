@@ -101,12 +101,12 @@ public partial class MDrawingCall : TBase
             if (field.Type == TType.List) {
               {
                 Data = new List<double>();
-                TList _list70 = iprot.ReadListBegin();
-                for( int _i71 = 0; _i71 < _list70.Count; ++_i71)
+                TList _list74 = iprot.ReadListBegin();
+                for( int _i75 = 0; _i75 < _list74.Count; ++_i75)
                 {
-                  double _elem72;
-                  _elem72 = iprot.ReadDouble();
-                  Data.Add(_elem72);
+                  double _elem76;
+                  _elem76 = iprot.ReadDouble();
+                  Data.Add(_elem76);
                 }
                 iprot.ReadListEnd();
               }
@@ -118,14 +118,14 @@ public partial class MDrawingCall : TBase
             if (field.Type == TType.Map) {
               {
                 Properties = new Dictionary<string, string>();
-                TMap _map73 = iprot.ReadMapBegin();
-                for( int _i74 = 0; _i74 < _map73.Count; ++_i74)
+                TMap _map77 = iprot.ReadMapBegin();
+                for( int _i78 = 0; _i78 < _map77.Count; ++_i78)
                 {
-                  string _key75;
-                  string _val76;
-                  _key75 = iprot.ReadString();
-                  _val76 = iprot.ReadString();
-                  Properties[_key75] = _val76;
+                  string _key79;
+                  string _val80;
+                  _key79 = iprot.ReadString();
+                  _val80 = iprot.ReadString();
+                  Properties[_key79] = _val80;
                 }
                 iprot.ReadMapEnd();
               }
@@ -169,9 +169,9 @@ public partial class MDrawingCall : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Double, Data.Count));
-          foreach (double _iter77 in Data)
+          foreach (double _iter81 in Data)
           {
-            oprot.WriteDouble(_iter77);
+            oprot.WriteDouble(_iter81);
           }
           oprot.WriteListEnd();
         }
@@ -184,10 +184,10 @@ public partial class MDrawingCall : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.String, TType.String, Properties.Count));
-          foreach (string _iter78 in Properties.Keys)
+          foreach (string _iter82 in Properties.Keys)
           {
-            oprot.WriteString(_iter78);
-            oprot.WriteString(Properties[_iter78]);
+            oprot.WriteString(_iter82);
+            oprot.WriteString(Properties[_iter82]);
           }
           oprot.WriteMapEnd();
         }

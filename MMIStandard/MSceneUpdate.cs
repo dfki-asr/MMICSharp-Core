@@ -142,13 +142,13 @@ public partial class MSceneUpdate : TBase
             if (field.Type == TType.List) {
               {
                 AddedSceneObjects = new List<MSceneObject>();
-                TList _list142 = iprot.ReadListBegin();
-                for( int _i143 = 0; _i143 < _list142.Count; ++_i143)
+                TList _list146 = iprot.ReadListBegin();
+                for( int _i147 = 0; _i147 < _list146.Count; ++_i147)
                 {
-                  MSceneObject _elem144;
-                  _elem144 = new MSceneObject();
-                  _elem144.Read(iprot);
-                  AddedSceneObjects.Add(_elem144);
+                  MSceneObject _elem148;
+                  _elem148 = new MSceneObject();
+                  _elem148.Read(iprot);
+                  AddedSceneObjects.Add(_elem148);
                 }
                 iprot.ReadListEnd();
               }
@@ -160,13 +160,13 @@ public partial class MSceneUpdate : TBase
             if (field.Type == TType.List) {
               {
                 ChangedSceneObjects = new List<MSceneObjectUpdate>();
-                TList _list145 = iprot.ReadListBegin();
-                for( int _i146 = 0; _i146 < _list145.Count; ++_i146)
+                TList _list149 = iprot.ReadListBegin();
+                for( int _i150 = 0; _i150 < _list149.Count; ++_i150)
                 {
-                  MSceneObjectUpdate _elem147;
-                  _elem147 = new MSceneObjectUpdate();
-                  _elem147.Read(iprot);
-                  ChangedSceneObjects.Add(_elem147);
+                  MSceneObjectUpdate _elem151;
+                  _elem151 = new MSceneObjectUpdate();
+                  _elem151.Read(iprot);
+                  ChangedSceneObjects.Add(_elem151);
                 }
                 iprot.ReadListEnd();
               }
@@ -178,12 +178,12 @@ public partial class MSceneUpdate : TBase
             if (field.Type == TType.List) {
               {
                 RemovedSceneObjects = new List<string>();
-                TList _list148 = iprot.ReadListBegin();
-                for( int _i149 = 0; _i149 < _list148.Count; ++_i149)
+                TList _list152 = iprot.ReadListBegin();
+                for( int _i153 = 0; _i153 < _list152.Count; ++_i153)
                 {
-                  string _elem150;
-                  _elem150 = iprot.ReadString();
-                  RemovedSceneObjects.Add(_elem150);
+                  string _elem154;
+                  _elem154 = iprot.ReadString();
+                  RemovedSceneObjects.Add(_elem154);
                 }
                 iprot.ReadListEnd();
               }
@@ -195,13 +195,13 @@ public partial class MSceneUpdate : TBase
             if (field.Type == TType.List) {
               {
                 AddedAvatars = new List<MAvatar>();
-                TList _list151 = iprot.ReadListBegin();
-                for( int _i152 = 0; _i152 < _list151.Count; ++_i152)
+                TList _list155 = iprot.ReadListBegin();
+                for( int _i156 = 0; _i156 < _list155.Count; ++_i156)
                 {
-                  MAvatar _elem153;
-                  _elem153 = new MAvatar();
-                  _elem153.Read(iprot);
-                  AddedAvatars.Add(_elem153);
+                  MAvatar _elem157;
+                  _elem157 = new MAvatar();
+                  _elem157.Read(iprot);
+                  AddedAvatars.Add(_elem157);
                 }
                 iprot.ReadListEnd();
               }
@@ -213,13 +213,13 @@ public partial class MSceneUpdate : TBase
             if (field.Type == TType.List) {
               {
                 ChangedAvatars = new List<MAvatarUpdate>();
-                TList _list154 = iprot.ReadListBegin();
-                for( int _i155 = 0; _i155 < _list154.Count; ++_i155)
+                TList _list158 = iprot.ReadListBegin();
+                for( int _i159 = 0; _i159 < _list158.Count; ++_i159)
                 {
-                  MAvatarUpdate _elem156;
-                  _elem156 = new MAvatarUpdate();
-                  _elem156.Read(iprot);
-                  ChangedAvatars.Add(_elem156);
+                  MAvatarUpdate _elem160;
+                  _elem160 = new MAvatarUpdate();
+                  _elem160.Read(iprot);
+                  ChangedAvatars.Add(_elem160);
                 }
                 iprot.ReadListEnd();
               }
@@ -231,12 +231,12 @@ public partial class MSceneUpdate : TBase
             if (field.Type == TType.List) {
               {
                 RemovedAvatars = new List<string>();
-                TList _list157 = iprot.ReadListBegin();
-                for( int _i158 = 0; _i158 < _list157.Count; ++_i158)
+                TList _list161 = iprot.ReadListBegin();
+                for( int _i162 = 0; _i162 < _list161.Count; ++_i162)
                 {
-                  string _elem159;
-                  _elem159 = iprot.ReadString();
-                  RemovedAvatars.Add(_elem159);
+                  string _elem163;
+                  _elem163 = iprot.ReadString();
+                  RemovedAvatars.Add(_elem163);
                 }
                 iprot.ReadListEnd();
               }
@@ -272,9 +272,9 @@ public partial class MSceneUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, AddedSceneObjects.Count));
-          foreach (MSceneObject _iter160 in AddedSceneObjects)
+          foreach (MSceneObject _iter164 in AddedSceneObjects)
           {
-            _iter160.Write(oprot);
+            _iter164.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -287,9 +287,9 @@ public partial class MSceneUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, ChangedSceneObjects.Count));
-          foreach (MSceneObjectUpdate _iter161 in ChangedSceneObjects)
+          foreach (MSceneObjectUpdate _iter165 in ChangedSceneObjects)
           {
-            _iter161.Write(oprot);
+            _iter165.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -302,9 +302,9 @@ public partial class MSceneUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.String, RemovedSceneObjects.Count));
-          foreach (string _iter162 in RemovedSceneObjects)
+          foreach (string _iter166 in RemovedSceneObjects)
           {
-            oprot.WriteString(_iter162);
+            oprot.WriteString(_iter166);
           }
           oprot.WriteListEnd();
         }
@@ -317,9 +317,9 @@ public partial class MSceneUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, AddedAvatars.Count));
-          foreach (MAvatar _iter163 in AddedAvatars)
+          foreach (MAvatar _iter167 in AddedAvatars)
           {
-            _iter163.Write(oprot);
+            _iter167.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -332,9 +332,9 @@ public partial class MSceneUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, ChangedAvatars.Count));
-          foreach (MAvatarUpdate _iter164 in ChangedAvatars)
+          foreach (MAvatarUpdate _iter168 in ChangedAvatars)
           {
-            _iter164.Write(oprot);
+            _iter168.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -347,9 +347,9 @@ public partial class MSceneUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.String, RemovedAvatars.Count));
-          foreach (string _iter165 in RemovedAvatars)
+          foreach (string _iter169 in RemovedAvatars)
           {
-            oprot.WriteString(_iter165);
+            oprot.WriteString(_iter169);
           }
           oprot.WriteListEnd();
         }

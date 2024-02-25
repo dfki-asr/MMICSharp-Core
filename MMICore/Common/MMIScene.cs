@@ -441,7 +441,8 @@ namespace MMICSharp.Common
 
             foreach(MSceneObject sceneObject in this.GetSceneObjects())
             {
-                attachments.AddRange(sceneObject.Attachments);
+                if(sceneObject.Attachments != null)
+                    attachments.AddRange(sceneObject.Attachments);
             }
 
             return attachments;

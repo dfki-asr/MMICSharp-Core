@@ -443,5 +443,10 @@ namespace MMIStandard
             //Return the estimated rotation
             return result;
         }
+
+        public static MQuaternion Identity()
+        {
+            return new MQuaternion(0, 0, 0, 1);
+        }
     }
 }

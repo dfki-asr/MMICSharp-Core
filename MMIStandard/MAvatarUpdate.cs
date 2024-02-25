@@ -135,12 +135,12 @@ public partial class MAvatarUpdate : TBase
             if (field.Type == TType.List) {
               {
                 SceneObjects = new List<string>();
-                TList _list166 = iprot.ReadListBegin();
-                for( int _i167 = 0; _i167 < _list166.Count; ++_i167)
+                TList _list170 = iprot.ReadListBegin();
+                for( int _i171 = 0; _i171 < _list170.Count; ++_i171)
                 {
-                  string _elem168;
-                  _elem168 = iprot.ReadString();
-                  SceneObjects.Add(_elem168);
+                  string _elem172;
+                  _elem172 = iprot.ReadString();
+                  SceneObjects.Add(_elem172);
                 }
                 iprot.ReadListEnd();
               }
@@ -160,13 +160,13 @@ public partial class MAvatarUpdate : TBase
             if (field.Type == TType.List) {
               {
                 Properties = new List<MPropertyUpdate>();
-                TList _list169 = iprot.ReadListBegin();
-                for( int _i170 = 0; _i170 < _list169.Count; ++_i170)
+                TList _list173 = iprot.ReadListBegin();
+                for( int _i174 = 0; _i174 < _list173.Count; ++_i174)
                 {
-                  MPropertyUpdate _elem171;
-                  _elem171 = new MPropertyUpdate();
-                  _elem171.Read(iprot);
-                  Properties.Add(_elem171);
+                  MPropertyUpdate _elem175;
+                  _elem175 = new MPropertyUpdate();
+                  _elem175.Read(iprot);
+                  Properties.Add(_elem175);
                 }
                 iprot.ReadListEnd();
               }
@@ -220,9 +220,9 @@ public partial class MAvatarUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.String, SceneObjects.Count));
-          foreach (string _iter172 in SceneObjects)
+          foreach (string _iter176 in SceneObjects)
           {
-            oprot.WriteString(_iter172);
+            oprot.WriteString(_iter176);
           }
           oprot.WriteListEnd();
         }
@@ -243,9 +243,9 @@ public partial class MAvatarUpdate : TBase
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, Properties.Count));
-          foreach (MPropertyUpdate _iter173 in Properties)
+          foreach (MPropertyUpdate _iter177 in Properties)
           {
-            _iter173.Write(oprot);
+            _iter177.Write(oprot);
           }
           oprot.WriteListEnd();
         }

@@ -21,10 +21,21 @@ namespace MMIStandard
             return new MJoint(bone.ID, bone.Type, bone.Position.Clone(), bone.Rotation.Clone())
             {
                 Parent = bone.Parent,
+                Channels = bone.Channels.Clone(),
             };
         }
 
 
+        public static List<MChannel> Clone (this List<MChannel> c)
+        {
+            if(c == null) { return c; }
+            var nc = new List<MChannel>();
+            foreach(MChannel mc in c)
+            {
+                nc.Add(mc);
+            }
+            return nc;
+        }
 
         /// <summary>
         /// Returns a deep copy of a MTransform
@@ -141,5 +152,116 @@ namespace MMIStandard
             return hash;
         }
 
+        public static MSimulationState Clone(this MSimulationState s)
+        {
+            var ns = new MSimulationState(s.Initial.Clone(), s.Current.Clone());
+            if (s.Constraints != null)
+                ns.Constraints = s.Constraints.Clone();
+            if (s.Events != null)
+                ns.Events = s.Events.Clone();
+            if (s.SceneManipulations != null)
+                ns.SceneManipulations = s.SceneManipulations.Clone();
+            return ns;
+        }
+
+        public static List<MSceneManipulation> Clone(this List<MSceneManipulation> l)
+        {
+            var nl = new List<MSceneManipulation>();
+            foreach (var c in l)
+            {
+                nl.Add(c.Clone());
+            }
+            return nl;
+        }
+
+        public static MSceneManipulation Clone(this MSceneManipulation s)
+        {
+            var ns = new MSceneManipulation();
+            if (s.Properties != null)
+                ns.Properties = s.Properties.Clone();
+            if (s.PhysicsInteractions != null)
+                ns.PhysicsInteractions = s.PhysicsInteractions.Clone();
+            if (s.Transforms != null)
+                ns.Transforms = s.Transforms.Clone();
+            return ns;
+        }
+
+        public static List<MTransformManipulation> Clone(this List<MTransformManipulation> l)
+        {
+            var nl = new List<MTransformManipulation>();
+            foreach (var c in l)
+            {
+                nl.Add(c.Clone());
+            }
+            return nl;
+        }
+
+
+        public static MTransformManipulation Clone(this MTransformManipulation m)
+        {
+            var nm = new MTransformManipulation(m.Target + "");
+            if (m.Parent != null)
+                nm.Parent = m.Parent + "";
+            if (m.Position != null)
+                nm.Position = m.Position.Clone();
+            if (m.Rotation != null)
+                nm.Rotation = m.Rotation.Clone();
+            return nm;
+        }
+
+        public static List<MPhysicsInteraction> Clone(this List<MPhysicsInteraction> l)
+        {
+            var nl = new List<MPhysicsInteraction>();
+            foreach (var c in l)
+            {
+                nl.Add(c.Clone());
+            }
+            return nl;
+        }
+
+        public static MPhysicsInteraction Clone(this MPhysicsInteraction i)
+        {
+            var ni = new MPhysicsInteraction(i.Target + "", i.Type, new List<double>(i.Values));
+            if (i.Properties != null)
+                ni.Properties = i.Properties.Clone();
+            return ni;
+        }
+
+        public static List<MPropertyManipulation> Clone(this List<MPropertyManipulation> l)
+        {
+            var nl = new List<MPropertyManipulation>();
+            foreach (var c in l)
+            {
+                nl.Add(c.Clone());
+            }
+            return nl;
+        }
+
+        public static MPropertyManipulation Clone(this MPropertyManipulation pm)
+        {
+            var newPM = new MPropertyManipulation(pm.Target + "", pm.Key + "", pm.AddRemove);
+            if (pm.Value != null)
+                newPM.Value = pm.Value + "";
+            return newPM;
+        }
+
+        public static List<MSimulationEvent> Clone(this List<MSimulationEvent> l)
+        {
+            var nl = new List<MSimulationEvent>();
+            foreach (var c in l)
+            {
+                nl.Add(c.Clone());
+            }
+            return nl;
+        }
+
+
+        public static MSimulationEvent Clone(this MSimulationEvent e)
+        {
+            var ne = new MSimulationEvent(e.Name + "", e.Type + "", e.Reference + "");
+            if (e.Properties != null)
+                ne.Properties = e.Properties.Clone();
+            return ne;
+        }
     }
 }

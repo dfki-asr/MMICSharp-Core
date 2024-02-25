@@ -31,6 +31,11 @@ namespace MMIStandard
             return MQuaternionExtensions.Inverse(transform.Rotation).Multiply(globalPosition.Subtract(transform.Position));
         }
 
+        public static MTransform Inverse(this MTransform transform)
+        {
+            return new MTransform(transform.ID + "_inverse", transform.Position.Multiply(-1), MQuaternionExtensions.Inverse(transform.Rotation), transform.Scale);
+        }
+
         /// <summary>
         /// Transforms a rotation form local space of the MTransform to the global space
         /// </summary>
@@ -62,8 +67,8 @@ namespace MMIStandard
         /// <returns></returns>
         public static MTransform Multiply(this MTransform transform, MTransform other)
         {
-            MQuaternion q = transform.Rotation.Multiply(other.Rotation);
-            MVector3 pos = other.Rotation.Multiply(transform.Position).Add(other.Position);
+            MQuaternion q = transform.TransformRotation(other.Rotation);
+            MVector3 pos = transform.TransformPoint(other.Position);
             MVector3 newScale = transform.Scale.Scale(other.Scale);
             MTransform t = new MTransform(transform.ID, pos, q, newScale);
             return t;
@@ -93,6 +98,11 @@ namespace MMIStandard
                 }
             }
             return newT;
+        }
+
+        public static MTransform Identity()
+        {
+            return new MTransform("", MVector3Extensions.Zero(), MQuaternionExtensions.Identity(), MVector3Extensions.One());
         }
     }
 }

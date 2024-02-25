@@ -547,13 +547,13 @@ public partial class MSynchronizableScene {
               if (field.Type == TType.List) {
                 {
                   SceneManipulations = new List<MSceneManipulation>();
-                  TList _list198 = iprot.ReadListBegin();
-                  for( int _i199 = 0; _i199 < _list198.Count; ++_i199)
+                  TList _list202 = iprot.ReadListBegin();
+                  for( int _i203 = 0; _i203 < _list202.Count; ++_i203)
                   {
-                    MSceneManipulation _elem200;
-                    _elem200 = new MSceneManipulation();
-                    _elem200.Read(iprot);
-                    SceneManipulations.Add(_elem200);
+                    MSceneManipulation _elem204;
+                    _elem204 = new MSceneManipulation();
+                    _elem204.Read(iprot);
+                    SceneManipulations.Add(_elem204);
                   }
                   iprot.ReadListEnd();
                 }
@@ -589,9 +589,9 @@ public partial class MSynchronizableScene {
           oprot.WriteFieldBegin(field);
           {
             oprot.WriteListBegin(new TList(TType.Struct, SceneManipulations.Count));
-            foreach (MSceneManipulation _iter201 in SceneManipulations)
+            foreach (MSceneManipulation _iter205 in SceneManipulations)
             {
-              _iter201.Write(oprot);
+              _iter205.Write(oprot);
             }
             oprot.WriteListEnd();
           }

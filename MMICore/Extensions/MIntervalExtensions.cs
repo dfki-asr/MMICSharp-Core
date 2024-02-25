@@ -21,5 +21,16 @@ namespace MMIStandard
         {
             return (interval.Z.Min + interval.Z.Max) / 2f;
         }
+
+        public static MInterval3 Clone(this MInterval3 intv)
+        {
+            return new MInterval3(intv.X.Clone(), intv.Y.Clone(), intv.Z.Clone());
+        }
+
+        public static MInterval Clone(this MInterval intv)
+        {
+            return new MInterval(intv.Min * 1.0, intv.Max * 1.0);
+        }
+
     }
 }

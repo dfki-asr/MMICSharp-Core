@@ -290,13 +290,13 @@ public partial class MPathPlanningService {
               if (field.Type == TType.List) {
                 {
                   SceneObjects = new List<MSceneObject>();
-                  TList _list136 = iprot.ReadListBegin();
-                  for( int _i137 = 0; _i137 < _list136.Count; ++_i137)
+                  TList _list140 = iprot.ReadListBegin();
+                  for( int _i141 = 0; _i141 < _list140.Count; ++_i141)
                   {
-                    MSceneObject _elem138;
-                    _elem138 = new MSceneObject();
-                    _elem138.Read(iprot);
-                    SceneObjects.Add(_elem138);
+                    MSceneObject _elem142;
+                    _elem142 = new MSceneObject();
+                    _elem142.Read(iprot);
+                    SceneObjects.Add(_elem142);
                   }
                   iprot.ReadListEnd();
                 }
@@ -308,14 +308,14 @@ public partial class MPathPlanningService {
               if (field.Type == TType.Map) {
                 {
                   Properties = new Dictionary<string, string>();
-                  TMap _map139 = iprot.ReadMapBegin();
-                  for( int _i140 = 0; _i140 < _map139.Count; ++_i140)
+                  TMap _map143 = iprot.ReadMapBegin();
+                  for( int _i144 = 0; _i144 < _map143.Count; ++_i144)
                   {
-                    string _key141;
-                    string _val142;
-                    _key141 = iprot.ReadString();
-                    _val142 = iprot.ReadString();
-                    Properties[_key141] = _val142;
+                    string _key145;
+                    string _val146;
+                    _key145 = iprot.ReadString();
+                    _val146 = iprot.ReadString();
+                    Properties[_key145] = _val146;
                   }
                   iprot.ReadMapEnd();
                 }
@@ -367,9 +367,9 @@ public partial class MPathPlanningService {
           oprot.WriteFieldBegin(field);
           {
             oprot.WriteListBegin(new TList(TType.Struct, SceneObjects.Count));
-            foreach (MSceneObject _iter143 in SceneObjects)
+            foreach (MSceneObject _iter147 in SceneObjects)
             {
-              _iter143.Write(oprot);
+              _iter147.Write(oprot);
             }
             oprot.WriteListEnd();
           }
@@ -382,10 +382,10 @@ public partial class MPathPlanningService {
           oprot.WriteFieldBegin(field);
           {
             oprot.WriteMapBegin(new TMap(TType.String, TType.String, Properties.Count));
-            foreach (string _iter144 in Properties.Keys)
+            foreach (string _iter148 in Properties.Keys)
             {
-              oprot.WriteString(_iter144);
-              oprot.WriteString(Properties[_iter144]);
+              oprot.WriteString(_iter148);
+              oprot.WriteString(Properties[_iter148]);
             }
             oprot.WriteMapEnd();
           }
