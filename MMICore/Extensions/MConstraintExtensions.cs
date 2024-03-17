@@ -4,6 +4,28 @@
 using System.Collections.Generic;
 namespace MMIStandard
 {
+    class MConstraintNotFoundException : SystemException
+    {
+        public MConstraintNotFoundException() : base() { }
+        public MConstraintNotFoundException(string message) : base(message) { }
+        public MConstraintNotFoundException(string message, Exception innerException) : base(message, innerException) { }
+        protected MConstraintNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+
+    [Flags]
+    public enum MConstraintType : ushort
+    {
+        Any = 0,
+        Geometry = 1,
+        Velocity = 1 << 1,
+        Acceleration = 1 << 2,
+        Path = 1 << 3,
+        JointPath = 1 << 4,
+        Posture = 1 << 5,
+        Joint = 1 << 6,
+        All = 0xffff
+    }
+
     /// <summary>
     /// Extensions for the MGeometryConstraint
     /// </summary>
@@ -33,6 +55,80 @@ namespace MMIStandard
             }
             outC = null;
             return false;
+        }
+
+        public static MConstraintType GetConstraintType(this MConstraint constraint)
+        {
+            var cType = MConstraintType.Any;
+            if (constraint.GeometryConstraint != null)
+                cType |= MConstraintType.Geometry;
+            if (constraint.VelocityConstraint != null)
+                cType |= MConstraintType.Velocity;
+            if (constraint.AccelerationConstraint != null)
+                cType |= MConstraintType.Acceleration;
+            if (constraint.PathConstraint != null)
+                cType |= MConstraintType.Path;
+            if (constraint.JointPathConstraint != null)
+                cType |= MConstraintType.JointPath;
+            if (constraint.PathConstraint != null)
+                cType |= MConstraintType.Posture;
+            if (constraint.JointConstraint != null)
+                cType |= MConstraintType.Joint;
+
+            return cType;
+        }
+
+
+        public static string ConstraintTypeToString(MConstraintType cType)
+        {
+            if (cType == MConstraintType.Any)
+                return cType.ToString();
+            string typeStr = "";
+            foreach (MConstraintType option in Enum.GetValues(typeof(MConstraintType)))
+            {
+                if (option == (option & cType) && option != MConstraintType.Any)
+                {
+                    if (typeStr != "")
+                        typeStr += "|";
+                    typeStr += option.ToString();
+                }
+            }
+            if (typeStr == "")
+                typeStr = "Undefine";
+            return typeStr;
+        }
+        public static bool HasConstraintType(this MConstraint constraint, MConstraintType cType)
+        {
+            return cType == (cType & constraint.GetConstraintType());
+        }
+        public static bool TryGetConstraintByIDAndType(this List<MConstraint> cList, string id, MConstraintType cType, out MConstraint constraint, out string msg)
+        {
+            var res = cList.TryGetConstraint(id, out constraint);
+            if (!res || constraint == null)
+            {
+                msg = $"Constraint with ID {id} and type {ConstraintTypeToString(cType)} is not found";
+                return false;
+            }
+            res = (cType == (cType & constraint.GetConstraintType()));  // if constrain contains cType
+            if (!res)
+            {
+                msg = $"Constraint with ID {id} and type {ConstraintTypeToString(constraint.GetConstraintType())} is found,but type {ConstraintTypeToString(cType)} is required";
+                constraint = null;
+            }
+            msg = $"Constraint with ID {id} and type {ConstraintTypeToString(cType)} is found";
+            return res;
+        }
+
+        public static MConstraint GetConstraintByIDAndType(this List<MConstraint> cList, string id, MConstraintType cType)
+        {
+            MConstraint constraint;
+            var result = cList.TryGetConstraintByIDAndType(id, cType, out constraint, out string msg);
+            if (!result)
+            {
+                throw new MConstraintNotFoundException(msg);
+            }
+
+            return constraint;
         }
 
         public static List<MConstraint> Clone(this List<MConstraint> l)
